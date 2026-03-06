@@ -16,7 +16,7 @@ This game is designed to **educate players about Indonesian folklore and history
 ## Features
 
 ### Core Gameplay
-- **Dynamic Story Generation**: AI generates unique story scenes based on your choices in an immersive Aidungeon style
+- **Dynamic Story Generation**: AI generates unique story scenes based on your choices in an immersive dungeon style
 - **Turn-Based Combat**: Strategic combat with attack, defend, use item, and run options
 - **Consistent Encounter System**: Balanced random encounters with minimum turn intervals
 - **Multiple Save Slots**: 3 save slots with metadata (playtime, location, level)
