@@ -1,0 +1,42 @@
+# Build files
+dist/
+build/
+*.egg-info/
+*.whl
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# Environment (contains user's API key - never commit)
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Game saves
+save.json
+save.json.backup
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+DOCUMENTATION.md

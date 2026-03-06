@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ai-terminal-rpg"
+version = "2.0.0"
+description = "AI-powered terminal text RPG with equipment, leveling, shops, and more"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "openai>=1.0.0",
+    "python-dotenv>=1.0.0",
+    "colorama>=0.4.6",
+]
+
+[project.scripts]
+trpg = "trpg.game:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["trpg*"]
