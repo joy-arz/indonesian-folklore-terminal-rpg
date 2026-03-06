@@ -3,7 +3,7 @@
 
 A terminal-based AI-powered text RPG where the story is generated dynamically by Cerebras AI's Llama model. Set in **Indonesian folklore and historical kingdoms**, the game features deep character customization, turn-based combat, equipment system, shops, and an immersive Aidungeon-style narrative experience in **Bahasa Indonesia**.
 
-## 🎭 Educational Purpose
+## Educational Purpose
 
 This game is designed to **educate players about Indonesian folklore and history** through interactive storytelling. Players will experience:
 
