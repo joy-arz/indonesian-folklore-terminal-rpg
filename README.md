@@ -1,519 +1,498 @@
-# AI Terminal RPG
-[This Readme is AI-Generated cuz I am too lazy to write this stuff]
+# AI Terminal RPG - Learn Indonesian History Through Adventure
 
-A terminal-based AI-powered text RPG where the story is generated dynamically by Cerebras AI's Llama model. Set in **Indonesian folklore and historical kingdoms**, the game features deep character customization, turn-based combat, equipment system, shops, and an immersive Aidungeon-style narrative experience in **Bahasa Indonesia**.
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## Educational Purpose
+**An educational terminal-based RPG that teaches Indonesian history and culture through AI-powered interactive storytelling.**
 
-This game is designed to **educate players about Indonesian folklore and history** through interactive storytelling. Players will experience:
+---
 
-- **10 Historical Starting Points** - From Majapahit Empire to Sriwijaya Kingdom
-- **Indonesian Mythology** - Encounter creatures like Genderuwo, Tuyul, Kuntilanak, and Nyai Roro Kidul
-- **Cultural Heritage** - Learn about traditional weapons (keris), kingdoms, and legends
-- **Bahasa Indonesia** - Immersive narrative in Indonesian language
-- **Historical Events** - Experience pivotal moments like Perang Bubat and the rise of Islamic kingdoms
+## What You'll Learn
 
-## Features
+### Indonesian Kingdoms (7th-17th Century)
 
-### Core Gameplay
-- **Dynamic Story Generation**: AI generates unique story scenes based on your choices in an immersive dungeon style
-- **Turn-Based Combat**: Strategic combat with attack, defend, use item, and run options
-- **Consistent Encounter System**: Balanced random encounters with minimum turn intervals
-- **Multiple Save Slots**: 3 save slots with metadata (playtime, location, level)
+| Kingdom | Period | Location | What You'll Experience |
+|---------|--------|----------|----------------------|
+| **Sriwijaya** | 7th-14th century | Palembang, Sumatra | Buddhist maritime empire, trade routes, Buddhist learning center |
+| **Majapahit** | 1293-1527 | Trowulan, East Java | Hindu-Buddhist golden age, Gajah Mada's Sumpah Palapa oath |
+| **Pajajaran** | 932-1579 | Bogor, West Java | Sundanese culture, Prabu Siliwangi legends, sacred pusaka |
+| **Demak** | 1475-1548 | North Coast Java | First Islamic Sultanate, Wali Songo (Nine Saints) |
+| **Mataram Islam** | 1587-1755 | Central Java | Javanese-Islamic court culture, Dutch VOC conflicts |
+| **Tanjung Pura** | 14th-17th century | West Kalimantan | Malay-Dayak culture, diamond trade, mysterious disappearance |
 
-### Character Progression
-- **XP & Leveling System**: Gain XP from combat, level up to increase stats
-- **Equipment System**: Equip weapons, armor, and accessories with stat bonuses
-- **Status Effects**: Buffs (strength, defense, regeneration) and debuffs (poison, burn, stun)
-- **Base + Equipment Stats**: Separate tracking of base stats and equipment bonuses
+### Cultural Heritage
 
-### Economy & Items
-- **Shop System**: Buy and sell items at various shop types (general, weapon, armor, magic, black market)
-- **Item Database**: 40+ items including weapons, armor, accessories, and consumables
-- **Item Effects**: Potions heal, equipment boosts stats, special items cure effects
-- **Rarity System**: Common, uncommon, rare, and legendary items
+- **Architecture**: Candi temples, pendopo pavilions, joglo houses, mosques
+- **Arts**: Wayang kulit (shadow puppets), gamelan, batik, traditional dance
+- **Religion**: Hindu-Buddhist syncretism, Islamic synthesis, local beliefs
+- **Social Structure**: Kings, priests, warriors, merchants, caste system
+- **Trade**: Spice routes, maritime commerce, cultural exchange
+- **Language**: Authentic Indonesian terms (alun-alun, prajurit, keris, pusaka)
 
-### Enhanced UI
-- **Visual HP/XP Bars**: Color-coded progress bars
-- **Equipment Display**: See currently equipped items with stats
-- **Detailed Inventory**: Items grouped by category with quantities
-- **Quick Keys**: Single-key commands (A=attack, D=defend, I=inventory, E=equipment)
-- **Boxed UI Elements**: Clean bordered displays for stats, combat, and shops
+### Mythology & Folklore
 
-### AI Improvements
-- **Aidungeon-Style Prompts**: Immersive second-person narrative
-- **Better Context Memory**: AI remembers story events, location, NPCs, and quests
-- **Combat Narration**: Cinematic combat descriptions
-- **Smart Choice Generation**: Context-aware default choices
+| Creature | Type | Cultural Origin |
+|----------|------|-----------------|
+| **Genderuwo** | Forest guardian spirit | Javanese |
+| **Kuntilanak** | Female ghost | Malay/Indonesian |
+| **Tuyul** | Child spirit | Indonesian |
+| **Pocong** | Wrapped ghost | Indonesian Islamic |
+| **Leak** | Witch/wizard | Balinese |
+| **Nyai Roro Kidul** | Queen of Southern Sea | Javanese legend |
+| **Harimau Jadi-jadian** | Shapeshifting tiger | Sumatran |
+| **Garuda Sakti** | Sacred bird | Hindu-Buddhist |
 
-### Auto-Update
-- **Automatic Update Check**: Notified of new versions on startup
-- **One-Command Update**: `trpg update` installs the latest version
-- **Automatic Backup**: Saves backup before updating
-- **Rollback Support**: Automatic rollback on failure
-
-## Requirements
-
-- **Python 3.8 or higher** (https://www.python.org/downloads/)
-- **Cerebras AI API Key** (free at https://cloud.cerebras.ai/)
-
-## Installation
-
-### One-Command Install (Recommended)
-
-**macOS / Linux:**
-```bash
-sudo python3 install_universal.py
-```
-
-**Windows (Run as Administrator):**
-```bash
-python install_universal.py
-```
-
-That's it! The installer will:
-- ✓ Install all dependencies automatically
-- ✓ Configure PATH (no manual setup needed)
-- ✓ Create the `trpg` command
-- ✓ Work on any drive (C:, D:, etc.)
-- ✓ Create desktop shortcut (optional)
-
-### Alternative Installation
-
-If you prefer the traditional method:
-
-```bash
-# Clone the repository
-git clone https://github.com/joy-arz/ai-terminal-rpg.git
-cd ai-terminal-rpg
-
-# Run platform-specific installer
-./install.sh          # macOS/Linux
-install.bat           # Windows
-install_windows.ps1   # Windows PowerShell
-```
-
-### What Gets Installed
-
-| Component | Location |
-|-----------|----------|
-| Game Package | Python site-packages |
-| trpg Command | Python scripts directory |
-| Save Files | `~/.trpg_saves/` |
-| API Key | `~/.trpg.env` |
-| Desktop Shortcut | Your desktop (optional) |
-
-### After Installation
-
-**macOS/Linux:**
-```bash
-# Restart terminal or run:
-source ~/.bashrc  # or source ~/.zshrc
-
-# Play from anywhere:
-trpg
-```
-
-**Windows:**
-```cmd
-:: Close and open a new Command Prompt
-:: Play from anywhere:
-trpg
-```
-
-### Manual Installation (Advanced)
-
-```bash
-# Clone and install manually
-git clone https://github.com/joy-arz/ai-terminal-rpg.git
-cd ai-terminal-rpg
-
-# Install dependencies
-python -m pip install openai python-dotenv colorama
-
-# Run the game
-python -m trpg
-```
-
-## Running the Game
-
-After installation, the `trpg` command works from anywhere:
-
-```bash
-trpg
-```
-
-On first run, you'll be prompted to enter your Cerebras AI API key.
-Get one from: https://cloud.cerebras.ai/
-
-### Alternative Launch Methods
-
-```bash
-# Python module (always works, no PATH needed)
-python -m trpg
-
-# With specific commands
-trpg help      # Show help
-trpg version   # Show version
-trpg update    # Update the game
-```
-
-### Desktop Shortcut
-
-The installer can create a desktop shortcut for easy access:
-- **Windows**: `AI Terminal RPG.bat` on your desktop
-- **macOS/Linux**: `AI Terminal RPG.sh` on your desktop
-
-Just double-click to launch the game!
-
-## Game Commands
-
-### General Commands (Available Anytime)
-| Key | Command | Description |
-|-----|---------|-------------|
-| `I` | `inventory` | View your items with categories |
-| `E` | `equipment` | View/change equipped items |
-| `S` | `stats` | View full character stats |
-| `H` | `help` | Show available commands |
-| `Q` | `quit` | Save and exit the game |
-| - | `save` | Manual save (auto-save enabled) |
-| - | `load` | Load from different save slot |
-
-### Story Commands
-- Enter a number (1-3) to make a choice
-- Commands work during story (I, E, S, H, Q)
-
-### Combat Commands
-| Key | Command | Description |
-|-----|---------|-------------|
-| `A` | `attack` | Attack the enemy |
-| `D` | `defend` | Reduce damage taken by 50% |
-| `U` | `use <item>` | Use an item (e.g., `use potion`) |
-| `R` | `run` | Attempt to flee from combat |
-
-### Shop Commands
-| Key | Command | Description |
-|-----|---------|-------------|
-| `B` | `buy` | Buy items from shop |
-| `S` | `sell` | Sell items to shop |
-| `L` | `leave` | Leave the shop |
+---
 
 ## How It Works
 
-### AI Story Generation (Aidungeon Style)
+The game uses AI to generate **educational narratives** that seamlessly blend:
 
-The game uses Cerebras AI's Llama 3.1-8B model to generate story content. Each turn:
+1. **Historical Accuracy** - Real dates, places, and figures
+2. **Cultural Details** - Clothing, food, customs, architecture
+3. **Interactive Choices** - Your decisions affect the story
+4. **Mythological Encounters** - Battle creatures from folklore
+5. **Language Learning** - Indonesian terms in context
 
-1. The AI receives context including:
-   - Previous story history (last 5 scenes)
-   - Current player stats, equipment, and inventory
-   - Status effects and location
-   - The player's last choice/action
-
-2. The AI generates:
-   - An immersive story scene (80-150 words)
-   - Exactly 3 numbered choices for the player
-
-3. The player selects a choice, and the cycle continues
-
-### Encounter System
-
-Encounters are triggered through a consistent system:
-- **Explicit Triggers**: AI narrative mentions combat keywords
-- **Random Encounters**: 25% base chance after 3+ turns
-- **Location Modifiers**: Dangerous areas increase chance
-- **Minimum Interval**: At least 3 turns between random encounters
-
-### Combat System
-
-Combat is turn-based with enhanced mechanics:
-
-- **Damage Formula**: `damage = (attack - defense) × variance(±20%)`
-- **Critical Hits**: 10% chance for 1.5× damage
-- **Defense**: Reduces incoming damage (50% reduction when defending)
-- **Status Effects**: Poison, burn, stun, freeze, bleed, and buffs
-- **Enemy Scaling**: Enemies scale with player level
-- **Victory Rewards**: Gold, XP, and random item drops
-- **Item Drops**: 30% + (5% × level) drop chance with rarity tiers
-
-### Equipment System
-
-Equipment provides permanent stat bonuses:
-
-| Slot | Examples | Stats |
-|------|----------|-------|
-| Weapon | Iron Sword, Magic Staff | +Attack |
-| Armor | Plate Armor, Magic Robe | +Defense |
-| Accessory | Ring of Strength, Dragon Pendant | +Attack/+Defense |
-
-Equip items with the `equipment` command → `equip` → enter item name.
-
-### Leveling System
-
-Gain XP from combat to level up:
-
-- **XP Requirement**: Starts at 100, increases 1.5× per level
-- **Stat Increases**: +5 HP, +2 Attack, +1 Defense per level
-- **Full Heal**: HP restored on level up
-- **Enemy Scaling**: Higher level = stronger enemies
-
-### Save System
-
-- **3 Save Slots**: Choose slot on game start
-- **Auto-Save**: Saves after each turn
-- **Manual Save**: Use `save` command
-- **Backup System**: Automatic backup before overwriting
-- **Metadata**: Playtime, location, level, HP status
-- **Save Location**: `~/.trpg_saves/`
-
-### Shop System
-
-Visit shops to buy and sell items:
-
-- **Shop Types**: General, Weapon, Armor, Magic, Black Market
-- **Dynamic Inventory**: Stock scales with player level
-- **Buy Prices**: Base value (with discounts at high reputation)
-- **Sell Prices**: 50% of base value
-- **Shop Gold**: Shops have limited gold for buying
-
-## 📚 Indonesian Folklore Starting Points
-
-The game features **10 unique starting points** based on Indonesian folklore and historical kingdoms. Each game randomly selects one, providing educational content about Indonesia's rich cultural heritage:
-
-| # | Starting Point | Era | Description |
-|---|----------------|-----|-------------|
-| 1 | **Kerajaan Majapahit** | 1350 M | The glorious Majapahit Empire under Patih Gajah Mada and Prabu Hayam Wuruk |
-| 2 | **Misteri Gunung Merapi** | 1400 M | Investigate mysterious green lights from the sacred volcano |
-| 3 | **Hilangnya Pusaka Kerajaan** | 1550 M | Recover stolen sacred heirlooms of Pajajaran Kingdom |
-| 4 | **Kutukan Ratu Pantai Selatan** | 1480 M | Face the curse of Nyai Roro Kidul, Queen of the Southern Sea |
-| 5 | **Perang Bubat** | 1357 M | Experience the tragic battle between Majapahit and Pajajaran |
-| 6 | **Kerajaan Sriwijaya** | 900 M | The ancient Buddhist maritime kingdom faces the Chola threat |
-| 7 | **Asal Usul Roro Jonggrang** | 900 M | The legend of the thousand temples (Prambanan) |
-| 8 | **Kerajaan Demak** | 1500 M | The rise of Islam in Java under Sunan Kalijaga |
-| 9 | **Tragedi Tanjung Pura** | 1600 M | Investigate a kingdom's mysterious disappearance |
-| 10 | **Pemberontakan Trunajaya** | 1675 M | The great rebellion against Mataram Sultanate |
-
-### Mythological Creatures & Elements
-
-Throughout your journey, you'll encounter:
-
-- **Genderuwo** - Large, hairy supernatural beings
-- **Tuyul** - Mischievous child-like spirits
-- **Kuntilanak** - Ghosts of women who died during pregnancy
-- **Nyai Roro Kidul** - The legendary Queen of the Southern Sea
-- **Pocong** - Ghosts wrapped in burial shrouds
-- **Jin and Demons** - Islamic mythological entities
-- **Dukun** - Traditional shamans with mystical powers
-
-### Historical Kingdoms Featured
-
-- **Sriwijaya** (7th-14th century) - Buddhist maritime empire
-- **Majapahit** (1293-1527) - Hindu-Buddhist golden age
-- **Pajajaran** (932-1579) - Sunda Kingdom
-- **Demak** (1475-1548) - First Islamic Sultanate in Java
-- **Mataram** (1587-1755) - Islamic Javanese kingdom
-
-## Example Gameplay
+### Example Opening
 
 ```
-======================================================================
-                         AI TERMINAL RPG
-======================================================================
+Year 1350 CE. You stand in the alun-alun (royal square) of 
+Majapahit's capital Trowulan. Red brick temples rise around you, 
+their carved reliefs telling ancient tales of gods and kings.
 
-HP: [████████████████████] 20/20  XP: [██████████] 0/100  LVL: 1
+Merchants in batik sarongs trade spices from Maluku, textiles from 
+Gujarat, and porcelain from China. The air fills with gamelan music 
+from the pendopo pavilion where Patih Gajah Mada prepares to read 
+the Sumpah Palapa oath—a vow to unite all the islands under one kingdom.
 
-  You stand at the edge of a dense forest. Ancient trees tower above,
-  their leaves whispering secrets in the wind. A narrow path winds
-  into the darkness, while to the north, you spot smoke rising from
-  what might be a village.
+As a young prajurit (soldier) who has shown exceptional bravery, 
+you've been summoned to the palace. Whispers speak of an important 
+mission—one that will determine the fate of thousands.
 
-  ┌─ Choices ─────────────────────────────────────────────────────┐
-  │  1. Follow the narrow path into the forest                    │
-  │  2. Head north toward the smoke                               │
-  │  3. Search the forest edge for resources                      │
-  └───────────────────────────────────────────────────────────────┘
-
-  [I]nventory [E]quipment [S]tats [H]elp [Q]uit
-
-Your choice: 1
+┌─ Choices ─────────────────────────────────────────────────────┐
+│  1. Enter the palace and meet Patih Gajah Mada               │
+│  2. Explore the market to gather information about the mission│
+│  3. Visit a temple to seek blessings before your duty        │
+└───────────────────────────────────────────────────────────────┘
 ```
 
-## Project Structure
+---
 
-```
-ai_terminal_rpg/
-├── trpg/
-│   ├── __init__.py       # Package initialization
-│   ├── game.py           # Main game loop and controller
-│   ├── player.py         # Player stats, equipment, inventory, XP
-│   ├── combat.py         # Turn-based combat with status effects
-│   ├── ai_engine.py      # Cerebras AI API integration
-│   ├── save_system.py    # Multi-slot save/load functionality
-│   ├── shop.py           # Shop system for buying/selling
-│   ├── ui.py             # Terminal UI with colors and boxes
-│   └── updater.py        # Auto-update functionality
-├── tests/
-│   └── test_game.py      # Comprehensive test suite (44 tests)
-├── install.py            # Universal installer (all platforms)
-├── install.sh            # Shell wrapper (macOS/Linux)
-├── install.bat           # Batch wrapper (Windows)
-├── requirements.txt      # Python dependencies
-├── pyproject.toml        # Package configuration
-└── README.md            # This file
+## ⚡ Quick Start
+
+### Prerequisites
+- Python 3.8 or higher
+- Cerebras AI API Key (free at https://cloud.cerebras.ai/)
+
+### Install (One Command)
+
+**macOS / Linux:**
+```bash
+git clone https://github.com/pongoabelii/ai-terminal-rpg.git
+cd ai-terminal-rpg
+sudo python3 install_universal.py
 ```
 
-## Item Database
+**Windows (as Administrator):**
+```bash
+git clone https://github.com/pongoabelii/ai-terminal-rpg.git
+cd ai-terminal-rpg
+python install_universal.py
+```
 
-### Weapons
-- Rusty Sword (+2 ATK), Iron Sword (+5 ATK), Steel Sword (+8 ATK)
-- Magic Sword (+12 ATK), Dragon Blade (+18 ATK)
-- Wooden Staff (+3 ATK), Magic Staff (+10 ATK)
-- Dagger (+4 ATK), Assassin Dagger (+9 ATK, +2 DEF)
-- Battle Axe (+10 ATK, -1 DEF)
+### Play
+```bash
+trpg
+```
 
-### Armor
-- Cloth Armor (+2 DEF), Leather Armor (+4 DEF)
-- Chain Mail (+7 DEF), Plate Armor (+10 DEF)
-- Dragon Scale Armor (+15 DEF, +2 ATK)
-- Robe (+3 DEF, +1 ATK), Magic Robe (+5 DEF, +3 ATK)
+On first run, enter your Cerebras AI API key from https://cloud.cerebras.ai/
 
-### Accessories
-- Ring of Strength (+3 ATK), Ring of Protection (+3 DEF)
-- Amulet of Power (+5 ATK, +2 DEF)
-- Lucky Charm (+1 ATK, +1 DEF)
-- Dragon Pendant (+7 ATK, +5 DEF)
-- Boots of Speed (+2 ATK, +2 DEF)
-- Helm of Wisdom (+2 ATK, +4 DEF)
+---
 
-### Consumables
-- Health Potion (+15 HP), Greater Health Potion (+30 HP)
-- Super Health Potion (+50 HP), Elixir (+100 HP, cure all)
-- Antidote (cure poison), Food (+5 HP), Bread (+8 HP)
+## Educational Features
+
+### Historical Accuracy
+- **10 Starting Scenarios** based on real historical periods
+- **Accurate Timelines** with specific years and events
+- **Real Historical Figures** like Gajah Mada, Prabu Siliwangi, Sunan Kalijaga
+- **Authentic Locations** based on archaeological evidence
+
+### Cultural Immersion
+- **Regional Diversity** - Experience Javanese, Sundanese, Malay, Balinese cultures
+- **Traditional Items** - Keris, jamu, batik, gamelan instruments
+- **Social Customs** - Court etiquette, religious ceremonies, trade practices
+- **Architecture** - Temples, palaces, mosques, traditional houses
+
+### Language Learning
+- **Indonesian Terms** - Used naturally in context with English explanations
+- **Historical Vocabulary** - Period-appropriate titles and roles
+- **Cultural Concepts** - Pusaka (heirlooms), alun-alun (royal square), prajurit (soldier)
+
+---
+
+## For Educators
+
+### Suitable For
+- **Middle School** (Ages 13+) - Basic history and culture
+- **High School** (Ages 15+) - Deeper historical analysis
+- **University** - Southeast Asian studies, cultural anthropology
+- **Adult Learners** - Self-directed cultural education
+
+### Learning Outcomes
+After playing, students will be able to:
+1. Identify major Indonesian kingdoms and their time periods
+2. Describe cultural differences between regions
+3. Recognize key historical figures and their contributions
+4. Understand the role of trade in cultural exchange
+5. Appreciate Indonesian cultural diversity
+6. Use basic Indonesian cultural vocabulary
+
+### Classroom Integration
+- **Individual Learning**: Self-paced exploration
+- **Group Discussion**: Compare different starting scenarios
+- **Research Projects**: Investigate historical accuracy
+- **Cultural Presentations**: Present on specific kingdoms
+
+---
+
+## Documentation
+
+See [DOCUMENTATION.md](DOCUMENTATION.md) for:
+- Detailed historical guides for each kingdom
+- Cultural region breakdowns
+- Teaching resources and recommended reading
+- Technical documentation
+
+---
+
+## Game Features
+
+### Core Gameplay
+- ✅ Dynamic AI story generation with educational content
+- ✅ 10 historical starting points
+- ✅ Turn-based combat with mythological creatures
+- ✅ Equipment system with traditional Indonesian items
+- ✅ XP and leveling system
+- ✅ Multiple save slots (3 slots)
+- ✅ Shop system with 5 Indonesian market types
+
+### Technical Features
+- ✅ Universal installer (Windows, macOS, Linux)
+- ✅ Automatic PATH configuration
+- ✅ Auto-update system
+- ✅ Colored terminal UI
+- ✅ Visual HP/XP bars
+
+---
+
+## Item Database (Authentic Indonesian Items)
+
+### Weapons (Senjata)
+| Item | Attack | Cultural Context |
+|------|--------|------------------|
+| Keris Kecil | +3 | Traditional wavy dagger |
+| Keris Naga | +12 | Dragon-patterned keris |
+| Keris Pusaka | +18 | Sacred heirloom dagger |
+| Tombak | +5 | Traditional spear |
+| Pedang Lengkung | +7 | Curved sword |
+
+### Armor (Baju Zirah)
+| Item | Defense | Cultural Context |
+|------|---------|------------------|
+| Baju Zirah | +5 | Traditional chainmail |
+| Baju Besi | +8 | Iron armor |
+| Jubah Santri | +4 | Islamic scholar's robe |
+| Jubah Dukun | +5 | Shaman's robe |
+
+### Consumables (Konsumabel)
+| Item | Effect | Cultural Context |
+|------|--------|------------------|
+| Jamu | +10 HP | Traditional herbal medicine |
+| Jamu Kuat | +25 HP | Strong herbal tonic |
+| Nasi Bungkus | +5 HP | Wrapped rice meal |
+| Kemenyan | Cure Poison | Incense for rituals |
+
+---
+
+## Contributing
+
+We welcome contributions that improve:
+- Historical accuracy
+- Cultural authenticity
+- Educational content
+- Additional kingdoms or scenarios
+- Teaching resources
+
+### How to Contribute
+1. Fork the repository
+2. Research your topic thoroughly
+3. Add content with citations
+4. Run tests: `python tests/test_game.py`
+5. Submit a pull request
+
+---
+
+## License
+
+MIT License - Free for educational use. Feel free to modify and distribute.
+
+---
+
+## Acknowledgments
+
+**Historical Sources:**
+- Indonesian National Archives (Arsip Nasional RI)
+- National Museum of Indonesia
+- UNESCO World Heritage Sites in Indonesia
+- Academic publications on Southeast Asian history
+
+**Cultural Consultants:**
+- Javanese culture experts
+- Sundanese heritage specialists
+- Islamic studies scholars
+
+**Technology:**
+- Cerebras AI for Llama model access
+- Open-source community tools
+
+---
+
+## Support & Contact
+
+- **Educational Inquiries & Bug Reports**: Contact via GitHub Issues
+- **Cultural Feedback**: We welcome corrections from Indonesian culture experts
+
+---
+
+**Version:** 2.0.0 Educational Edition  
+**Last Updated:** March 2025  
+**Language:** English with Indonesian cultural terms  
+**Recommended Age:** 13+ (Middle School to Adult)
+
+---
+
+*"Those who do not remember their history are condemned to repeat it."*  
+*"Bangsa yang besar adalah bangsa yang menghargai jasa pahlawannya."*  
+— Ir. Sukarno (First President of Indonesia)
+
+---
+
+## Installation
+
+### Requirements
+- Python 3.8 or higher
+- Cerebras AI API Key (free at https://cloud.cerebras.ai/)
+
+### Quick Install
+
+**macOS / Linux:**
+```bash
+git clone https://github.com/pongoabelii/ai-terminal-rpg.git
+cd ai-terminal-rpg
+sudo python3 install_universal.py
+```
+
+**Windows (as Administrator):**
+```bash
+git clone https://github.com/pongoabelii/ai-terminal-rpg.git
+cd ai-terminal-rpg
+python install_universal.py
+```
+
+### Play
+```bash
+trpg
+```
+
+---
+
+## Game Commands
+
+### In-Game Commands
+| Key | Command | Description |
+|-----|---------|-------------|
+| I | inventory | View items with Indonesian names |
+| E | equipment | View/change equipped items |
+| S | stats | View character stats |
+| H | help | Show help with cultural notes |
+| Q | quit | Save and quit |
+
+### Combat Commands
+| Key | Action | Effect |
+|-----|--------|--------|
+| A | Attack | Deal damage (10% crit chance) |
+| D | Defend | Reduce damage by 50% |
+| U | Use item | Use consumable (e.g., `use jamu`) |
+| R | Run | Attempt escape |
+
+---
+
+## Complete Item Database
+
+### Weapons (Senjata)
+| Item | Attack | Defense | Value | Cultural Context |
+|------|--------|---------|-------|------------------|
+| Keris Kecil | +3 | 0 | 15 | Traditional wavy dagger |
+| Keris Naga | +12 | 0 | 100 | Dragon-patterned keris |
+| Keris Pusaka | +18 | 0 | 250 | Sacred heirloom dagger |
+| Tombak | +5 | 0 | 25 | Traditional spear |
+| Tombak Panjang | +8 | 0 | 50 | Long spear for battle |
+| Pedang Lengkung | +7 | 0 | 40 | Curved sword |
+| Pedang Naga | +14 | 0 | 150 | Dragon sword |
+| Parang | +4 | 0 | 20 | Machete-like blade |
+| Kris | +6 | 0 | 35 | Traditional dagger |
+| Golok | +5 | 0 | 25 | Heavy machete |
+
+### Armor (Baju Zirah)
+| Item | Attack | Defense | Value | Cultural Context |
+|------|--------|---------|-------|------------------|
+| Baju Zirah | 0 | +5 | 40 | Traditional chainmail |
+| Baju Besi | 0 | +8 | 70 | Iron armor |
+| Baju Perang | 0 | +12 | 150 | Battle armor |
+| Perisai Kayu | 0 | +3 | 15 | Wooden shield |
+| Perisai Besi | 0 | +6 | 35 | Iron shield |
+| Perisai Sakti | +2 | +10 | 120 | Magical shield |
+| Jubah Santri | +1 | +4 | 30 | Islamic scholar's robe |
+| Jubah Dukun | +3 | +5 | 60 | Shaman's robe |
+
+### Accessories (Aksesoris)
+| Item | Attack | Defense | Value | Cultural Context |
+|------|--------|---------|-------|------------------|
+| Jimat Perlindungan | +2 | +3 | 50 | Protective amulet |
+| Cincin Sakti | +4 | +2 | 70 | Magical ring |
+| Kalung Keramat | +5 | +4 | 100 | Sacred necklace |
+| Gelang Emas | +1 | +1 | 30 | Gold bracelet |
+| Ikat Kepala | +2 | +2 | 25 | Traditional headband |
+
+### Consumables (Konsumabel)
+| Item | Effect | Value | Cultural Context |
+|------|--------|-------|------------------|
+| Jamu | +10 HP | 15 | Traditional herbal medicine |
+| Jamu Kuat | +25 HP | 35 | Strong herbal tonic |
+| Jamu Sakti | +50 HP | 70 | Magical herbal brew |
+| Nasi Bungkus | +5 HP | 5 | Wrapped rice meal |
+| Buah-buahan | +8 HP | 8 | Mixed fruits |
+| Kemenyan | Cure Poison | 20 | Ritual incense |
+| Minyak Kelapa | +15 HP | 18 | Coconut oil |
+
+### Materials (Bahan)
+| Item | Value | Cultural Context |
+|------|-------|------------------|
+| Rempah-rempah | 20 | Spices (trade goods) |
+| Emas Batangan | 50 | Gold bar |
+| Mutiara | 80 | Pearl |
+| Batu Akik | 30 | Agate stone |
+
+---
+
+## Shop Types (Toko)
+
+| Shop Name | Type | Items Sold |
+|-----------|------|------------|
+| **Pasar Umum** | General | Jamu, Nasi Bungkus, Keris Kecil, basic items |
+| **Empa Keris** | Weapon | All keris, tombak, pedang, traditional weapons |
+| **Tukang Besi** | Armor | Baju Zirah, Perisai, Jubah, protective gear |
+| **Dukun** | Magic | Jamu Sakti, Jimat, Cincin Sakti, mystical items |
+| **Pasar Gelap** | Black Market | Keris Pusaka, rare items, Mutiara |
+
+---
+
+## Enemy Creatures (22 Total)
+
+| Creature | Level | HP | Attack | Defense | Cultural Origin |
+|----------|-------|----|--------|---------|-----------------|
+| Tuyul | 1 | 6 | 3 | 0 | Child spirit thief |
+| Pocong | 2 | 12 | 4 | 1 | Wrapped ghost |
+| Genderuwo | 2 | 15 | 5 | 2 | Forest giant |
+| Kuntilanak | 2 | 10 | 6 | 1 | Female ghost |
+| Suku Mante | 2 | 8 | 4 | 1 | Aceh forest humans |
+| Prajurit Majapahit | 3 | 18 | 6 | 3 | Warrior spirit |
+| Bajak Laut | 3 | 14 | 5 | 2 | Pirate |
+| Prajurit Pajajaran | 4 | 20 | 6 | 3 | Warrior spirit |
+| Harimau Jadi-jadian | 4 | 20 | 7 | 2 | Shapeshifting tiger |
+| Leak Bali | 4 | 16 | 8 | 2 | Balinese witch |
+| Ahool | 4 | 18 | 7 | 1 | Giant bat (Mt. Salak) |
+| Dukun Hitam | 5 | 14 | 10 | 2 | Dark shaman |
+| Ular Raksasa | 5 | 22 | 7 | 3 | Giant snake |
+| Orang Bati | 5 | 22 | 8 | 2 | Winged humanoid (Maluku) |
+| Kuyang | 5 | 20 | 9 | 2 | Blood-sucking head (Kalimantan) |
+| Raksasa Gunung | 6 | 30 | 8 | 4 | Mountain giant |
+| Kuda Sembrani | 6 | 28 | 9 | 3 | Flying horse |
+| Arwah Kesatria | 7 | 25 | 9 | 4 | Knight spirit |
+| Iblis Laut Selatan | 8 | 35 | 10 | 4 | Sea demon |
+| Nyi Blorong | 9 | 32 | 11 | 4 | Mermaid goddess |
+| Garuda Sakti | 10 | 40 | 12 | 5 | Sacred bird (boss) |
+| Naga Besukih | 12 | 45 | 14 | 6 | Sacred dragon (Bali, boss) |
+
+---
 
 ## Troubleshooting
 
 ### "trpg: command not found"
 
 **Windows:**
-```
-1. Find Python Scripts path:
-   python -c "import sysconfig; print(sysconfig.get_path('scripts'))"
-
-2. Add this path to your system PATH:
-   - Right-click "This PC" → Properties
-   - Advanced system settings → Environment Variables
-   - Add the path to the "Path" variable
-
-3. Open a NEW Command Prompt and try: trpg
+```cmd
+python -c "import sysconfig; print(sysconfig.get_path('scripts'))"
+:: Add the path to your system PATH variable
 ```
 
 **macOS/Linux:**
 ```bash
-# Add to your shell config
 echo 'export PATH="$(python3 -m site --user-base)/bin:$PATH"' >> ~/.bashrc
 source ~/.bashrc
-
-# Or use the Python module directly:
-python3 -m trpg
 ```
 
 ### "No API key found"
-
-1. Get your API key from: https://cloud.cerebras.ai/
-2. On first run, enter your API key when prompted
-3. The key is saved to `~/.trpg.env` or `.env`
-
-### "Module not found"
-
-```bash
-# Install dependencies manually
-cd ai-terminal-rpg
-python -m pip install openai python-dotenv colorama
-```
-
-### "Permission denied" (Linux/macOS)
-
-```bash
-# Run installer with sudo
-sudo ./install.sh
-
-# Or install for current user only
-python3 -m pip install --user -e .
-```
+1. Get API key from https://cloud.cerebras.ai/
+2. Enter it when prompted on first run
+3. Key is saved to `~/.trpg.env`
 
 ### Game won't start
-
-Try the Python module directly:
 ```bash
 python -m trpg
 ```
 
-## Testing
+---
 
-Run the comprehensive test suite:
+## Documentation
 
-```bash
-cd ai-terminal-rpg
-python tests/test_game.py
-```
+For detailed historical information about each kingdom, see [DOCUMENTATION.md](DOCUMENTATION.md):
+- Complete historical guides
+- Cultural region breakdowns  
+- Teaching resources
+- Recommended reading
 
-All 44 tests should pass, covering:
-- Player stats, equipment, inventory, leveling
-- Combat mechanics and rewards
-- Shop buying/selling
-- Save/load functionality
-- UI utilities
-- Integration tests
-
-## Version History
-
-### 2.1.0 (Current)
-- Universal installer for Windows, Mac, Linux
-- Automatic PATH configuration
-- Desktop shortcut creation
-- No manual pip install required
-- Simplified installation process
-
-### 2.0.0
-- Added equipment system (weapon, armor, accessory)
-- Added XP and leveling system
-- Added status effects (buffs and debuffs)
-- Added shop system with 5 shop types
-- Added multiple save slots (3 slots)
-- Improved encounter system (consistent triggering)
-- Aidungeon-style narrative prompts
-- Enhanced UI with visual bars and boxed elements
-- Quick keys for all actions
-- 40+ item database
-- Comprehensive test suite (44 tests)
-
-### 1.0.0
-- Initial release
-- Basic combat system
-- Simple inventory
-- Single save file
-- AI story generation
-
-## License
-
-MIT License - Feel free to modify and distribute.
+---
 
 ## Contributing
 
-Contributions welcome! Please:
-1. Fork the repository
-2. Create a feature branch
-3. Run tests: `python tests/test_game.py`
-4. Submit a pull request
+We welcome contributions that improve:
+- Historical accuracy
+- Cultural authenticity
+- Educational content
+- Teaching resources
+
+---
+
+## License
+
+MIT License - Free for educational use.
+
+---
 
 ## Acknowledgments
 
-- Inspired by Aidungeon's immersive narrative style
-- Built with Cerebras AI's fast Llama models
-- Terminal UI inspired by classic text adventures
+**Historical Sources:**
+- Indonesian National Archives (Arsip Nasional RI)
+- National Museum of Indonesia
+- UNESCO World Heritage Sites
 
-## Support
+**Technology:**
+- Cerebras AI for Llama model access
 
-For issues, questions, or suggestions:
-- GitHub Issues: https://github.com/joy-arz/ai-terminal-rpg/issues
-- Documentation: See README.md in the repository
+---
+
+**Version:** 2.0.0 Educational Edition  
+**Language:** English with Indonesian cultural terms  
+**Recommended Age:** 13+ (Middle School to Adult)

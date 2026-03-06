@@ -1,19 +1,3 @@
-"""
-AI Engine module - handles Cerebras AI API integration for story generation.
-
-This module manages communication with Cerebras AI's Llama model to:
-- Generate story scenes dynamically in Aidungeon style
-- Create player choices based on context
-- Maintain story consistency through context passing
-- Handle combat narration
-- Support shop interactions
-
-The AI prompt system works by sending structured context each turn:
-1. System prompt defining the AI's role as dungeon master (Aidungeon style)
-2. Story history for continuity
-3. Current player state (stats, inventory, equipment)
-4. Player's last choice/action
-"""
 
 import os
 import re
@@ -25,7 +9,6 @@ load_dotenv()
 
 
 def setup_api_key():
-    """Prompt user for API key if not set."""
     api_key = os.getenv("CEREBRAS_API_KEY")
 
     if not api_key or api_key.strip() == "":
@@ -35,16 +18,14 @@ def setup_api_key():
         api_key = input("\nEnter your Cerebras API key: ").strip()
 
         if api_key:
-            # Save to home directory for persistence
             home_env = os.path.expanduser("~/.trpg.env")
             with open(home_env, "w") as f:
                 f.write(f"CEREBRAS_API_KEY={api_key}\n")
-            
-            # Also save to current directory
+
             current_env = ".env"
             with open(current_env, "w") as f:
                 f.write(f"CEREBRAS_API_KEY={api_key}\n")
-            
+
             print("API key saved!")
             os.environ["CEREBRAS_API_KEY"] = api_key
             return api_key
@@ -63,68 +44,122 @@ except ImportError:
 
 
 class AIEngine:
-    """
-    Handles AI story generation using Cerebras AI's Llama model.
-    
-    The engine maintains conversation history to ensure story consistency
-    and generates both narrative content and player choices.
-    
-    Style: Aidungeon-inspired immersive second-person narrative
-    """
-    
+
     CEREBRAS_BASE_URL = "https://api.cerebras.ai/v1"
     MODEL_NAME = "llama3.1-8b"
     MAX_WORDS = 150
-    
-    SYSTEM_PROMPT = """Kamu adalah seorang dalang yang menceritakan petualangan epik dalam bahasa Indonesia.
 
-PANDUAN GAYA:
-- Tulis dalam BAHASA INDONESIA yang baik
-- Gunakan sudut pandang ORANG KEDUA ("Kau berjalan...", "Kau melihat...")
-- Deskriptif dan IMERSIF - libatkan semua panca indera
-- Gunakan WAKTU SEKARANG untuk immediasi
-- Setiap respons 80-150 kata narasi yang kaya
-- Berikan TEPAT 3 pilihan bernomor
+    SYSTEM_PROMPT = """You are a dalang (traditional Indonesian storyteller) narrating an epic educational adventure set in Indonesian folklore and history.
 
-FORMAT PILIHAN (harus tepat 3):
+PRIMARY GOAL: Educate players about Indonesian kingdoms, history, and culture through immersive storytelling.
+
+LANGUAGE: Write in ENGLISH so international audiences can learn about Indonesian culture.
+
+STYLE GUIDELINES:
+- Use SECOND PERSON point of view ("You walk...", "You see...")
+- Be descriptive and IMMERSIVE - engage all five senses
+- Use PRESENT TENSE for immediacy
+- Each response should be 80-150 words of rich narration
+- Provide EXACTLY 3 numbered choices
+
+CHOICE FORMAT (must be exactly 3):
 Choices:
-1. [Opsi aksi spesifik]
-2. [Opsi pendekatan berbeda]
-3. [Opsi jalur alternatif]
+1. [Specific action option]
+2. [Different approach option]
+3. [Alternative path option]
 
-ELEMEN CERITA:
-- Detail lingkungan yang hidup (pemandangan, suara, bau)
-- Dialog NPC bila relevan (dalam tanda kutip)
-- Konsekuensi bermakna untuk aksi pemain
-- Gunakan makhluk mitologi Nusantara (genderuwo, tuyul, kuntilanak, dll)
-- Gunakan nama-nama Indonesia untuk karakter dan tempat
+EDUCATIONAL ELEMENTS TO WEAVE INTO STORY:
+- Accurately depict the kingdom's time period, location, and historical context
+- Include cultural details specific to the region (Javanese, Sundanese, Malay, Balinese, etc.)
+- Mention traditional clothing, food, customs, and social hierarchy
+- Reference real historical figures when appropriate (Gajah Mada, Prabu Siliwangi, Sunan Kalijaga, etc.)
+- Include architectural details (candi, pendopo, joglo, etc.)
+- Use period-appropriate terms (prajurit for soldier, keris for dagger, etc.)
 
-LATAR:
-- Kerajaan-kerajaan Nusantara (Majapahit, Sriwijaya, Pajajaran, dll)
-- Budaya Indonesia (makanan, pakaian, adat)
-- Peristiwa sejarah Indonesia bila relevan
+KINGDOM-SPECIFIC CULTURAL DETAILS:
 
-PENTING: Jangan kontrol aksi pemain. Hanya deskripsikan apa yang terjadi."""
+MAJAPAHIT (East Java, 1293-1527):
+- Capital: Trowulan
+- Religion: Hindu-Buddhist syncretism
+- Culture: Javanese court culture, wayang kulit, gamelan
+- Architecture: Red brick temples, pendopo pavilions
+- Key figures: Gajah Mada, Prabu Hayam Wuruk, Tribhuwana Wijayatunggadewi
+- Sumpah Palapa oath to unite Nusantara
+
+SRIWIJAYA (South Sumatra, 7th-14th century):
+- Capital: Palembang
+- Religion: Buddhist center of learning
+- Culture: Maritime trade, multicultural port city
+- Language: Old Malay with Sanskrit influences
+- Key role: Controlled Strait of Malacca trade routes
+
+PAJAJARAN/SUNDA (West Java, 932-1579):
+- Capital: Pakuan (Bogor area)
+- People: Sundanese culture
+- Key figures: Prabu Siliwangi (legendary king)
+- Culture: Agricultural society, rice cultivation traditions
+- Pusaka: Sacred heirlooms with spiritual power
+
+DEMak (North Coast Java, 1475-1548):
+- First Islamic Sultanate in Java
+- Key figures: Raden Patah, Sunan Kalijaga, Sunan Kudus
+- Culture: Islamic-Javanese synthesis, wali songo (nine saints)
+- Architecture: Demak Great Mosque with tatal roof
+
+MATARAM ISLAM (Central Java, 1587-1755):
+- Sultans: Agung Senopati, Amangkurat
+- Culture: Javanese-Islamic court traditions
+- Architecture: Kotagede, Plered palaces
+- Conflicts: Succession wars, Dutch VOC relations
+
+TANJUNG PURA (Kalimantan, 14th-17th century):
+- Location: West Kalimantan coast
+- Culture: Malay-Dayak synthesis
+- Trade: Diamond and gold trading post
+- Mystery: Mysterious disappearance of entire population
+
+MYTHOLOGICAL CREATURES (use appropriately):
+- Genderuwo: Large hairy forest guardian spirits
+- Kuntilanak: Female ghost, died during pregnancy
+- Tuyul: Child spirit that steals money
+- Pocong: Ghost wrapped in burial shroud
+- Leak: Balinese witch/wizard with magical powers
+- Harimau Jadi-jadian: Shapeshifting tiger
+- Naga: Serpent dragon, water guardian
+
+WRITING APPROACH:
+1. Start with historical context (year, kingdom, location)
+2. Describe the scene with cultural and architectural details
+3. Include NPCs with period-appropriate titles and roles
+4. Weave in educational facts naturally through dialogue and description
+5. Present meaningful choices that teach about the era
+
+EXAMPLE OPENING:
+"Year 1350 CE. You stand in the alun-alun (royal square) of Majapahit's capital Trowulan. Red brick temples rise around you, their carved reliefs telling ancient tales. Merchants in batik sarongs trade spices from Maluku, textiles from Gujarat, and porcelain from China. The air fills with gamelan music from the pendopo pavilion where Patih Gajah Mada prepares to read the Sumpah Palapa oath..."
+
+IMPORTANT: 
+- Do not control the player's actions
+- Only describe what happens
+- Make historical education seamless within the adventure
+- Balance entertainment with accurate cultural representation"""
 
     def __init__(self):
-        """Initialize the AI engine with Cerebras AI client."""
         api_key = setup_api_key()
-        
+
         self.client = OpenAI(api_key=api_key, base_url=self.CEREBRAS_BASE_URL)
         self.conversation_history: List[dict] = []
         self.story_history: List[str] = []
         self.location = "unknown"
         self.npcs_met: List[str] = []
         self.quests_active: List[str] = []
-    
+
     def reset(self) -> None:
-        """Reset conversation and story history for a new game."""
         self.conversation_history = []
         self.story_history = []
         self.location = "unknown"
         self.npcs_met = []
         self.quests_active = []
-    
+
     def _build_prompt(
         self,
         player_context: str,
@@ -133,63 +168,43 @@ PENTING: Jangan kontrol aksi pemain. Hanya deskripsikan apa yang terjadi."""
         shop_context: Optional[Dict[str, Any]] = None,
         force_encounter: bool = False
     ) -> str:
-        """
-        Build the user prompt with all necessary context.
-        
-        This is the core of the AI memory system - each turn we send:
-        - Previous story summary for continuity
-        - Current player state (stats, inventory, equipment)
-        - The player's last choice/action
-        - Combat context if in battle
-        - Shop context if shopping
-        
-        Args:
-            player_context: Formatted string of player stats and inventory
-            player_choice: The player's last choice (None for first turn)
-            combat_context: Optional combat situation description
-            shop_context: Optional shop information
-            force_encounter: Force an enemy encounter
-            
-        Returns:
-            str: Complete prompt with all context
-        """
         recent_history = self.story_history[-5:] if self.story_history else []
-        
+
         prompt_parts = []
-        
+
         if recent_history:
             prompt_parts.append("STORY SO FAR:")
             for i, scene in enumerate(recent_history, 1):
                 prompt_parts.append(f"  {i}. {scene}")
             prompt_parts.append("")
-        
+
         prompt_parts.append("CURRENT STATE:")
         prompt_parts.append(f"  {player_context}")
         prompt_parts.append("")
-        
+
         prompt_parts.append(f"LOCATION: {self.location}")
         if self.npcs_met:
             prompt_parts.append(f"NPCs KNOWN: {', '.join(self.npcs_met)}")
         if self.quests_active:
             prompt_parts.append(f"ACTIVE QUESTS: {', '.join(self.quests_active)}")
         prompt_parts.append("")
-        
+
         if combat_context:
             prompt_parts.append(f"COMBAT: {combat_context}")
             prompt_parts.append("Describe this combat action cinematically.")
             prompt_parts.append("")
-        
+
         if shop_context:
             prompt_parts.append(f"SHOP: {shop_context.get('name', 'Unknown Shop')}")
             prompt_parts.append(f"Shop has: {', '.join(shop_context.get('items', [])[:5])}")
             prompt_parts.append("The shopkeeper waits for your business.")
             prompt_parts.append("")
-        
+
         if force_encounter:
             prompt_parts.append("ENCOUNTER: An enemy appears! Describe the encounter dramatically.")
             prompt_parts.append("Include the enemy's appearance and aggressive intent.")
             prompt_parts.append("")
-        
+
         if player_choice:
             prompt_parts.append(f"YOU CHOOSE: {player_choice}")
             prompt_parts.append("")
@@ -200,62 +215,47 @@ PENTING: Jangan kontrol aksi pemain. Hanya deskripsikan apa yang terjadi."""
             prompt_parts.append("Start the fantasy adventure. Introduce the player to the world.")
             prompt_parts.append("Describe their surroundings vividly and present 3 initial choices.")
             prompt_parts.append("Make the opening engaging and atmospheric.")
-        
+
         return "\n".join(prompt_parts)
-    
+
     def _parse_response(self, response_text: str) -> Tuple[str, List[str]]:
-        """
-        Parse AI response to extract scene and choices.
-        
-        The AI should return formatted text with a story scene followed
-        by exactly 3 numbered choices. This method extracts both parts.
-        
-        Args:
-            response_text: Raw response from AI
-            
-        Returns:
-            Tuple of (scene_text, list_of_3_choices)
-            
-        Raises:
-            ValueError: If response cannot be parsed properly
-        """
         choices_pattern = r"(?:Choices:|CHOICES:|choices:|What do you do:|Options:)\s*\n\s*(\d+[\.:]\s*.+?)\s*\n\s*(\d+[\.:]\s*.+?)\s*\n\s*(\d+[\.:]\s*.+?)(?:\n|$)"
         match = re.search(choices_pattern, response_text, re.IGNORECASE | re.DOTALL)
-        
+
         if match:
             scene = response_text[:match.start()].strip()
-            
+
             choices = []
             for i in range(1, 4):
                 choice_text = match.group(i).strip()
                 choice_text = re.sub(r'^\d+[\.:]\s*', '', choice_text).strip()
                 choices.append(choice_text)
-            
+
             return scene, choices
-        
+
         simple_pattern = r'(\d+[\.:])\s*(.+?)(?=\n\d+[\.:]|$)'
         all_numbered = re.findall(simple_pattern, response_text, re.IGNORECASE | re.DOTALL)
-        
+
         if len(all_numbered) >= 3:
             choices = [text.strip() for _, text in all_numbered[-3:]]
-            
+
             first_choice_text = all_numbered[-3][1].strip()
             first_choice_match = re.search(
                 rf'\d+[\.:]\s*{re.escape(first_choice_text)}',
                 response_text
             )
-            
+
             if first_choice_match:
                 scene = response_text[:first_choice_match.start()].strip()
             else:
                 scene = response_text.split('\n')[0]
-            
+
             return scene, choices
-        
+
         scene = response_text.strip()
-        
+
         scene_lower = scene.lower()
-        
+
         if any(word in scene_lower for word in ["enemy", "monster", "attack", "fight", "danger", "hostile"]):
             default_choices = [
                 "Prepare for combat and assess the threat",
@@ -292,9 +292,9 @@ PENTING: Jangan kontrol aksi pemain. Hanya deskripsikan apa yang terjadi."""
                 "Continue forward cautiously",
                 "Look for resources or points of interest"
             ]
-        
+
         return scene, default_choices
-    
+
     def generate_scene(
         self,
         player_context: str,
@@ -303,25 +303,6 @@ PENTING: Jangan kontrol aksi pemain. Hanya deskripsikan apa yang terjadi."""
         shop_context: Optional[Dict[str, Any]] = None,
         force_encounter: bool = False
     ) -> Tuple[str, List[str]]:
-        """
-        Generate a new story scene from the AI.
-        
-        This is the main method called each game turn. It:
-        1. Builds a prompt with full context (history, stats, choice)
-        2. Sends to OpenAI API
-        3. Parses the response to extract scene and choices
-        4. Stores the scene in history for future context
-        
-        Args:
-            player_context: Formatted player stats and inventory string
-            player_choice: Player's last choice (None for game start)
-            combat_context: Optional combat situation description
-            shop_context: Optional shop information
-            force_encounter: Force an enemy encounter
-            
-        Returns:
-            Tuple of (scene_text, list_of_3_choices)
-        """
         prompt = self._build_prompt(
             player_context,
             player_choice,
@@ -329,12 +310,12 @@ PENTING: Jangan kontrol aksi pemain. Hanya deskripsikan apa yang terjadi."""
             shop_context,
             force_encounter
         )
-        
+
         messages = [
             {"role": "system", "content": self.SYSTEM_PROMPT},
             {"role": "user", "content": prompt}
         ]
-        
+
         try:
             response = self.client.chat.completions.create(
                 model=self.MODEL_NAME,
@@ -343,18 +324,17 @@ PENTING: Jangan kontrol aksi pemain. Hanya deskripsikan apa yang terjadi."""
                 temperature=0.85,
                 top_p=0.9,
             )
-            
+
             response_text = response.choices[0].message.content
-            
+
             scene, choices = self._parse_response(response_text)
-            
-            # Store scene in history
+
             self.story_history.append(scene)
-            
+
             self._extract_location(scene)
-            
+
             return scene, choices
-            
+
         except Exception as e:
             error_scene = f"The world seems to flicker around you as reality shifts. An error occurred: {str(e)}"
             default_choices = [
@@ -363,9 +343,8 @@ PENTING: Jangan kontrol aksi pemain. Hanya deskripsikan apa yang terjadi."""
                 "Call out for help"
             ]
             return error_scene, default_choices
-    
+
     def _extract_location(self, scene: str) -> None:
-        """Try to extract current location from scene text."""
         location_keywords = {
             "forest": ["forest", "woods", "trees", "grove", "clearing"],
             "village": ["village", "town", "city", "settlement", "hamlet"],
@@ -377,40 +356,26 @@ PENTING: Jangan kontrol aksi pemain. Hanya deskripsikan apa yang terjadi."""
             "mountain": ["mountain", "peak", "cliff", "hillside"],
             "river": ["river", "stream", "lake", "water", "shore"],
         }
-        
+
         scene_lower = scene.lower()
         for location, keywords in location_keywords.items():
             if any(kw in scene_lower for kw in keywords):
                 self.location = location
                 return
-    
+
     def generate_combat_narration(
         self,
         player_context: str,
         player_action: str,
         combat_state: dict
     ) -> str:
-        """
-        Generate AI narration for combat situations.
-        
-        During combat, we need shorter, action-focused responses that
-        describe the outcome of player actions and enemy reactions.
-        
-        Args:
-            player_context: Player stats and inventory
-            player_action: The action player took (attack, defend, etc.)
-            combat_state: Dictionary with enemy info and combat status
-            
-        Returns:
-            str: Description of combat outcome
-        """
         enemy_name = combat_state.get("enemy_name", "enemy")
         enemy_hp = combat_state.get("enemy_hp", 0)
         player_hp = combat_state.get("player_hp", 0)
         enemy_max_hp = combat_state.get("enemy_max_hp", 1)
-        
+
         hp_percent = enemy_hp / max(1, enemy_max_hp)
-        
+
         if hp_percent > 0.7:
             enemy_state = "fresh and eager for battle"
         elif hp_percent > 0.4:
@@ -419,7 +384,7 @@ PENTING: Jangan kontrol aksi pemain. Hanya deskripsikan apa yang terjadi."""
             enemy_state = "badly wounded and desperate"
         else:
             enemy_state = "barely standing, near defeat"
-        
+
         prompt = f"""Combat narration request:
 
 Enemy: {enemy_name} ({enemy_hp} HP) - {enemy_state}
@@ -434,40 +399,30 @@ Write 2-3 exciting sentences describing:
 - The current tension of battle
 
 Make it visceral and cinematic. Use second person."""
-        
+
         try:
             messages = [
                 {"role": "system", "content": "You are narrating exciting combat in second person. Be visceral and cinematic."},
                 {"role": "user", "content": prompt}
             ]
-            
+
             response = self.client.chat.completions.create(
                 model=self.MODEL_NAME,
                 messages=messages,
                 max_tokens=150,
                 temperature=0.7,
             )
-            
+
             return response.choices[0].message.content.strip()
-            
+
         except Exception as e:
             return f"Combat continues! The {enemy_name} glares at you menacingly."
-    
+
     def generate_encounter(
         self,
         player_context: str,
         location: str = "unknown"
     ) -> Tuple[str, str]:
-        """
-        Generate an enemy encounter description.
-        
-        Args:
-            player_context: Player stats and context
-            location: Current location
-            
-        Returns:
-            Tuple of (encounter_description, enemy_name_hint)
-        """
         prompt = f"""Generate an enemy encounter.
 
 Location: {location}
@@ -480,55 +435,55 @@ Describe:
 
 Keep it under 80 words. End with the enemy ready to fight.
 Also tell me the enemy type (goblin, bandit, wolf, etc.) at the end."""
-        
+
         try:
             messages = [
                 {"role": "system", "content": "You create exciting enemy encounters. Be descriptive but concise."},
                 {"role": "user", "content": prompt}
             ]
-            
+
             response = self.client.chat.completions.create(
                 model=self.MODEL_NAME,
                 messages=messages,
                 max_tokens=200,
                 temperature=0.8,
             )
-            
+
             text = response.choices[0].message.content.strip()
-            
-            # Try to extract enemy type
+
             enemy_hint = "enemy"
-            enemy_types = ["goblin", "bandit", "wolf", "skeleton", "orc", "mage", 
-                          "spider", "troll", "rat", "ogre", "wraith", "dragon"]
-            
+            enemy_types = ["genderuwo", "kuntilanak", "tuyul", "pocong", "ahool", "orang bati",
+                          "naga", "suku mante", "kuda sembrani", "kuyang", "nyi blorong",
+                          "leak", "harimau", "raksasa", "dukun", "ular", "prajurit", 
+                          "bajak laut", "arwah", "iblis", "garuda", "goblin", "bandit", 
+                          "wolf", "skeleton", "orc", "mage", "spider", "troll", "rat", 
+                          "ogre", "wraith", "dragon"]
+
             text_lower = text.lower()
             for enemy_type in enemy_types:
                 if enemy_type in text_lower:
                     enemy_hint = enemy_type
                     break
-            
+
             return text, enemy_hint
-            
+
         except Exception as e:
             return f"A hostile creature appears before you! (Error: {e})", "enemy"
-    
+
     def get_story_summary(self) -> str:
-        """Get a summary of the story so far."""
         if not self.story_history:
             return "Your adventure begins..."
-        return "\n\n".join(self.story_history[-10:])  # Last 10 scenes
-    
+        return "\n\n".join(self.story_history[-10:])
+
     def to_dict(self) -> dict:
-        """Convert AI engine state to dictionary for saving."""
         return {
             "story_history": self.story_history.copy(),
             "location": self.location,
             "npcs_met": self.npcs_met.copy(),
             "quests_active": self.quests_active.copy()
         }
-    
+
     def from_dict(self, data: dict) -> None:
-        """Load AI engine state from saved data."""
         self.story_history = data.get("story_history", [])
         self.location = data.get("location", "unknown")
         self.npcs_met = data.get("npcs_met", [])

@@ -1,12 +1,3 @@
-"""
-Story module - handles starting points, encounter triggers, and ending system.
-
-This module manages:
-- 10 fixed starting points (randomly selected at game start)
-- Consistent enemy encounter system
-- Turn-based ending (500-700 turns)
-- Ending generation based on player choices
-"""
 
 import random
 from typing import List, Dict, Tuple, Optional, Any
@@ -15,7 +6,6 @@ from dataclasses import dataclass, field
 
 @dataclass
 class StartingPoint:
-    """Represents a fixed starting location and scenario."""
     id: int
     name: str
     description: str
@@ -26,7 +16,6 @@ class StartingPoint:
     difficulty_modifier: float = 1.0
 
 
-# 10 Fixed Starting Points - Indonesian Folklore & History
 STARTING_POINTS = [
     StartingPoint(
         id=1,
@@ -45,7 +34,7 @@ Sebagai seorang prajurit muda yang menunjukkan keberanian luar biasa, kau dipang
         starting_gold=25,
         starting_items=["keris kecil", "nasi bungkus"]
     ),
-    
+
     StartingPoint(
         id=2,
         name="Misteri Gunung Merapi",
@@ -63,7 +52,7 @@ Kau adalah seorang pawang muda yang baru saja menyelesaikan pelatihan. Masyaraka
         starting_gold=15,
         starting_items=["tombak", "jamu", "kemenyan"]
     ),
-    
+
     StartingPoint(
         id=3,
         name="Hilangnya Pusaka Kerajaan",
@@ -81,7 +70,7 @@ Kau adalah seorang mata-mata kerajaan yang baru kembali dari misi. Sang Prabu me
         starting_gold=40,
         starting_items=["keris", "surat kepercayaan", "uang emas"]
     ),
-    
+
     StartingPoint(
         id=4,
         name="Kutukan Ratu Pantai Selatan",
@@ -99,7 +88,7 @@ Kau adalah anak seorang nelayan yang hilang dalam kejadian ini. Kau bersumpah ak
         starting_gold=10,
         starting_items=["jaring ikan", "parang", "mantra perlindungan"]
     ),
-    
+
     StartingPoint(
         id=5,
         name="Perang Bubat",
@@ -117,7 +106,7 @@ Kau berdiri di persimpangan sejarah. Pilihanmu akan menentukan nasib ribuan nyaw
         starting_gold=30,
         starting_items=["tombak panjang", "perisai kayu", "bendera Pajajaran"]
     ),
-    
+
     StartingPoint(
         id=6,
         name="Kerajaan Sriwijaya",
@@ -135,7 +124,7 @@ Sebagai seorang laksamana muda, kau mendapat perintah untuk memperkuat pertahana
         starting_gold=50,
         starting_items=["pedang lengkung", "peta laut", "surat perintah"]
     ),
-    
+
     StartingPoint(
         id=7,
         name="Asal Usul Roro Jonggrang",
@@ -153,7 +142,7 @@ Kau adalah seorang arsitek istana yang diperintahkan membantu pembangunan ini. T
         starting_gold=20,
         starting_items=["pahat", "gulungan desain", "obor"]
     ),
-    
+
     StartingPoint(
         id=8,
         name="Kerajaan Demak",
@@ -171,7 +160,7 @@ Kau adalah seorang santri yang juga ahli bela diri. Kau mendapat tugas khusus da
         starting_gold=25,
         starting_items=["kris", "kitab suci", "jubah santri"]
     ),
-    
+
     StartingPoint(
         id=9,
         name="Tragedi Tanjung Pura",
@@ -189,7 +178,7 @@ Kau adalah seorang investigator kerajaan yang dikirim untuk mengungkap kebenaran
         starting_gold=35,
         starting_items=["lentera", "kitab mantra", "tombak besi"]
     ),
-    
+
     StartingPoint(
         id=10,
         name="Pemberontakan Trunajaya",
@@ -211,72 +200,39 @@ Sultan Amangkurat I mempercayaimu untuk menghentikan ritual gelap ini.""",
 
 
 class StoryManager:
-    """
-    Manages story progression, encounters, and ending.
-    
-    Handles:
-    - Random starting point selection
-    - Consistent encounter triggering
-    - Turn counter and ending trigger
-    - Ending generation based on player history
-    """
-    
+
     MIN_TURNS = 500
     MAX_TURNS = 700
-    
+
     def __init__(self):
-        """Initialize the story manager."""
         self.starting_point: Optional[StartingPoint] = None
         self.turn_count = 0
         self.end_turn = 0
         self.game_ended = False
         self.ending_type = ""
-        
-        # Track player choices for ending
+
         self.major_choices: List[Dict[str, Any]] = []
         self.locations_visited: List[str] = []
         self.npcs_met: List[str] = []
         self.quests_completed: List[str] = []
         self.enemies_defeated: int = 0
         self.allies_gained: int = 0
-        
-        # Encounter tracking
-        self.last_encounter_turn = -10  # Allow early encounter
+
+        self.last_encounter_turn = -10
         self.encounters_in_area = 0
         self.current_area = "unknown"
-    
+
     def select_starting_point(self) -> StartingPoint:
-        """
-        Randomly select a starting point.
-        
-        Returns:
-            StartingPoint: The selected starting location
-        """
         self.starting_point = random.choice(STARTING_POINTS)
         return self.starting_point
-    
+
     def get_starting_point_by_id(self, point_id: int) -> Optional[StartingPoint]:
-        """
-        Get a specific starting point by ID.
-        
-        Args:
-            point_id: ID of the starting point (1-10)
-            
-        Returns:
-            StartingPoint or None if invalid ID
-        """
         for sp in STARTING_POINTS:
             if sp.id == point_id:
                 return sp
         return None
-    
+
     def initialize_game(self) -> Tuple[StartingPoint, int]:
-        """
-        Initialize a new game with random starting point and end turn.
-        
-        Returns:
-            Tuple of (starting_point, end_turn)
-        """
         self.starting_point = self.select_starting_point()
         self.end_turn = random.randint(self.MIN_TURNS, self.MAX_TURNS)
         self.turn_count = 0
@@ -292,12 +248,6 @@ class StoryManager:
         self.dark_artifacts_claimed = 0
 
     def increment_turn(self) -> bool:
-        """
-        Increment turn counter and check for ending.
-
-        Returns:
-            True if game should end, False otherwise
-        """
         self.turn_count += 1
 
         if self.turn_count >= self.end_turn and not self.game_ended:
@@ -305,51 +255,32 @@ class StoryManager:
             return True
 
         return False
-    
+
     def record_choice(self, choice: str, context: str = "", consequence: str = "") -> None:
-        """
-        Record a major player choice for ending generation.
-        
-        Args:
-            choice: The choice the player made
-            context: Where/when this choice was made
-            consequence: Known consequence of the choice
-        """
         self.major_choices.append({
             "turn": self.turn_count,
             "choice": choice,
             "context": context,
             "consequence": consequence
         })
-    
+
     def record_location(self, location: str) -> None:
-        """Record visiting a new location."""
         if location not in self.locations_visited:
             self.locations_visited.append(location)
-    
+
     def record_npc(self, npc_name: str, relationship: str = "neutral") -> None:
-        """Record meeting an NPC."""
         if npc_name not in self.npcs_met:
             self.npcs_met.append(npc_name)
             if relationship in ["ally", "friend", "companion"]:
                 self.allies_gained += 1
-    
+
     def record_quest_completed(self, quest_name: str) -> None:
-        """Record completing a quest."""
         self.quests_completed.append(quest_name)
-    
+
     def record_enemy_defeated(self) -> None:
-        """Record defeating an enemy."""
         self.enemies_defeated += 1
 
     def record_villainous_act(self, act: str, description: str) -> None:
-        """
-        Record a villainous action.
-
-        Args:
-            act: Type of villainous act
-            description: What the player did
-        """
         self.villainous_acts.append({
             "turn": self.turn_count,
             "act": act,
@@ -358,7 +289,6 @@ class StoryManager:
         self.villain_points += 10
 
     def record_betrayal(self, who: str) -> None:
-        """Record betraying an ally or NPC."""
         self.betrayals += 1
         self.villain_points += 25
         self.villainous_acts.append({
@@ -368,7 +298,6 @@ class StoryManager:
         })
 
     def record_innocent_harmed(self, description: str) -> None:
-        """Record harming innocents."""
         self.innocents_harmed += 1
         self.villain_points += 15
         self.villainous_acts.append({
@@ -378,7 +307,6 @@ class StoryManager:
         })
 
     def record_dark_artifact(self, artifact_name: str) -> None:
-        """Record claiming a dark/cursed artifact."""
         self.dark_artifacts_claimed += 1
         self.villain_points += 20
         self.villainous_acts.append({
@@ -388,7 +316,6 @@ class StoryManager:
         })
 
     def record_selfish_choice(self, description: str) -> None:
-        """Record a selfish choice that harms others for personal gain."""
         self.villain_points += 5
         self.villainous_acts.append({
             "turn": self.turn_count,
@@ -397,18 +324,6 @@ class StoryManager:
         })
 
     def is_villain_path(self) -> bool:
-        """
-        Check if player is on the villain path.
-
-        Secret conditions to unlock villain ending:
-        - 50+ villain points (about 5-10 villainous acts)
-        - OR 3+ betrayals
-        - OR 5+ innocents harmed
-        - OR 2+ dark artifacts claimed
-
-        Returns:
-            True if player qualifies for villain ending
-        """
         return (
             self.villain_points >= 50 or
             self.betrayals >= 3 or
@@ -417,22 +332,6 @@ class StoryManager:
         )
 
     def should_trigger_encounter(self, scene_text: str, location: str) -> Tuple[bool, str]:
-        """
-        Determine if an encounter should trigger.
-        
-        This uses a DETERMINISTIC system based on:
-        1. Explicit AI triggers (combat keywords in scene)
-        2. Minimum turns between encounters (3 turns)
-        3. Location danger level
-        4. Random chance (25% base)
-        
-        Args:
-            scene_text: The AI-generated scene text
-            location: Current location
-            
-        Returns:
-            Tuple of (should_encounter, reason)
-        """
         scene_lower = scene_text.lower()
 
         explicit_combat_keywords = [
@@ -468,20 +367,14 @@ class StoryManager:
                 break
 
         roll = random.random()
-        
+
         if roll < danger_level:
             self.last_encounter_turn = self.turn_count
             return True, f"Random encounter (roll: {roll:.2f} < {danger_level:.2f})"
-        
-        return False, f"No encounter (roll: {roll:.2f} >= {danger_level:.2f})"
-    
-    def get_ending_type(self) -> str:
-        """
-        Determine the ending type based on player actions.
 
-        Returns:
-            Ending type string
-        """
+        return False, f"No encounter (roll: {roll:.2f} >= {danger_level:.2f})"
+
+    def get_ending_type(self) -> str:
         if self.is_villain_path():
             return "villain"
 
@@ -510,12 +403,6 @@ class StoryManager:
             return "forgotten"
 
     def generate_ending_prompt(self) -> str:
-        """
-        Generate a prompt for the AI to create the ending.
-
-        Returns:
-            AI prompt for ending generation
-        """
         ending_type = self.get_ending_type()
 
         ending_descriptions = {
@@ -527,7 +414,6 @@ class StoryManager:
             "villain": "the villain of the story, feared and remembered for dark deeds"
         }
 
-        # Build choice summary
         choice_summary = ""
         if self.major_choices:
             choice_summary = "\n\nMAJOR CHOICES MADE:\n"
@@ -584,9 +470,8 @@ Write a conclusive ending to this story (150-200 words) that:
 4. Matches the ending type: {ending_type.replace('_', ' ')}
 
 End with a final epilogue-style statement about their legacy.""", stats
-    
+
     def to_dict(self) -> dict:
-        """Convert story manager state to dictionary."""
         return {
             "starting_point_id": self.starting_point.id if self.starting_point else None,
             "turn_count": self.turn_count,
@@ -607,7 +492,6 @@ End with a final epilogue-style statement about their legacy.""", stats
         }
 
     def from_dict(self, data: dict) -> None:
-        """Load story manager state from dictionary."""
         sp_id = data.get("starting_point_id")
         if sp_id:
             self.starting_point = self.get_starting_point_by_id(sp_id)
