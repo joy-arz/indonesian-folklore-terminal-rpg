@@ -1,7 +1,17 @@
 # AI Terminal RPG
 [This Readme is AI-Generated cuz I am too lazy to write this stuff]
 
-A terminal-based AI-powered text RPG where the story is generated dynamically by Cerebras AI's Llama model. Features deep character customization, turn-based combat, equipment system, shops, and an immersive Aidungeon-style narrative experience.
+A terminal-based AI-powered text RPG where the story is generated dynamically by Cerebras AI's Llama model. Set in **Indonesian folklore and historical kingdoms**, the game features deep character customization, turn-based combat, equipment system, shops, and an immersive Aidungeon-style narrative experience in **Bahasa Indonesia**.
+
+## 🎭 Educational Purpose
+
+This game is designed to **educate players about Indonesian folklore and history** through interactive storytelling. Players will experience:
+
+- **10 Historical Starting Points** - From Majapahit Empire to Sriwijaya Kingdom
+- **Indonesian Mythology** - Encounter creatures like Genderuwo, Tuyul, Kuntilanak, and Nyai Roro Kidul
+- **Cultural Heritage** - Learn about traditional weapons (keris), kingdoms, and legends
+- **Bahasa Indonesia** - Immersive narrative in Indonesian language
+- **Historical Events** - Experience pivotal moments like Perang Bubat and the rise of Islamic kingdoms
 
 ## Features
 
@@ -265,6 +275,43 @@ Visit shops to buy and sell items:
 - **Buy Prices**: Base value (with discounts at high reputation)
 - **Sell Prices**: 50% of base value
 - **Shop Gold**: Shops have limited gold for buying
+
+## 📚 Indonesian Folklore Starting Points
+
+The game features **10 unique starting points** based on Indonesian folklore and historical kingdoms. Each game randomly selects one, providing educational content about Indonesia's rich cultural heritage:
+
+| # | Starting Point | Era | Description |
+|---|----------------|-----|-------------|
+| 1 | **Kerajaan Majapahit** | 1350 M | The glorious Majapahit Empire under Patih Gajah Mada and Prabu Hayam Wuruk |
+| 2 | **Misteri Gunung Merapi** | 1400 M | Investigate mysterious green lights from the sacred volcano |
+| 3 | **Hilangnya Pusaka Kerajaan** | 1550 M | Recover stolen sacred heirlooms of Pajajaran Kingdom |
+| 4 | **Kutukan Ratu Pantai Selatan** | 1480 M | Face the curse of Nyai Roro Kidul, Queen of the Southern Sea |
+| 5 | **Perang Bubat** | 1357 M | Experience the tragic battle between Majapahit and Pajajaran |
+| 6 | **Kerajaan Sriwijaya** | 900 M | The ancient Buddhist maritime kingdom faces the Chola threat |
+| 7 | **Asal Usul Roro Jonggrang** | 900 M | The legend of the thousand temples (Prambanan) |
+| 8 | **Kerajaan Demak** | 1500 M | The rise of Islam in Java under Sunan Kalijaga |
+| 9 | **Tragedi Tanjung Pura** | 1600 M | Investigate a kingdom's mysterious disappearance |
+| 10 | **Pemberontakan Trunajaya** | 1675 M | The great rebellion against Mataram Sultanate |
+
+### Mythological Creatures & Elements
+
+Throughout your journey, you'll encounter:
+
+- **Genderuwo** - Large, hairy supernatural beings
+- **Tuyul** - Mischievous child-like spirits
+- **Kuntilanak** - Ghosts of women who died during pregnancy
+- **Nyai Roro Kidul** - The legendary Queen of the Southern Sea
+- **Pocong** - Ghosts wrapped in burial shrouds
+- **Jin and Demons** - Islamic mythological entities
+- **Dukun** - Traditional shamans with mystical powers
+
+### Historical Kingdoms Featured
+
+- **Sriwijaya** (7th-14th century) - Buddhist maritime empire
+- **Majapahit** (1293-1527) - Hindu-Buddhist golden age
+- **Pajajaran** (932-1579) - Sunda Kingdom
+- **Demak** (1475-1548) - First Islamic Sultanate in Java
+- **Mataram** (1587-1755) - Islamic Javanese kingdom
 
 ## Example Gameplay
 
