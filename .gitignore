@@ -38,5 +38,3 @@ save.json.backup
 .pytest_cache/
 .coverage
 htmlcov/
-
-DOCUMENTATION.md
