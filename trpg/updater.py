@@ -6,9 +6,12 @@ import subprocess
 import tempfile
 import shutil
 import hashlib
+import logging
 from typing import Optional, Tuple
 from urllib.request import urlopen, urlretrieve
 from urllib.error import URLError
+
+logger = logging.getLogger('Updater')
 
 GITHUB_OWNER = "joy-arz"
 GITHUB_REPO = "indonesian-folklore-terminal-rpg"
@@ -33,8 +36,8 @@ def get_latest_version() -> Optional[str]:
             tag = data.get("tag_name", "")
             if tag:
                 return tag.lstrip("v")
-    except Exception:
-        pass
+    except Exception as e:
+        logger.debug(f"Failed to get latest version from releases: {e}")
 
     try:
         tags_url = f"{GITHUB_API_URL}/tags"
@@ -44,7 +47,7 @@ def get_latest_version() -> Optional[str]:
                 tag = data[0].get("name", "")
                 return tag.lstrip("v")
     except Exception as e:
-        pass
+        logger.debug(f"Failed to get latest version from tags: {e}")
 
     return None
 
@@ -55,7 +58,13 @@ def check_for_update(silent: bool = True) -> Tuple[bool, str, str]:
 
     if not latest:
         if not silent:
-            print("  Could not check for updates (no network or repo not found)")
+            print("  Could not check for updates")
+            print("  Possible reasons:")
+            print("  1. No internet connection")
+            print("  2. GitHub repository has no releases yet")
+            print("  3. GitHub API rate limit reached")
+            print(f"\n  Current version: {current}")
+            print(f"  Repository: https://github.com/{GITHUB_OWNER}/{GITHUB_REPO}")
         return False, current, current
 
     def parse_version(v: str) -> tuple:
