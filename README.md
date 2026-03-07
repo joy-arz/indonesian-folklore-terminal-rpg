@@ -90,14 +90,14 @@ mission—one that will determine the fate of thousands.
 **macOS / Linux:**
 ```bash
 git clone https://github.com/joy-arz/indonesian-folklore-terminal-rpg.git
-cd ai-terminal-rpg
+cd indonesian-folklore-terminal-rpg
 sudo python3 install_universal.py
 ```
 
 **Windows (as Administrator):**
 ```bash
 git clone https://github.com/joy-arz/indonesian-folklore-terminal-rpg.git
-cd ai-terminal-rpg
+cd indonesian-folklore-terminal-rpg
 python install_universal.py
 ```
 
@@ -273,8 +273,6 @@ MIT License - Free for educational use. Feel free to modify and distribute.
 ---
 
 *"Those who do not remember their history are condemned to repeat it."*  
-*"Bangsa yang besar adalah bangsa yang menghargai jasa pahlawannya."*  
-— Ir. Sukarno (First President of Indonesia)
 
 ---
 
@@ -288,15 +286,15 @@ MIT License - Free for educational use. Feel free to modify and distribute.
 
 **macOS / Linux:**
 ```bash
-git clone https://github.com/pongoabelii/ai-terminal-rpg.git
-cd ai-terminal-rpg
+git clone https://github.com/joy-arz/indonesian-folklore-terminal-rpg.git
+cd indonesian-folklore-terminal-rpg
 sudo python3 install_universal.py
 ```
 
 **Windows (as Administrator):**
 ```bash
-git clone https://github.com/pongoabelii/ai-terminal-rpg.git
-cd ai-terminal-rpg
+git clone https://github.com/joy-arz/indonesian-folklore-terminal-rpg.git
+cd indonesian-folklore-terminal-rpg
 python install_universal.py
 ```
 

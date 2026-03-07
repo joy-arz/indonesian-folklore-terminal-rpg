@@ -12,15 +12,16 @@ from .player import Player
 from .ai_engine import AIEngine
 from .combat import Combat, Enemy
 
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('trpg.log'),
-        logging.StreamHandler()
-    ]
-)
+log_file = os.path.join(os.path.expanduser("~"), ".trpg.log")
+try:
+    handler = logging.FileHandler(log_file)
+except PermissionError:
+    handler = logging.StreamHandler()
+
 logger = logging.getLogger('SaveSystem')
+logger.setLevel(logging.INFO)
+if not logger.handlers:
+    logger.addHandler(handler)
 
 
 class SaveSystem:

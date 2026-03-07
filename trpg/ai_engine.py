@@ -9,27 +9,69 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('trpg.log'),
-        logging.StreamHandler()
-    ]
-)
+log_file = os.path.join(os.path.expanduser("~"), ".trpg.log")
+try:
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        handlers=[
+            logging.FileHandler(log_file),
+            logging.StreamHandler()
+        ]
+    )
+except PermissionError:
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        handlers=[logging.StreamHandler()]
+    )
 logger = logging.getLogger('AIEngine')
 
 
-def setup_api_key():
+def validate_api_key(api_key: str) -> bool:
+    try:
+        from openai import OpenAI
+        client = OpenAI(api_key=api_key, base_url=CEREBRAS_BASE_URL)
+        response = client.chat.completions.create(
+            model=MODEL_NAME,
+            messages=[{"role": "user", "content": "Test"}],
+            max_tokens=5
+        )
+        return response is not None
+    except Exception as e:
+        error_msg = str(e).lower()
+        if "authentication" in error_msg or "api key" in error_msg or "unauthorized" in error_msg or "invalid" in error_msg:
+            return False
+        return True
+
+
+def setup_api_key(max_retries: int = 3) -> str:
     api_key = os.getenv("CEREBRAS_API_KEY")
-
-    if not api_key or api_key.strip() == "":
+    
+    if api_key and api_key.strip():
         print("\n=== AI TERMINAL RPG ===")
-        print("No API key found in .env file")
-        print("\nGet your API key from: https://cloud.cerebras.ai/")
-        api_key = input("\nEnter your Cerebras API key: ").strip()
+        print("Validating saved API key...")
+        if validate_api_key(api_key):
+            print("API key validated successfully!")
+            return api_key
+        else:
+            print("Saved API key is invalid or expired.")
+    
+    print("\n=== AI TERMINAL RPG ===")
+    print("API Key Setup Required")
+    print("\nGet your FREE API key from: https://cloud.cerebras.ai/")
+    print("(No credit card required)\n")
+    
+    for attempt in range(1, max_retries + 1):
+        print(f"Attempt {attempt} of {max_retries}")
+        api_key = input("Enter your Cerebras API key: ").strip()
 
-        if api_key:
+        if not api_key:
+            print("API key cannot be empty.\n")
+            continue
+
+        print("Validating API key...")
+        if validate_api_key(api_key):
             home_env = os.path.expanduser("~/.trpg.env")
             with open(home_env, "w") as f:
                 f.write(f"CEREBRAS_API_KEY={api_key}\n")
@@ -38,14 +80,26 @@ def setup_api_key():
             with open(current_env, "w") as f:
                 f.write(f"CEREBRAS_API_KEY={api_key}\n")
 
-            print("API key saved!")
+            print("\n✓ API key saved successfully!")
+            print(f"  Saved to: {home_env}")
+            print(f"  Saved to: {current_env}\n")
+            
             os.environ["CEREBRAS_API_KEY"] = api_key
             return api_key
         else:
-            print("API key required to play")
-            sys.exit(1)
-
-    return api_key
+            print("\n✗ Invalid API key. Please check and try again.\n")
+            print("Make sure you copied the entire key from https://cloud.cerebras.ai/\n")
+    
+    print("\n" + "=" * 60)
+    print("ERROR: Unable to validate API key after", max_retries, "attempts")
+    print("=" * 60)
+    print("\nPlease:")
+    print("1. Visit https://cloud.cerebras.ai/")
+    print("2. Sign up for a free account (no credit card required)")
+    print("3. Copy your API key from the dashboard")
+    print("4. Run the game again and paste the key\n")
+    print("Or contact support if you continue to have issues.\n")
+    sys.exit(1)
 
 
 try:

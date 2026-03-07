@@ -15,7 +15,16 @@ from .ui import UI, Colors
 from .story import StoryManager
 from . import updater
 
+log_file = os.path.join(os.path.expanduser("~"), ".trpg.log")
+try:
+    handler = logging.FileHandler(log_file)
+except PermissionError:
+    handler = logging.StreamHandler()
+
 logger = logging.getLogger('Game')
+logger.setLevel(logging.INFO)
+if not logger.handlers:
+    logger.addHandler(handler)
 
 
 class Game:
