@@ -27,6 +27,9 @@ except PermissionError:
     )
 logger = logging.getLogger('AIEngine')
 
+CEREBRAS_BASE_URL = "https://api.cerebras.ai/v1"
+MODEL_NAME = "llama3.1-8b"
+
 
 def validate_api_key(api_key: str) -> bool:
     try:
@@ -111,8 +114,6 @@ except ImportError:
 
 class AIEngine:
 
-    CEREBRAS_BASE_URL = "https://api.cerebras.ai/v1"
-    MODEL_NAME = "llama3.1-8b"
     MAX_WORDS = 150
 
     SYSTEM_PROMPT = """You are a dalang (traditional Indonesian storyteller) narrating an epic educational adventure set in Indonesian folklore and history.
@@ -274,7 +275,7 @@ Before finalizing your response, verify:
     def __init__(self):
         api_key = setup_api_key()
 
-        self.client = OpenAI(api_key=api_key, base_url=self.CEREBRAS_BASE_URL)
+        self.client = OpenAI(api_key=api_key, base_url=CEREBRAS_BASE_URL)
         self.conversation_history: List[dict] = []
         self.story_history: List[str] = []
         self.location = "unknown"
@@ -297,12 +298,11 @@ Before finalizing your response, verify:
         logger.info("AIEngine reset")
 
     def _call_with_retry(self, messages: List[dict], max_retries: int = 3) -> str:
-        """Call API with exponential backoff retry logic."""
         for attempt in range(max_retries):
             try:
                 logger.debug(f"API call attempt {attempt + 1}/{max_retries}")
                 response = self.client.chat.completions.create(
-                    model=self.MODEL_NAME,
+                    model=MODEL_NAME,
                     messages=messages,
                     max_tokens=600,
                     temperature=0.85,
@@ -310,7 +310,7 @@ Before finalizing your response, verify:
                 )
                 logger.info(f"API call successful on attempt {attempt + 1}")
                 return response.choices[0].message.content
-                
+
             except Exception as e:
                 logger.warning(f"API call failed (attempt {attempt + 1}/{max_retries}): {str(e)}")
                 if attempt == max_retries - 1:
@@ -600,7 +600,7 @@ Make it visceral and cinematic. Use second person."""
             ]
 
             response = self.client.chat.completions.create(
-                model=self.MODEL_NAME,
+                model=MODEL_NAME,
                 messages=messages,
                 max_tokens=150,
                 temperature=0.7,
@@ -636,7 +636,7 @@ Also tell me the enemy type (goblin, bandit, wolf, etc.) at the end."""
             ]
 
             response = self.client.chat.completions.create(
-                model=self.MODEL_NAME,
+                model=MODEL_NAME,
                 messages=messages,
                 max_tokens=200,
                 temperature=0.8,

@@ -108,6 +108,18 @@ trpg
 
 On first run, enter your Cerebras AI API key from https://cloud.cerebras.ai/
 
+### Update
+```bash
+trpg update
+```
+
+Or manually:
+```bash
+cd indonesian-folklore-terminal-rpg
+git pull
+sudo python3 install_universal.py
+```
+
 ---
 
 ## Educational Features

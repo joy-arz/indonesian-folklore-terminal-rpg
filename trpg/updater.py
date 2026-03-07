@@ -11,7 +11,7 @@ from urllib.request import urlopen, urlretrieve
 from urllib.error import URLError
 
 GITHUB_OWNER = "joy-arz"
-GITHUB_REPO = "ai-terminal-rpg"
+GITHUB_REPO = "indonesian-folklore-terminal-rpg"
 GITHUB_API_URL = f"https://api.github.com/repos/{GITHUB_OWNER}/{GITHUB_REPO}"
 
 CURRENT_VERSION = "2.0.0"
