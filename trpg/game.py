@@ -169,6 +169,7 @@ class Game:
         return success
 
     def start_new_game(self) -> None:
+        logger.info("Starting new game...")
         self.player = Player()
         self.ai_engine = AIEngine()
         self.combat = None
@@ -182,7 +183,8 @@ class Game:
         self._session_start = time.time()
         self.save_system.delete_save()
 
-        self.story_manager.initialize_game()
+        sp, end_turn = self.story_manager.initialize_game()
+        logger.info(f"New game started: {sp.name}, end_turn={end_turn}")
 
     def display_game_state(self) -> None:
         self.ui.clear_screen()

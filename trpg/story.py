@@ -1,7 +1,10 @@
 
 import random
+import logging
 from typing import List, Dict, Tuple, Optional, Any
 from dataclasses import dataclass, field
+
+logger = logging.getLogger('StoryManager')
 
 
 @dataclass
@@ -252,12 +255,16 @@ class StoryManager:
         self.betrayals = 0
         self.innocents_harmed = 0
         self.dark_artifacts_claimed = 0
+        logger.info(f"Game initialized: end_turn={self.end_turn}, MIN={self.MIN_TURNS}, MAX={self.MAX_TURNS}")
+        return self.starting_point, self.end_turn
 
     def increment_turn(self) -> bool:
         self.turn_count += 1
+        logger.info(f"Turn {self.turn_count}/{self.end_turn}, game_ended={self.game_ended}")
 
         if self.turn_count >= self.end_turn and not self.game_ended:
             self.game_ended = True
+            logger.info(f"Game ending triggered at turn {self.turn_count}")
             return True
 
         return False
