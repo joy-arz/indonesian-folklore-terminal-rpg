@@ -57,17 +57,18 @@ The game uses AI to generate **educational narratives** that seamlessly blend:
 ### Example Opening
 
 ```
-Year 1350 CE. You stand in the alun-alun (royal square) of 
-Majapahit's capital Trowulan. Red brick temples rise around you, 
+Year 1350 CE. You stand in the alun-alun (royal square) of
+Majapahit's capital Trowulan. Red brick temples rise around you,
 their carved reliefs telling ancient tales of gods and kings.
 
-Merchants in batik sarongs trade spices from Maluku, textiles from 
-Gujarat, and porcelain from China. The air fills with gamelan music 
-from the pendopo pavilion where Patih Gajah Mada prepares to read 
-the Sumpah Palapa oath—a vow to unite all the islands under one kingdom.
+Merchants in batik sarongs trade spices from Maluku, textiles from
+Gujarat, and porcelain from China. The air fills with gamelan music
+from the pendopo pavilion where courtiers discuss the recent 
+coronation of Prabu Hayam Wuruk and Patih Gajah Mada's campaigns
+to unite the archipelago under Majapahit's banner.
 
-As a young prajurit (soldier) who has shown exceptional bravery, 
-you've been summoned to the palace. Whispers speak of an important 
+As a young prajurit (soldier) who has shown exceptional bravery,
+you've been summoned to the palace. Whispers speak of an important
 mission—one that will determine the fate of thousands.
 
 ┌─ Choices ─────────────────────────────────────────────────────┐
@@ -277,7 +278,7 @@ MIT License - Free for educational use. Feel free to modify and distribute.
 
 ---
 
-**Version:** 2.0.6 Educational Edition  
+**Version:** 2.0.8 Educational Edition  
 **Last Updated:** March 2025  
 **Language:** English with Indonesian cultural terms  
 **Recommended Age:** 13+ (Middle School to Adult)
@@ -503,6 +504,6 @@ MIT License - Free for educational use.
 
 ---
 
-**Version:** 2.0.6 Educational Edition
+**Version:** 2.0.8 Educational Edition
 **Language:** English with Indonesian cultural terms
 **Recommended Age:** 13+ (Middle School to Adult)

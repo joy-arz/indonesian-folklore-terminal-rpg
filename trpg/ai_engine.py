@@ -250,10 +250,10 @@ EDUCATIONAL INTEGRATION RULES:
 5. Include architectural and geographical details
 
 EXAMPLE (Good Educational Integration):
-"The gamelan orchestra plays a slendro scale as you approach the pendopo. 
-A Javanese courtier explains that the five-tone scale represents the five 
-elements: earth, water, fire, air, and ether. This is the same music that 
-accompanied Gajah Mada's reading of the Sumpah Palapa oath."
+"The gamelan orchestra plays a slendro scale as you approach the pendopo.
+A Javanese courtier explains that the five-tone scale represents the five
+elements: earth, water, fire, air, and ether. This is the same music that
+was played during Gajah Mada's campaigns to unite the archipelago."
 
 ================================================================================
 STRICT PROHIBITIONS:
@@ -370,7 +370,9 @@ Before finalizing your response, verify:
         player_choice: Optional[str] = None,
         combat_context: Optional[str] = None,
         shop_context: Optional[Dict[str, Any]] = None,
-        force_encounter: bool = False
+        force_encounter: bool = False,
+        is_ending_phase: bool = False,
+        turns_remaining: int = 0
     ) -> str:
         recent_history = self.story_history[-5:] if self.story_history else []
 
@@ -392,6 +394,32 @@ Before finalizing your response, verify:
         if self.quests_active:
             prompt_parts.append(f"ACTIVE QUESTS: {', '.join(self.quests_active)}")
         prompt_parts.append("")
+
+        if is_ending_phase:
+            if turns_remaining > 40:
+                prompt_parts.append(f"⚠️  ENDING PHASE (Early): {turns_remaining} turns remain.")
+                prompt_parts.append("Subtly hint at approaching destiny or fate.")
+                prompt_parts.append("Mention prophecies, omens, or whispers of change in the air.")
+                prompt_parts.append("NPCs may speak of 'the end of an era' or 'destiny approaching'.")
+                prompt_parts.append("")
+            elif turns_remaining > 20:
+                prompt_parts.append(f"⚠️  ENDING PHASE (Building): {turns_remaining} turns remain.")
+                prompt_parts.append("Build narrative tension toward the conclusion.")
+                prompt_parts.append("Unresolved plot threads should start converging.")
+                prompt_parts.append("The world feels different - change is coming.")
+                prompt_parts.append("")
+            elif turns_remaining > 5:
+                prompt_parts.append(f"⚠️  ENDING PHASE (Climax): {turns_remaining} turns remain.")
+                prompt_parts.append("The climax approaches - major events unfold.")
+                prompt_parts.append("Player's past choices echo in present events.")
+                prompt_parts.append("Final challenges or revelations emerge.")
+                prompt_parts.append("")
+            else:
+                prompt_parts.append(f"⚠️  ENDING PHASE (Final): {turns_remaining} turns remain.")
+                prompt_parts.append("The story reaches its natural conclusion.")
+                prompt_parts.append("All threads converge toward destiny.")
+                prompt_parts.append("Prepare for the final scene that concludes the journey.")
+                prompt_parts.append("")
 
         if combat_context:
             prompt_parts.append(f"COMBAT: {combat_context}")
@@ -505,14 +533,18 @@ Before finalizing your response, verify:
         player_choice: Optional[str] = None,
         combat_context: Optional[str] = None,
         shop_context: Optional[Dict[str, Any]] = None,
-        force_encounter: bool = False
+        force_encounter: bool = False,
+        is_ending_phase: bool = False,
+        turns_remaining: int = 0
     ) -> Tuple[str, List[str]]:
         prompt = self._build_prompt(
             player_context,
             player_choice,
             combat_context,
             shop_context,
-            force_encounter
+            force_encounter,
+            is_ending_phase,
+            turns_remaining
         )
 
         messages = [
@@ -526,7 +558,7 @@ Before finalizing your response, verify:
 
             if not choices or len(choices) < 3:
                 logger.warning(f"AI returned {len(choices) if choices else 0} choices instead of 3")
-            
+
             self.story_history.append(scene)
             self._extract_location(scene)
 

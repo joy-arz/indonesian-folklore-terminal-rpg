@@ -74,11 +74,13 @@ This game is designed to teach players about:
 #### Key Historical Facts
 - Kedukan Bukit Inscription (683 CE) - oldest Old Malay inscription
 - Talang Tuwo Inscription - describes Buddhist garden dedication
-- Chinese monk Yijing studied Sanskrit in Sriwijaya for 6 years
-- Declined due to Chola Empire raids (1025 CE)
+- Kota Kapur Inscription (686 CE) - mentions military expeditions
+- Chinese monk Yijing studied Sanskrit in Sriwijaya for 6 years (671-695 CE)
+- Chola Empire raid (1025 CE) - Rajendra Chola I attacked Sriwijaya
+- Gradual decline after 11th century, fell to Majapahit (14th century)
 
 #### In-Game Experience
-You'll explore Palembang's bustling port, witness Buddhist ceremonies, and protect trade routes from rival kingdoms.
+You'll explore Palembang's bustling port around 1000 CE (before the Chola raids), witness Buddhist ceremonies, and protect trade routes from rival kingdoms.
 
 ---
 
@@ -102,10 +104,22 @@ You'll explore Palembang's bustling port, witness Buddhist ceremonies, and prote
 - **Prabu Siliwangi** - Allied king of Pajajaran
 
 #### The Sumpah Palapa Oath
-Gajah Mada's famous oath to unite Nusantara (Indonesian archipelago):
-> "I will not taste spices (palapa) until I have conquered all the islands under the sky."
 
-This oath drove Majapahit's expansion across modern Indonesia, Singapore, Malaysia, and the Philippines.
+Gajah Mada's famous oath to unite Nusantara (Indonesian archipelago), recorded in the Pararaton manuscript:
+
+> "Sira Gajah Mada pepatih amungkubumi, tan ayun amuktia palapa..."
+> 
+> "Lamun huwus kalah nusantara ingsun amukti palapa, lamun kalah ring Gurun, ring Seram, Tanjung Pura, ring Haru, ring Pahang, Dompo, ring Bali, Sunda, Palembang, Tumasik, samana ingsun amukti palapa."
+
+**Translation:**
+> "I am Gajah Mada, Prime Minister. I will not enjoy worldly pleasures (palapa) until I have conquered all the islands of the archipelago. If I fail to conquer Gurun, Seram, Tanjung Pura, Haru, Pahang, Dompo, Bali, Sunda, Palembang, and Tumasik (Singapore), only then will I enjoy worldly pleasures."
+
+**Historical Context:**
+- Taken around 1334 CE, after suppressing the Kuti rebellion
+- "Palapa" refers to worldly pleasures, not just spices
+- Listed specific kingdoms to be conquered
+- Recorded in the Pararaton (Book of Kings) manuscript
+- Drove Majapahit's expansion across the archipelago
 
 #### Cultural Features
 - **Architecture:** Red brick temples (candi), pendopo pavilions
@@ -129,12 +143,13 @@ Start in Trowulan's alun-alun (royal square), witness Gajah Mada's oath, and par
 - Last Hindu kingdom in West Java
 - Known for agricultural prosperity and rice cultivation
 - Famous for the legendary King Prabu Siliwangi
-- Fell to Islamic Demak Sultanate in 1579
+- Fell to Banten Sultanate in 1579 (not Demak)
 
 #### Key Historical Figures
-- **Prabu Siliwangi** (1482-1521) - Legendary king, considered a deity
-- Known for justice, wisdom, and supernatural powers
+- **Prabu Siliwangi** (Sri Baduga Maharaja, 1482-1521) - Greatest king of Pajajaran
+- Known for justice, wisdom, and prosperity during his reign
 - Symbol of Sundanese cultural identity
+- Signed peace treaty with Demak (1512)
 
 #### Cultural Features
 - **Agriculture:** Sacred rice cultivation traditions
@@ -144,7 +159,7 @@ Start in Trowulan's alun-alun (royal square), witness Gajah Mada's oath, and par
 - **Textiles:** Batik with unique Sundanese patterns
 
 #### The Mystery of Prabu Siliwangi
-Legend says Prabu Siliwangi didn't die but transformed into a tiger (harimau) and disappeared into the forest with his loyal followers.
+Legend says Prabu Siliwangi didn't die but transformed into a tiger (harimau) and disappeared into the forest with his loyal followers when the kingdom fell.
 
 #### In-Game Experience
 Defend the kingdom's sacred pusaka, experience Sundanese rice farming traditions, and face the Islamic expansion from the north coast.
@@ -164,10 +179,11 @@ Defend the kingdom's sacred pusaka, experience Sundanese rice farming traditions
 - Marked the transition from Hindu-Buddhist to Islamic era
 
 #### Key Historical Figures
-- **Raden Patah** (1475-1518) - First Sultan, son of Majapahit king
-- **Sunan Kalijaga** - Famous wali, used wayang for Islamic teaching
-- **Sunan Kudus** - Tolerant scholar, forbade cow sacrifice to respect Hindus
+- **Raden Patah** (1475-1518) - First Sultan, established Demak
+- **Sunan Kalijaga** (1450-1513) - Famous wali, used wayang for dakwah
+- **Sunan Kudus** (Ja'far Shadiq) - Tolerant scholar, forbade cow sacrifice
 - **Sultan Trenggana** (1518-1546) - Expanded Demak's power
+- **Pati Unus** (1518-1521) - Led naval attack against Portuguese Malacca (1513)
 
 #### Cultural Synthesis
 - **Architecture:** Demak Great Mosque with tatal (wood chip) roof
@@ -205,10 +221,11 @@ Learn Islamic-Javanese synthesis, participate in dakwah through arts, and naviga
 - Split into Surakarta and Yogyakarta (1755)
 
 #### Key Historical Figures
-- **Panembahan Senopati** (1587-1601) - Founder, mystical warrior-king
-- **Sultan Agung** (1613-1645) - Greatest sultan, attacked Dutch Batavia
-- **Amangkurat I** (1645-1677) - Controversial ruler, Trunajaya rebellion
-- **Trunajaya** - Rebel prince from Madura
+- **Panembahan Senopati** (1587-1601) - Founder, established Mataram Islam
+- **Sultan Agung** (1613-1645) - Greatest sultan, attacked Dutch Batavia (1628, 1629)
+- **Amangkurat I** (1645-1677) - Controversial ruler, moved capital to Plered
+- **Amangkurat II** (1677-1703) - Allied with Dutch VOC to suppress Trunajaya
+- **Trunajaya** (1649-1680) - Rebel prince from Madura, led major rebellion (1674-1679)
 
 #### Cultural Features
 - **Architecture:** Kotagede palace, Plered ruins
@@ -600,7 +617,7 @@ For educational inquiries or historical accuracy feedback:
 
 ---
 
-**Version:** 2.0.6 Educational Edition
+**Version:** 2.0.8 Educational Edition
 **Last Updated:** March 2025
 **Language:** English with Indonesian cultural terms
 **Educational Level:** Suitable for ages 13+ (Middle School to Adult)

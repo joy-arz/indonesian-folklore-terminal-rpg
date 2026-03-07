@@ -48,6 +48,8 @@ class Game:
         self.chapter_turn_start = 0
         self.last_autosave_turn = 0
         self.autosave_interval = 5
+        self._current_scene = None
+        self._current_choices = None
         logger.info("Game initialized")
 
     def initialize(self) -> bool:
@@ -87,6 +89,7 @@ class Game:
 
                     if choice.lower() in ["n", "no", "new"]:
                         self.save_system = SaveSystem(slot=1)
+                        self.start_new_game()
                         return True
 
                     if choice.lower() in ["quit", "exit", "q"]:
@@ -202,13 +205,56 @@ class Game:
             self.ui.print_status_effects(self.player.status_effects)
 
     def handle_exploration(self) -> None:
-        player_context = self.player.get_context_for_ai()
+        # Use stored scene/choices from starting point if available
+        if self._current_scene and self._current_choices:
+            scene = self._current_scene
+            choices = self._current_choices
+            self._current_scene = None
+            self._current_choices = None
+        else:
+            player_context = self.player.get_context_for_ai()
+            is_ending = self.story_manager.is_in_ending_phase()
+            turns_left = self.story_manager.get_turns_remaining()
+            scene, choices = self.ai_engine.generate_scene(
+                player_context,
+                is_ending_phase=is_ending,
+                turns_remaining=turns_left
+            )
 
-        scene, choices = self.ai_engine.generate_scene(player_context)
+            if not choices or len(choices) < 2:
+                logger.error(f"AI returned invalid choices: {len(choices) if choices else 0}")
+                choices = ["Continue forward", "Look around", "Check inventory"]
 
-        if not choices or len(choices) < 2:
-            logger.error(f"AI returned invalid choices: {len(choices) if choices else 0}")
-            choices = ["Continue forward", "Look around", "Check inventory"]
+            # Show ending phase notification
+            if is_ending:
+                if turns_left == 50:
+                    self.ui.print_message("\n" + "=" * 60, Colors.NARRATION)
+                    self.ui.print_message("  YOUR STORY NEARS ITS CONCLUSION...", Colors.BOLD)
+                    self.ui.print_message(f"  {turns_left} turns remain before your journey ends.", Colors.NARRATION)
+                    self.ui.print_message("  Destiny approaches...", Colors.NARRATION)
+                    self.ui.print_message("=" * 60 + "\n", Colors.NARRATION)
+                    self.ui.wait_for_enter()
+                elif turns_left == 30:
+                    self.ui.print_message("\n" + "=" * 60, Colors.NARRATION)
+                    self.ui.print_message("  THE TENSION BUILDS...", Colors.BOLD)
+                    self.ui.print_message(f"  {turns_left} turns remain.", Colors.NARRATION)
+                    self.ui.print_message("  The world holds its breath for what comes next.", Colors.NARRATION)
+                    self.ui.print_message("=" * 60 + "\n", Colors.NARRATION)
+                    self.ui.wait_for_enter()
+                elif turns_left == 10:
+                    self.ui.print_message("\n" + "=" * 60, Colors.NARRATION)
+                    self.ui.print_message("  THE CLIMAX APPROACHES...", Colors.BOLD)
+                    self.ui.print_message(f"  Only {turns_left} turns remain.", Colors.NARRATION)
+                    self.ui.print_message("  Your past choices echo in the present.", Colors.NARRATION)
+                    self.ui.print_message("=" * 60 + "\n", Colors.NARRATION)
+                    self.ui.wait_for_enter()
+                elif turns_left == 3:
+                    self.ui.print_message("\n" + "=" * 60, Colors.NARRATION)
+                    self.ui.print_message("  THE FINAL MOMENTS...", Colors.BOLD)
+                    self.ui.print_message(f"  {turns_left} turns until your story concludes.", Colors.NARRATION)
+                    self.ui.print_message("  Destiny awaits.", Colors.NARRATION)
+                    self.ui.print_message("=" * 60 + "\n", Colors.NARRATION)
+                    self.ui.wait_for_enter()
 
         self.display_game_state()
         self.ui.print_scene(scene)
@@ -259,9 +305,13 @@ class Game:
                         return
 
                     player_context = self.player.get_context_for_ai()
+                    is_ending = self.story_manager.is_in_ending_phase()
+                    turns_left = self.story_manager.get_turns_remaining()
                     new_scene, new_choices = self.ai_engine.generate_scene(
                         player_context,
-                        player_choice=selected_choice
+                        player_choice=selected_choice,
+                        is_ending_phase=is_ending,
+                        turns_remaining=turns_left
                     )
 
                     if not new_choices or len(new_choices) < 2:
@@ -383,11 +433,11 @@ class Game:
         print(f"{Colors.INFO}  Your journey has reached its conclusion...{Colors.RESET}\n")
         print(f"{Colors.STATS}  Turns Survived: {self.story_manager.turn_count}{Colors.RESET}\n")
 
-        ending_prompt = self.story_manager.generate_ending_prompt()
+        ending_prompt, stats = self.story_manager.generate_ending_prompt()
 
         try:
             messages = [
-                {"role": "system", "content": "You are narrating the epic conclusion of a fantasy adventure. Be conclusive and dramatic."},
+                {"role": "system", "content": "You are narrating the epic conclusion of THIS specific adventure. Make it personal and meaningful."},
                 {"role": "user", "content": ending_prompt}
             ]
 
@@ -404,6 +454,7 @@ class Game:
             self.ui.print_message("                    THE END", Colors.BOLD)
             self.ui.print_message("=" * 60 + "\n", Colors.NARRATION)
             self.ui.print_scene(ending_text)
+            self.ui.print_message("\n" + stats, Colors.INFO)
             self.ui.print_separator()
 
         except Exception as e:
@@ -848,6 +899,37 @@ class Game:
                     self.analyze_choice_for_villainy(selected_choice, sp.initial_scene)
                     self.story_manager.increment_turn()
                     self.turn_count = self.story_manager.turn_count
+                    
+                    # Generate next scene based on starting choice
+                    player_context = self.player.get_context_for_ai()
+                    scene, choices = self.ai_engine.generate_scene(
+                        player_context,
+                        player_choice=selected_choice
+                    )
+                    
+                    if not choices or len(choices) < 2:
+                        logger.warning("AI returned invalid choices, using defaults")
+                        choices = ["Continue forward", "Look around", "Check inventory"]
+                    
+                    # Check for immediate encounters
+                    encounter_triggered, reason = self.story_manager.should_trigger_encounter(
+                        scene,
+                        self.ai_engine.location
+                    )
+                    
+                    if encounter_triggered:
+                        self.start_combat()
+                        return
+                    
+                    # Display the generated scene
+                    self._current_scene = scene
+                    self._current_choices = choices
+                    self.display_game_state()
+                    self.ui.print_scene(scene)
+                    self.ui.print_choices(choices)
+                    print(f"{Colors.INFO}  [I]nventory [E]quipment [S]tats [H]elp [Q]uit{Colors.RESET}\n")
+                    
+                    self.save_game(auto=True)
                     break
                 else:
                     self.ui.print_error(f"Please enter a number between 1 and {len(sp.choices)}")

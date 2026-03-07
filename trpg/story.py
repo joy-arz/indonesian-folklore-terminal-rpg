@@ -24,15 +24,15 @@ STARTING_POINTS = [
         id=1,
         name="Kerajaan Majapahit",
         description="The glorious Majapahit Empire at its height under Gajah Mada",
-        initial_scene="""Tahun 1350 Masehi. Kau berdiri di alun-alun Keraton Majapahit, ibu kota kerajaan terbesar di Nusantara. Di sekelilingmu, pedagang dari Cina, India, dan Arab berdagang rempah-rempah, kain, dan emas.
+        initial_scene="""Year 1350 CE. You stand in the alun-alun (royal square) of Majapahit Palace, the capital of the greatest kingdom in Nusantara. Around you, merchants from China, India, and Arabia trade spices, textiles, and gold.
 
-Patih Gajah Mada baru saja membacakan Sumpah Palapa di hadapan Prabu Hayam Wuruk. Seluruh Nusantara akan disatukan di bawah panji Majapahit.
+Patih Gajah Mada has successfully united most of the archipelago under Majapahit's banner, fulfilling his famous oath. Now, with Prabu Hayam Wuruk at the peak of power, Majapahit enters its golden age.
 
-Sebagai seorang prajurit muda yang menunjukkan keberanian luar biasa, kau dipanggil ke istana. Para pembisik berkata ada misi penting menantimu—misi yang akan menentukan nasib ribuan jiwa.""",
+As a young prajurit (soldier) who has shown exceptional bravery, you have been summoned to the palace. Whispers speak of an important mission awaiting you—a mission that will determine the fate of thousands of souls.""",
         choices=[
-            "Masuki istana dan temui Patih Gajah Mada",
-            "Jelajahi pasar dan kumpulkan informasi tentang misi ini",
-            "Kunjungi pertapaan untuk meminta restu sebelum bertugas"
+            "Enter the palace and meet Patih Gajah Mada",
+            "Explore the market and gather information about this mission",
+            "Visit the temple to seek blessings before your duty"
         ],
         starting_gold=25,
         starting_items=["keris kecil", "nasi bungkus"]
@@ -42,15 +42,15 @@ Sebagai seorang prajurit muda yang menunjukkan keberanian luar biasa, kau dipang
         id=2,
         name="Misteri Gunung Merapi",
         description="Strange omens from the sacred volcano",
-        initial_scene="""Tahun 1400 Masehi. Desa Kademangan di lereng Gunung Merapi gempar. Semalam, gunung berapi yang biasanya tenang mengeluarkan cahaya hijau misterius dari puncaknya.
+        initial_scene="""Year 1400 CE. The village of Kademangan on the slopes of Mount Merapi is in uproar. Last night, the usually calm volcano emitted mysterious green light from its peak.
 
-Para sesepuh berkata ini adalah tanda bahwa Nyai Roro Kidul, Ratu Laut Selatan, sedang murka. Beberapa penduduk desa menghilang tanpa jejak, hanya meninggalkan jejak cahaya hijau yang mengarah ke dalam hutan.
+The village elders say this is a sign that Nyai Roro Kidul, Queen of the Southern Sea, is angered. Several villagers have disappeared without a trace, leaving only trails of green light leading into the forest.
 
-Kau adalah seorang pawang muda yang baru saja menyelesaikan pelatihan. Masyarakat memandangmu untuk mengungkap misteri ini.""",
+You are a young pawang (spiritual healer) who has just completed your training. The community looks to you to uncover this mystery.""",
         choices=[
-            "Naik ke puncak Merapi untuk menyelidiki cahaya hijau",
-            "Masuk ke hutan mengikuti jejak cahaya",
-            "Temui dukun desa untuk meminta nasihat spiritual"
+            "Climb to the peak of Merapi to investigate the green light",
+            "Enter the forest following the trail of light",
+            "Meet the village dukun (shaman) for spiritual advice"
         ],
         starting_gold=15,
         starting_items=["tombak", "jamu", "kemenyan"]
@@ -60,144 +60,144 @@ Kau adalah seorang pawang muda yang baru saja menyelesaikan pelatihan. Masyaraka
         id=3,
         name="Hilangnya Pusaka Kerajaan",
         description="The sacred heirlooms of Pajajaran Kingdom have been stolen",
-        initial_scene="""Tahun 1550 Masehi. Kerajaan Pajajaran dalam keadaan darurat. Malam tadi, pencuri misterius telah menembus keraton dan mencuri dua pusaka suci: Keris Ciung Wanara dan Perisai Sakti.
+        initial_scene="""Year 1550 CE. The Pajajaran Kingdom is in emergency. Last night, mysterious thieves penetrated the palace and stole two sacred pusaka (heirlooms): the Keris Ciung Wanara and the Sacred Shield.
 
-Tanpa pusaka tersebut, kerajaan kehilangan perlindungan spiritual. Prabu Siliwangi yang bijak mulai sakit, dan para menteri saling tuduh.
+Without these heirlooms, the kingdom has lost its spiritual protection. The wise Prabu Siliwangi has fallen ill, and ministers accuse each other of treason.
 
-Kau adalah seorang mata-mata kerajaan yang baru kembali dari misi. Sang Prabu mempercayaimu untuk mengungkap pengkhianat ini.""",
+You are a royal spy who has just returned from a mission. The King trusts you to uncover this betrayal.""",
         choices=[
-            "Periksa tempat penyimpanan pusaka untuk mencari petunjuk",
-            "Wawancarai para penjaga yang bertugas malam itu",
-            "Menyamar sebagai pedagang dan cari informasi di pasar gelap"
+            "Inspect the heirloom storage for clues",
+            "Interview the guards who were on duty that night",
+            "Disguise yourself as a merchant to gather information in the black market"
         ],
         starting_gold=40,
-        starting_items=["keris", "surat kepercayaan", "uang emas"]
+        starting_items=["keris", "letter of trust", "gold coins"]
     ),
 
     StartingPoint(
         id=4,
         name="Kutukan Ratu Pantai Selatan",
         description="Fishermen report terrifying sea creatures",
-        initial_scene="""Tahun 1480 Masehi. Para nelayan di pantai selatan Jawa melaporkan hal yang mengerikan. Ikan-ikan menghilang, dan beberapa nelayan yang pulang bercerita tentang makhluk raksasa dengan sisik hijau dan mata menyala.
+        initial_scene="""Year 1480 CE. Fishermen on the southern coast of Java report terrifying sights. Fish have disappeared, and several sailors who returned speak of giant creatures with green scales and glowing eyes.
 
-Seorang nelayan tua berkata ini adalah tanda bahwa Ratu Nyai Roro Kidul sedang mengumpulkan bala tentara. Dia membutuhkan tumbal manusia untuk memperkuat kerajaannya di dasar laut.
+An old fisherman says this is a sign that Queen Nyai Roro Kidul is gathering her army. She demands human sacrifices to strengthen her kingdom beneath the sea.
 
-Kau adalah anak seorang nelayan yang hilang dalam kejadian ini. Kau bersumpah akan menemukan ayahmu, hidup atau mati.""",
+You are the child of a fisherman who disappeared in this incident. You swear to find your father, alive or dead.""",
         choices=[
-            "Berlayar ke tengah laut untuk mencari makhluk tersebut",
-            "Temui dukun pantai untuk ritual pemanggilan Ratu",
-            "Kumpulkan para nelayan untuk berlayar bersama"
+            "Sail to the open sea to search for the creatures",
+            "Meet the coastal dukun for a ritual to summon the Queen",
+            "Gather the fishermen to sail together"
         ],
         starting_gold=10,
-        starting_items=["jaring ikan", "parang", "mantra perlindungan"]
+        starting_items=["fishing net", "parang", "protective mantra"]
     ),
 
     StartingPoint(
         id=5,
         name="Perang Bubat",
         description="The tragic battle between Majapahit and Pajajaran",
-        initial_scene="""Tahun 1357 Masehi. Kau adalah seorang prajurit Pajajaran yang mengiringi Putri Dyah Pitaloka ke Bubat untuk pernikahan dengan Prabu Hayam Wuruk.
+        initial_scene="""Year 1357 CE. You are a Pajajaran soldier escorting Princess Dyah Pitaloka to Bubat for her wedding to Prabu Hayam Wuruk.
 
-Namun sesuatu yang tidak beres terjadi. Patih Gajah Mada menuntut Pajajaran tunduk pada Majapahit, bukan mengadakan pernikahan setara. Suasana tegang, dan kedua pasukan mulai bersiap untuk pertempuran.
+But something is wrong. Patih Gajah Mada demands that Pajajaran submit to Majapahit, not form an equal marriage alliance. Tension fills the air, and both armies prepare for battle.
 
-Kau berdiri di persimpangan sejarah. Pilihanmu akan menentukan nasib ribuan nyawa dan masa depan Nusantara.""",
+You stand at the crossroads of history. Your choices will determine the fate of thousands of lives and the future of Nusantara.""",
         choices=[
-            "Lindungi Putri Dyah Pitaloka dengan nyawamu",
-            "Coba bernegosiasi dengan utusan Majapahit",
-            "Siapkan pasukan untuk pertempuran yang tak terhindarkan"
+            "Protect Princess Dyah Pitaloka with your life",
+            "Attempt to negotiate with Majapahit's envoys",
+            "Prepare your troops for the inevitable battle"
         ],
         starting_gold=30,
-        starting_items=["tombak panjang", "perisai kayu", "bendera Pajajaran"]
+        starting_items=["long spear", "wooden shield", "Pajajaran banner"]
     ),
 
     StartingPoint(
         id=6,
         name="Kerajaan Sriwijaya",
         description="The ancient Buddhist kingdom faces a new threat",
-        initial_scene="""Tahun 900 Masehi. Sriwijaya, kerajaan maritim terbesar di Asia Tenggara, sedang dalam kejayaan. Kapal-kapal dagang dari seluruh dunia berlabuh di Palembang.
+        initial_scene="""Year 1000 CE. Sriwijaya, the greatest maritime kingdom in Southeast Asia, is at its peak. Trading ships from around the world dock at Palembang.
 
-Namun kabar buruk datang dari utara. Kerajaan Chola dari India mulai membangun armada perang besar. Mereka mengincar jalur perdagangan rempah-rempah yang menjadi sumber kekayaan Sriwijaya.
+But bad news comes from the north. The Chola Kingdom of India is building a massive war fleet. They covet the spice trade routes that are the source of Sriwijaya's wealth.
 
-Sebagai seorang laksamana muda, kau mendapat perintah untuk memperkuat pertahanan laut.""",
+As a young admiral, you have been ordered to strengthen the naval defenses.""",
         choices=[
-            "Kunjungi galangan kapal untuk memeriksa kekuatan armada",
-            "Temui para biksu untuk meminta restu spiritual",
-            "Kirim mata-mata ke wilayah Chola untuk intelijen"
+            "Visit the shipyard to inspect the fleet's strength",
+            "Meet the Buddhist monks to seek spiritual blessings",
+            "Send spies to Chola territory for intelligence"
         ],
         starting_gold=50,
-        starting_items=["pedang lengkung", "peta laut", "surat perintah"]
+        starting_items=["curved sword", "sea map", "order letter"]
     ),
 
     StartingPoint(
         id=7,
         name="Asal Usul Roro Jonggrang",
         description="The legend of the thousand temples",
-        initial_scene="""Tahun 900 Masehi. Pangeran Bandung Bondowoso baru saja mengalahkan Prabu Baka, raja Prambanan. Namun ada harga yang harus dibayar.
+        initial_scene="""10th Century CE. Prince Bandung Bondowoso has just defeated Prabu Baka, king of Prambanan. But there is a price to pay.
 
-Dia mencintai Putri Roro Jonggrang, putri Prabu Baka. Sang putri menolak dengan syarat: Bandung Bondowoso harus membangun seribu candi dalam satu malam.
+He loves Princess Roro Jonggrang, daughter of Prabu Baka. The princess refuses him with a condition: Bandung Bondowoso must build a thousand temples in one night.
 
-Kau adalah seorang arsitek istana yang diperintahkan membantu pembangunan ini. Tapi kau tahu ada sesuatu yang ganjil—Bandung Bondowoso memiliki kekuatan gaib.""",
+You are a court architect ordered to help with this construction. But you know something is strange—Bandung Bondowoso possesses supernatural powers.""",
         choices=[
-            "Mulai mengumpulkan bahan bangunan untuk candi",
-            "Pantau Bandung Bondowoso untuk mengungkap rahasianya",
-            "Bantu Roro Jonggrang mencari cara menggagalkan pembangunan"
+            "Begin gathering building materials for the temples",
+            "Watch Bandung Bondowoso to uncover his secret",
+            "Help Roro Jonggrang find a way to sabotage the construction"
         ],
         starting_gold=20,
-        starting_items=["pahat", "gulungan desain", "obor"]
+        starting_items=["chisel", "design scroll", "torch"]
     ),
 
     StartingPoint(
         id=8,
         name="Kerajaan Demak",
         description="The rise of Islam in Java brings new challenges",
-        initial_scene="""Tahun 1500 Masehi. Kesultanan Demak, kerajaan Islam pertama di Jawa, sedang berkembang pesat. Sunan Kalijaga dan para wali lainnya menyebarkan agama dengan bijak.
+        initial_scene="""Year 1500 CE. The Demak Sultanate, the first Islamic kingdom in Java, is flourishing. Sunan Kalijaga and the other wali (saints) spread the religion wisely.
 
-Namun kerajaan-kerajaan Hindu di pedalaman merasa terancam. Mereka membentuk aliansi rahasia untuk menyerang Demak sebelum terlalu kuat.
+But the Hindu kingdoms in the interior feel threatened. They form a secret alliance to attack Demak before it becomes too powerful.
 
-Kau adalah seorang santri yang juga ahli bela diri. Kau mendapat tugas khusus dari Sunan Kudus untuk mengungkap konspirasi ini.""",
+You are a santri (Islamic student) who is also skilled in martial arts. You have been given a special mission from Sunan Kudus to uncover this conspiracy.""",
         choices=[
-            "Menyamar sebagai pedagang dan infiltrasi aliansi",
-            "Kunjungi setiap kerajaan untuk merasakan suasana",
-            "Minta bantuan para wali dengan ritual khusus"
+            "Disguise yourself as a merchant and infiltrate the alliance",
+            "Visit each kingdom to sense the atmosphere",
+            "Ask the wali for help with a special ritual"
         ],
         starting_gold=25,
-        starting_items=["kris", "kitab suci", "jubah santri"]
+        starting_items=["kris", "holy book", "santri robe"]
     ),
 
     StartingPoint(
         id=9,
         name="Tragedi Tanjung Pura",
         description="A kingdom falls to supernatural forces",
-        initial_scene="""Tahun 1600 Masehi. Kerajaan Tanjung Pura di Kalimantan hancur dalam semalam. Tidak ada serangan musuh, tidak ada pemberontakan. Seluruh penduduk menghilang, meninggalkan kota kosong dengan makanan masih hangat di atas meja.
+        initial_scene="""Year 1600 CE. The Tanjung Pura Kingdom in Kalimantan was destroyed overnight. There was no enemy attack, no rebellion. The entire population vanished, leaving a city empty with food still warm on the tables.
 
-Para pedagang yang lewat melaporkan melihat bayangan-bayangan hitam dan mendengar tangisan di malam hari. Beberapa berkata ini adalah kutukan dari kerajaan laut.
+Passing merchants report seeing black shadows and hearing cries in the night. Some say this is a curse from a sea kingdom.
 
-Kau adalah seorang investigator kerajaan yang dikirim untuk mengungkap kebenaran.""",
+You are a royal investigator sent to uncover the truth.""",
         choices=[
-            "Masuki kota kosong dan cari petunjuk",
-            "Wawancarai pedagang yang selamat",
-            "Lakukan ritual pemanggilan arwah untuk bertanya"
+            "Enter the empty city and search for clues",
+            "Interview the merchants who survived",
+            "Perform a spirit-summoning ritual to ask the dead"
         ],
         starting_gold=35,
-        starting_items=["lentera", "kitab mantra", "tombak besi"]
+        starting_items=["lantern", "mantra book", "iron spear"]
     ),
 
     StartingPoint(
         id=10,
         name="Pemberontakan Trunajaya",
         description="The great rebellion against Mataram Sultanate",
-        initial_scene="""Tahun 1675 Masehi. Raden Trunajaya dari Madura memimpin pemberontakan besar terhadap Kesultanan Mataram. Pasukannya yang kuat, dibantu oleh bajak laut Makasar, berhasil merebut banyak wilayah.
+        initial_scene="""Year 1675 CE. Raden Trunajaya from Madura leads a major rebellion against the Mataram Sultanate. His powerful troops, aided by Makasar pirates, have captured many territories.
 
-Kau adalah seorang prajurit Mataram yang menemukan dokumen rahasia: Trunajaya memiliki sekutu gaib—seorang dukun sakti yang bisa menghidupkan arwah prajurit yang gugur.
+You are a Mataram soldier who discovers a secret document: Trunajaya has a supernatural ally—a powerful dukun who can resurrect the spirits of fallen warriors.
 
-Sultan Amangkurat I mempercayaimu untuk menghentikan ritual gelap ini.""",
+Sultan Amangkurat I trusts you to stop this dark ritual.""",
         choices=[
-            "Menyusup ke kamp Trunajaya untuk cari dukun tersebut",
-            "Kunjungi makam leluhur untuk minta perlindungan",
-            "Kumpulkan prajurit setia untuk serangan mendadak"
+            "Infiltrate Trunajaya's camp to find the dukun",
+            "Visit ancestral tombs to seek protection",
+            "Gather loyal soldiers for a surprise attack"
         ],
         starting_gold=45,
-        starting_items=["keris naga", "jimat perlindungan", "surat sultan"]
+        starting_items=["dragon keris", "protective amulet", "sultan's letter"]
     )
 ]
 
@@ -206,6 +206,7 @@ class StoryManager:
 
     MIN_TURNS = 500
     MAX_TURNS = 700
+    ENDING_PHASE_TURNS = 50
 
     def __init__(self):
         self.starting_point: Optional[StartingPoint] = None
@@ -213,6 +214,7 @@ class StoryManager:
         self.end_turn = 0
         self.game_ended = False
         self.ending_type = ""
+        self.in_ending_phase = False
 
         self.major_choices: List[Dict[str, Any]] = []
         self.locations_visited: List[str] = []
@@ -260,7 +262,26 @@ class StoryManager:
 
     def increment_turn(self) -> bool:
         self.turn_count += 1
-        logger.info(f"Turn {self.turn_count}/{self.end_turn}, game_ended={self.game_ended}")
+        logger.info(f"Turn {self.turn_count}/{self.end_turn}, game_ended={self.game_ended}, in_ending_phase={self.in_ending_phase}")
+
+        turns_remaining = self.end_turn - self.turn_count
+
+        # Phase 1: Foreshadowing (40-50 turns left) - Subtle hints
+        if turns_remaining == 50 and not self.in_ending_phase:
+            self.in_ending_phase = True
+            logger.info(f"ENDING PHASE STARTED: {self.ENDING_PHASE_TURNS} turns remaining")
+
+        # Phase 2: Building tension (20-30 turns left) - More obvious signs
+        if turns_remaining == 30:
+            logger.info("ENDING PHASE: Building tension at 30 turns remaining")
+
+        # Phase 3: Climax approaching (10 turns left) - Clear destiny calls
+        if turns_remaining == 10:
+            logger.info("ENDING PHASE: Climax approaching at 10 turns remaining")
+
+        # Phase 4: Final moments (3 turns left) - Prepare for conclusion
+        if turns_remaining == 3:
+            logger.info("ENDING PHASE: Final 3 turns - prepare conclusion")
 
         if self.turn_count >= self.end_turn and not self.game_ended:
             self.game_ended = True
@@ -268,6 +289,12 @@ class StoryManager:
             return True
 
         return False
+
+    def is_in_ending_phase(self) -> bool:
+        return self.in_ending_phase
+
+    def get_turns_remaining(self) -> int:
+        return max(0, self.end_turn - self.turn_count)
 
     def record_choice(self, choice: str, context: str = "", consequence: str = "") -> None:
         self.major_choices.append({
@@ -415,7 +442,7 @@ class StoryManager:
         else:
             return "forgotten"
 
-    def generate_ending_prompt(self) -> str:
+    def generate_ending_prompt(self) -> Tuple[str, str]:
         ending_type = self.get_ending_type()
 
         ending_descriptions = {
@@ -427,62 +454,62 @@ class StoryManager:
             "villain": "the villain of the story, feared and remembered for dark deeds"
         }
 
+        # Build journey narrative
+        journey_context = f"""
+YOUR JOURNEY BEGAN: {self.starting_point.name if self.starting_point else 'Unknown'}
+- {self.starting_point.description if self.starting_point else ''}
+
+THE PATH YOU WALKED:
+- Turns Survived: {self.turn_count}
+- Kingdoms & Locations Visited: {len(self.locations_visited)}
+- Enemies Defeated: {self.enemies_defeated}
+- Allies Made: {self.allies_gained}
+"""
+
         choice_summary = ""
         if self.major_choices:
-            choice_summary = "\n\nMAJOR CHOICES MADE:\n"
-            for i, choice in enumerate(self.major_choices[-10:], 1):
-                choice_summary += f"  {i}. Turn {choice['turn']}: {choice['choice']}\n"
+            choice_summary = "\nPIVOTAL MOMENTS:\n"
+            for i, choice in enumerate(self.major_choices[-8:], 1):
+                choice_summary += f"  {i}. {choice['choice'][:80]}...\n"
 
         villain_summary = ""
         if ending_type == "villain" and self.villainous_acts:
-            villain_summary = "\n\nVILLAINOUS ACTS:\n"
-            for act in self.villainous_acts[-10:]:
-                villain_summary += f"  • Turn {act['turn']}: {act['act']} - {act['description']}\n"
+            villain_summary = "\nDARK DEEDS:\n"
+            for act in self.villainous_acts[-8:]:
+                villain_summary += f"  • {act['description'][:60]}...\n"
 
         if ending_type == "villain":
-            stats = f"""
-FINAL STATS:
-- Turns Survived: {self.turn_count}
-- Locations Visited: {len(self.locations_visited)}
-- Enemies Defeated: {self.enemies_defeated}
-- Betrayals: {self.betrayals}
-- Innocents Harmed: {self.innocents_harmed}
-- Dark Artifacts Claimed: {self.dark_artifacts_claimed}
-- Villain Points: {self.villain_points}
-- Ending Type: THE VILLAIN
+            stats = f"""{journey_context}{choice_summary}{villain_summary}
+ENDING: THE VILLAIN'S LEGACY
 """
         else:
-            stats = f"""
-FINAL STATS:
-- Turns Survived: {self.turn_count}
-- Locations Visited: {len(self.locations_visited)}
-- Enemies Defeated: {self.enemies_defeated}
-- Allies Gained: {self.allies_gained}
-- Quests Completed: {len(self.quests_completed)}
-- Ending Type: {ending_type.replace('_', ' ').title()}
+            stats = f"""{journey_context}{choice_summary}
+ENDING: {ending_type.replace('_', ' ').title()}
 """
 
         if ending_type == "villain":
-            return f"""The adventure has reached its conclusion. The player has become {ending_descriptions[ending_type]}.{choice_summary}{villain_summary}{stats}
+            return f"""The adventure has reached its natural conclusion. Through darkness and corruption, the player has become {ending_descriptions[ending_type]}.{stats}
 
-Write a DARK and DRAMATIC ending to this story (150-200 words) that:
-1. Shows the player's transformation into a true villain
-2. Describes the terror and chaos they unleashed upon the realm
-3. Shows how their villainous choices led to this dark conclusion
-4. Makes the player feel powerful but corrupted/feared
+Write a DARK and DRAMATIC ending (150-200 words) that:
+1. SHOWS the transformation through narrative, not telling
+2. References specific dark choices from the journey above
+3. Describes the consequences unleashed upon the Indonesian kingdoms
+4. Connects back to the starting point (how far they've fallen)
 5. Ends with an ominous epilogue about their dark legacy
 
-The tone should be menacing, epic, and show that the villain has triumphed (or been sealed away, but still feared).""", stats
+Make it feel like a natural conclusion to THIS specific journey, not a generic villain ending.""", stats
 
-        return f"""The adventure has reached its conclusion. The player has become {ending_descriptions[ending_type]}.{choice_summary}{stats}
+        return f"""The adventure has reached its natural conclusion. The player has become {ending_descriptions[ending_type]}.{stats}
 
-Write a conclusive ending to this story (150-200 words) that:
-1. Reflects on the player's journey and major choices
-2. Shows the consequences of their actions
-3. Provides closure to their story
-4. Matches the ending type: {ending_type.replace('_', ' ')}
+Write a conclusive ending (150-200 words) that:
+1. REFLECTS on the specific journey described above
+2. REFERENCES 2-3 pivotal choices from their path
+3. SHOWS consequences through narrative (not just telling)
+4. CONNECTS back to where they started ({self.starting_point.name if self.starting_point else 'their beginning'})
+5. PROVIDES closure that feels earned by THIS player's actions
+6. ENDS with an epilogue about their legacy in the Indonesian kingdoms
 
-End with a final epilogue-style statement about their legacy.""", stats
+Make it feel like THE ONLY ending that could follow THIS specific journey.""", stats
 
     def to_dict(self) -> dict:
         return {
