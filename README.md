@@ -89,14 +89,14 @@ mission—one that will determine the fate of thousands.
 
 **macOS / Linux:**
 ```bash
-git clone https://github.com/pongoabelii/ai-terminal-rpg.git
+git clone https://github.com/joy-arz/indonesian-folklore-terminal-rpg.git
 cd ai-terminal-rpg
 sudo python3 install_universal.py
 ```
 
 **Windows (as Administrator):**
 ```bash
-git clone https://github.com/pongoabelii/ai-terminal-rpg.git
+git clone https://github.com/joy-arz/indonesian-folklore-terminal-rpg.git
 cd ai-terminal-rpg
 python install_universal.py
 ```
