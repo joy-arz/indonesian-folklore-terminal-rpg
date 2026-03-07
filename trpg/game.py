@@ -859,9 +859,9 @@ def main():
         elif command == "version":
             try:
                 from trpg import __version__
-                print(f"AI Terminal RPG v{__version__}")
+                print(f"Indonesian Folklore Terminal RPG v{__version__}")
             except ImportError:
-                print(f"AI Terminal RPG v{updater.CURRENT_VERSION}")
+                print(f"Indonesian Folklore Terminal RPG v{updater.CURRENT_VERSION}")
             return
 
         elif command in ["help", "-h", "--help"]:

@@ -56,7 +56,7 @@ def check_for_update(silent: bool = True) -> Tuple[bool, str, str]:
     if not latest:
         if not silent:
             print("  Could not check for updates (no network or repo not found)")
-        return False, current, "Unknown"
+        return False, current, current
 
     def parse_version(v: str) -> tuple:
         try:

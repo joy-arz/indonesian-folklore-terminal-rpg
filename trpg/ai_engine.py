@@ -139,6 +139,14 @@ MANDATORY OUTPUT FORMAT (MUST FOLLOW EXACTLY):
    2. [Different approach or exploration option]
    3. [Alternative path or social interaction]
 
+CHOICE RULES:
+- Each choice must be 15-40 words MAXIMUM
+- NO markdown formatting (no **, *, _, etc.)
+- NO extra descriptions after the choice
+- Keep choices concise and actionable
+- Example GOOD: "Follow the stream through the forest to find a clearing"
+- Example BAD: "**Follow the stream**, which winds its way through the forest, leading you to a tranquil clearing surrounded by towering trees. You hear the gentle lapping of water against the shore, and the air is filled with the sweet scent of lotus flowers."
+
 ================================================================================
 KINGDOM-SPECIFIC REQUIREMENTS:
 ================================================================================

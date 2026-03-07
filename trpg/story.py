@@ -222,6 +222,12 @@ class StoryManager:
         self.encounters_in_area = 0
         self.current_area = "unknown"
 
+        self.villain_points = 0
+        self.villainous_acts: List[Dict[str, Any]] = []
+        self.betrayals = 0
+        self.innocents_harmed = 0
+        self.dark_artifacts_claimed = 0
+
     def select_starting_point(self) -> StartingPoint:
         self.starting_point = random.choice(STARTING_POINTS)
         return self.starting_point
