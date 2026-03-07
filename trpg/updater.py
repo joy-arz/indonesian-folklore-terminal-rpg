@@ -17,7 +17,7 @@ GITHUB_OWNER = "joy-arz"
 GITHUB_REPO = "indonesian-folklore-terminal-rpg"
 GITHUB_API_URL = f"https://api.github.com/repos/{GITHUB_OWNER}/{GITHUB_REPO}"
 
-CURRENT_VERSION = "2.0.0"
+CURRENT_VERSION = "2.0.5"
 
 
 def get_current_version() -> str:
