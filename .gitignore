@@ -38,3 +38,10 @@ save.json.backup
 .pytest_cache/
 .coverage
 htmlcov/
+
+# Documentation (future redesign plans)
+complex-redesign.md
+
+# Logs
+*.log
+trpg.log

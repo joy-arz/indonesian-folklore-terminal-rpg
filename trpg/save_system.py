@@ -2,12 +2,25 @@
 import json
 import os
 import time
+import tempfile
+import gzip
+import logging
 from datetime import datetime
 from typing import Optional, Dict, Any, List
 
 from .player import Player
 from .ai_engine import AIEngine
 from .combat import Combat, Enemy
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler('trpg.log'),
+        logging.StreamHandler()
+    ]
+)
+logger = logging.getLogger('SaveSystem')
 
 
 class SaveSystem:
@@ -16,17 +29,18 @@ class SaveSystem:
     DEFAULT_SLOT = 1
     MAX_SLOTS = 3
     BACKUP_SUFFIX = ".backup"
+    COMPRESS_SUFFIX = ".gz"
 
     def __init__(self, slot: int = DEFAULT_SLOT):
         self.slot = slot
-        self.save_file = os.path.join(self.SAVE_DIR, f"save_slot_{slot}.json")
+        self.save_file = os.path.join(self.SAVE_DIR, f"save_slot_{slot}.json.gz")
         self.backup_file = self.save_file + self.BACKUP_SUFFIX
         self.save_data: Dict[str, Any] = {}
 
         os.makedirs(self.SAVE_DIR, exist_ok=True)
 
     def get_slot_file(self, slot: int) -> str:
-        return os.path.join(self.SAVE_DIR, f"save_slot_{slot}.json")
+        return os.path.join(self.SAVE_DIR, f"save_slot_{slot}.json.gz")
 
     def list_saves(self) -> List[Dict[str, Any]]:
         saves = []
@@ -96,22 +110,40 @@ class SaveSystem:
     ) -> bool:
         try:
             if os.path.exists(self.save_file):
-                with open(self.save_file, 'r') as f:
+                with gzip.open(self.save_file, 'rt', encoding='utf-8') as f:
                     content = f.read()
-                with open(self.backup_file, 'w') as f:
+                with gzip.open(self.backup_file, 'wt', encoding='utf-8') as f:
                     f.write(content)
 
             self.save_data = self.create_save_data(
                 player, ai_engine, combat, turn_count, playtime
             )
 
-            with open(self.save_file, 'w') as f:
-                json.dump(self.save_data, f, indent=2)
-
-            return True
+            temp_fd, temp_path = tempfile.mkstemp(
+                suffix='.json.tmp',
+                dir=os.path.dirname(self.save_file)
+            )
+            
+            try:
+                with os.fdopen(temp_fd, 'w') as f:
+                    json.dump(self.save_data, f, indent=2)
+                
+                with open(temp_path, 'rb') as f_in:
+                    with gzip.open(self.save_file, 'wb') as f_out:
+                        f_out.writelines(f_in)
+                
+                os.unlink(temp_path)
+                logger.info(f"Game saved (compressed) to {self.save_file}")
+                return True
+                
+            except Exception:
+                if os.path.exists(temp_path):
+                    os.unlink(temp_path)
+                logger.error(f"Failed to save game to {self.save_file}")
+                raise
 
         except Exception as e:
-            print(f"Error saving game: {e}")
+            logger.error(f"Save game error: {str(e)}", exc_info=True)
             return False
 
     def save_to_slot(self, slot: int, player: Player, ai_engine: AIEngine,
@@ -143,19 +175,22 @@ class SaveSystem:
             return None
 
         try:
-            with open(load_file, 'r') as f:
+            with gzip.open(load_file, 'rt', encoding='utf-8') as f:
                 self.save_data = json.load(f)
 
+            logger.info(f"Game loaded from {load_file}")
             return self.save_data
 
-        except json.JSONDecodeError as e:
+        except (json.JSONDecodeError, gzip.BadGzipFile) as e:
+            logger.error(f"Save file is corrupted: {e}")
             print(f"Error: Save file is corrupted: {e}")
 
             backup_file = load_file + self.BACKUP_SUFFIX
             if os.path.exists(backup_file):
                 print("Attempting to load backup save...")
+                logger.info(f"Attempting to load backup from {backup_file}")
                 try:
-                    with open(backup_file, 'r') as f:
+                    with gzip.open(backup_file, 'rt', encoding='utf-8') as f:
                         self.save_data = json.load(f)
                     return self.save_data
                 except Exception:
@@ -163,6 +198,7 @@ class SaveSystem:
 
             return None
         except Exception as e:
+            logger.error(f"Error loading save: {e}", exc_info=True)
             print(f"Error loading save: {e}")
             return None
 

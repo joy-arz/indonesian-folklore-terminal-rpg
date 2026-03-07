@@ -3,6 +3,7 @@ import sys
 import os
 import time
 import random
+import logging
 from typing import Optional
 
 from .player import Player, Item, ItemCategory, StatusEffect
@@ -13,6 +14,8 @@ from .shop import Shop, find_shop
 from .ui import UI, Colors
 from .story import StoryManager
 from . import updater
+
+logger = logging.getLogger('Game')
 
 
 class Game:
@@ -28,9 +31,15 @@ class Game:
         self.turn_count = 0
         self.playtime = 0
         self.game_over = False
+        self.game_ended = False
         self.in_combat = False
         self.in_shop = False
         self._session_start = time.time()
+        self.current_chapter = 1
+        self.chapter_turn_start = 0
+        self.last_autosave_turn = 0
+        self.autosave_interval = 5
+        logger.info("Game initialized")
 
     def initialize(self) -> bool:
         try:
@@ -137,15 +146,10 @@ class Game:
         )
 
         if success:
-            save_data = self.save_system.save_data
-            save_data["story_manager"] = self.story_manager.to_dict()
-            import json
-            with open(self.save_system.save_file, 'w') as f:
-                json.dump(save_data, f, indent=2)
-
-        if success:
             if auto:
-                pass
+                self.last_autosave_turn = self.turn_count
+                if self.turn_count % self.autosave_interval == 0:
+                    self.ui.print_message(f"  [Auto-saved at turn {self.turn_count}]", Colors.INFO)
             else:
                 slot = self.save_system.slot
                 self.ui.print_success(f"Game saved to Slot {slot}!")
@@ -190,14 +194,26 @@ class Game:
 
         scene, choices = self.ai_engine.generate_scene(player_context)
 
+        if not choices or len(choices) < 2:
+            logger.error(f"AI returned invalid choices: {len(choices) if choices else 0}")
+            choices = ["Continue forward", "Look around", "Check inventory"]
+
         self.display_game_state()
         self.ui.print_scene(scene)
         self.ui.print_choices(choices)
 
         print(f"{Colors.INFO}  [I]nventory [E]quipment [S]tats [H]elp [Q]uit{Colors.RESET}\n")
 
+        max_attempts = 3
+        attempts = 0
+
         while True:
             user_input = self.ui.get_input("Your choice: ")
+
+            if user_input.lower() in ["escape", "exit_game", "force_quit"]:
+                if self.ui.confirm("Force quit without saving?"):
+                    self.game_over = True
+                    return
 
             cmd_result = self.handle_commands(user_input)
             if cmd_result is False:
@@ -214,6 +230,7 @@ class Game:
                 choice_num = int(user_input)
                 if 1 <= choice_num <= len(choices):
                     selected_choice = choices[choice_num - 1]
+                    attempts = 0
 
                     self.story_manager.record_choice(
                         choice=selected_choice,
@@ -234,6 +251,10 @@ class Game:
                         player_context,
                         player_choice=selected_choice
                     )
+
+                    if not new_choices or len(new_choices) < 2:
+                        logger.warning("AI returned invalid choices, using defaults")
+                        new_choices = ["Continue forward", "Look around", "Check inventory"]
 
                     encounter_triggered, reason = self.story_manager.should_trigger_encounter(
                         new_scene,
@@ -264,26 +285,25 @@ class Game:
                     print(f"{Colors.INFO}  [I]nventory [E]quipment [S]tats [H]elp [Q]uit{Colors.RESET}\n")
 
                     self.save_game(auto=True)
+                    
+                    turns_in_chapter = self.turn_count - self.chapter_turn_start
+                    if turns_in_chapter >= 100:
+                        self.current_chapter += 1
+                        self.chapter_turn_start = self.turn_count
+                        self.ui.print_message(f"\n  ═══ CHAPTER {self.current_chapter} BEGINS ═══", Colors.BOLD)
+                        self.ui.wait_for_enter()
                 else:
+                    attempts += 1
                     self.ui.print_error(f"Please enter a number between 1 and {len(choices)}")
+                    if attempts >= max_attempts:
+                        self.ui.print_error("Too many invalid attempts. Type 'help' for assistance or 'quit' to save and exit.")
+                        attempts = 0
             except ValueError:
-                self.ui.print_error("Please enter a valid number or command")
-
-    def _check_for_encounter(self, scene: str, choice: str) -> bool:
-        scene_lower = scene.lower()
-
-        combat_keywords = [
-            "attacks", "lunges", "charges", "appears", "emerges",
-            "blocks your path", "stands before", "confronts",
-            "enemy", "monster", "creature", "beast", "hostile",
-            "combat", "battle", "fight begins", "draws weapon"
-        ]
-
-        for keyword in combat_keywords:
-            if keyword in scene_lower:
-                return True
-
-        return False
+                attempts += 1
+                self.ui.print_error("Please enter a valid number")
+                if attempts >= max_attempts:
+                    self.ui.print_error("Too many invalid attempts. Type 'help' for assistance or 'quit' to save and exit.")
+                    attempts = 0
 
     def _check_for_shop(self, scene: str, choice: str) -> bool:
         scene_lower = scene.lower()

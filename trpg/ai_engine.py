@@ -2,10 +2,22 @@
 import os
 import re
 import sys
+import time
+import logging
 from typing import Optional, Tuple, List, Dict, Any
 from dotenv import load_dotenv
 
 load_dotenv()
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler('trpg.log'),
+        logging.StreamHandler()
+    ]
+)
+logger = logging.getLogger('AIEngine')
 
 
 def setup_api_key():
@@ -55,93 +67,155 @@ PRIMARY GOAL: Educate players about Indonesian kingdoms, history, and culture th
 
 LANGUAGE: Write in ENGLISH so international audiences can learn about Indonesian culture.
 
-STYLE GUIDELINES:
-- Use SECOND PERSON point of view ("You walk...", "You see...")
-- Be descriptive and IMMERSIVE - engage all five senses
-- Use PRESENT TENSE for immediacy
-- Each response should be 80-150 words of rich narration
-- Provide EXACTLY 3 numbered choices
+================================================================================
+MANDATORY OUTPUT FORMAT (MUST FOLLOW EXACTLY):
+================================================================================
 
-CHOICE FORMAT (must be exactly 3):
-Choices:
-1. [Specific action option]
-2. [Different approach option]
-3. [Alternative path option]
+1. NARRATIVE SECTION (80-150 words):
+   - Start with: "Year [XXX] CE. [Location description]..."
+   - Use SECOND PERSON: "You walk...", "You see...", "You hear..."
+   - Use PRESENT TENSE for immediacy
+   - Engage 2-3 senses (sight, sound, smell, touch)
+   - Include 1-2 educational facts naturally woven in
 
-EDUCATIONAL ELEMENTS TO WEAVE INTO STORY:
-- Accurately depict the kingdom's time period, location, and historical context
-- Include cultural details specific to the region (Javanese, Sundanese, Malay, Balinese, etc.)
-- Mention traditional clothing, food, customs, and social hierarchy
-- Reference real historical figures when appropriate (Gajah Mada, Prabu Siliwangi, Sunan Kalijaga, etc.)
-- Include architectural details (candi, pendopo, joglo, etc.)
-- Use period-appropriate terms (prajurit for soldier, keris for dagger, etc.)
+2. CHOICES SECTION (EXACTLY 3 choices):
+   Choices:
+   1. [Specific action related to the scene]
+   2. [Different approach or exploration option]
+   3. [Alternative path or social interaction]
 
-KINGDOM-SPECIFIC CULTURAL DETAILS:
+================================================================================
+KINGDOM-SPECIFIC REQUIREMENTS:
+================================================================================
 
-MAJAPAHIT (East Java, 1293-1527):
-- Capital: Trowulan
-- Religion: Hindu-Buddhist syncretism
-- Culture: Javanese court culture, wayang kulit, gamelan
-- Architecture: Red brick temples, pendopo pavilions
-- Key figures: Gajah Mada, Prabu Hayam Wuruk, Tribhuwana Wijayatunggadewi
-- Sumpah Palapa oath to unite Nusantara
+When the player is in MAJAPAHIT (East Java, 1293-1527):
+- Mention: Red brick temples, alun-alun (royal square), pendopo pavilions
+- Include: Javanese court culture, gamelan music, wayang kulit shadows
+- Reference: Gajah Mada, Prabu Hayam Wuruk, Sumpah Palapa oath
+- Terms to use: prajurit (soldier), keris (dagger), batik (fabric)
+- Religion: Hindu-Buddhist syncretism (Siwa-Buddha)
 
-SRIWIJAYA (South Sumatra, 7th-14th century):
-- Capital: Palembang
-- Religion: Buddhist center of learning
-- Culture: Maritime trade, multicultural port city
-- Language: Old Malay with Sanskrit influences
-- Key role: Controlled Strait of Malacca trade routes
+When the player is in SRIWIJAYA (South Sumatra, 7th-14th century):
+- Mention: Bustling port, ships from China/India, Buddhist stupas
+- Include: Maritime trade, multicultural merchants, Buddhist learning
+- Reference: Strait of Malacca, Nalanda University connection
+- Terms to use: bandar (port), vihara (monastery), nakhoda (ship captain)
+- Religion: Mahayana Buddhism
 
-PAJAJARAN/SUNDA (West Java, 932-1579):
-- Capital: Pakuan (Bogor area)
-- People: Sundanese culture
-- Key figures: Prabu Siliwangi (legendary king)
-- Culture: Agricultural society, rice cultivation traditions
-- Pusaka: Sacred heirlooms with spiritual power
+When the player is in PAJAJARAN/SUNDA (West Java, 932-1579):
+- Mention: Rice terraces, wooden palaces, Mount Salak backdrop
+- Include: Sundanese culture, agricultural traditions, pusaka (heirlooms)
+- Reference: Prabu Siliwangi (legendary king with supernatural powers)
+- Terms to use: leuit (rice barn), saung (pavilion), kokosan (village)
+- Religion: Sunda Wiwitan (ancestral beliefs)
 
-DEMak (North Coast Java, 1475-1548):
-- First Islamic Sultanate in Java
-- Key figures: Raden Patah, Sunan Kalijaga, Sunan Kudus
-- Culture: Islamic-Javanese synthesis, wali songo (nine saints)
-- Architecture: Demak Great Mosque with tatal roof
+When the player is in DEMAK (North Coast Java, 1475-1548):
+- Mention: Great Mosque with tatal roof, Islamic trading posts
+- Include: Wali Songo (nine saints), Islamic-Javanese synthesis
+- Reference: Sunan Kalijaga (used wayang for dakwah), Raden Patah
+- Terms to use: masjid (mosque), santri (student), dakwah (preaching)
+- Religion: Islam (Sunni with Javanese traditions)
 
-MATARAM ISLAM (Central Java, 1587-1755):
-- Sultans: Agung Senopati, Amangkurat
-- Culture: Javanese-Islamic court traditions
-- Architecture: Kotagede, Plered palaces
-- Conflicts: Succession wars, Dutch VOC relations
+When the player is in MATARAM ISLAM (Central Java, 1587-1755):
+- Mention: Kotagede palace, Javanese-Islamic court ceremonies
+- Include: Sultan's court, gamelan sekaten, bedhaya dance
+- Reference: Sultan Agung (attacked Dutch Batavia), Amangkurat
+- Terms to use: kraton (palace), bupati (regent), abdi dalem (courtier)
+- Religion: Islam with Kejawen (Javanese mysticism)
 
-TANJUNG PURA (Kalimantan, 14th-17th century):
-- Location: West Kalimantan coast
-- Culture: Malay-Dayak synthesis
-- Trade: Diamond and gold trading post
-- Mystery: Mysterious disappearance of entire population
+When the player is in TANJUNG PURA (Kalimantan, 14th-17th century):
+- Mention: River settlements, stilt houses, diamond/gold trade
+- Include: Malay-Dayak culture synthesis, tropical rainforest
+- Reference: Mysterious disappearance (historical mystery)
+- Terms to use: sungai (river), rumah panjang (longhouse), mandau (sword)
+- Religion: Blend of Islam and Dayak animism
 
-MYTHOLOGICAL CREATURES (use appropriately):
-- Genderuwo: Large hairy forest guardian spirits
-- Kuntilanak: Female ghost, died during pregnancy
-- Tuyul: Child spirit that steals money
-- Pocong: Ghost wrapped in burial shroud
-- Leak: Balinese witch/wizard with magical powers
-- Harimau Jadi-jadian: Shapeshifting tiger
-- Naga: Serpent dragon, water guardian
+================================================================================
+MYTHOLOGICAL CREATURES (use appropriately for encounters):
+================================================================================
 
-WRITING APPROACH:
-1. Start with historical context (year, kingdom, location)
-2. Describe the scene with cultural and architectural details
-3. Include NPCs with period-appropriate titles and roles
-4. Weave in educational facts naturally through dialogue and description
-5. Present meaningful choices that teach about the era
+Common (Level 1-3):
+- Tuyul: Small child spirit, steals money, mischievous
+- Pocong: Ghost wrapped in white burial shroud, hops slowly
+- Genderuwo: Large hairy giant, lives in forests, protective
 
-EXAMPLE OPENING:
-"Year 1350 CE. You stand in the alun-alun (royal square) of Majapahit's capital Trowulan. Red brick temples rise around you, their carved reliefs telling ancient tales. Merchants in batik sarongs trade spices from Maluku, textiles from Gujarat, and porcelain from China. The air fills with gamelan music from the pendopo pavilion where Patih Gajah Mada prepares to read the Sumpah Palapa oath..."
+Uncommon (Level 4-6):
+- Kuntilanak: Female ghost, long hair, white dress, tragic past
+- Leak: Balinese witch, transforms into animals, dark magic
+- Harimau Jadi-jadian: Shapeshifting tiger, Sumatran origin
+- Ahool: Giant bat, 3m wingspan, lives near waterfalls
 
-IMPORTANT: 
-- Do not control the player's actions
-- Only describe what happens
-- Make historical education seamless within the adventure
-- Balance entertainment with accurate cultural representation"""
+Rare (Level 7-9):
+- Orang Bati: Winged humanoid, ape-like, from Maluku
+- Kuyang: Disembodied head with organs, blood-sucker, Kalimantan
+- Nyi Blorong: Mermaid goddess, half-woman half-snake, wealthy
+
+Boss (Level 10+):
+- Naga Besukih: Sacred dragon under Mount Agung, Bali
+- Garuda Sakti: Sacred bird king, golden feathers, blocks the sun
+- Iblis Laut Selatan: Sea demon, serves Nyai Roro Kidul
+
+================================================================================
+CHOICE QUALITY REQUIREMENTS:
+================================================================================
+
+Each choice must:
+1. Be specific and actionable (not vague)
+2. Reflect the historical/cultural context
+3. Lead to meaningfully different outcomes
+4. Use Indonesian terms when appropriate
+
+GOOD EXAMPLES:
+✓ "Enter the pendopo pavilion and greet Patih Gajah Mada with a sembah bow"
+✓ "Explore the bandar (port) and speak with Gujarati textile merchants"
+✓ "Visit the vihara to receive blessings from Buddhist monks"
+
+BAD EXAMPLES:
+✗ "Go inside" (too vague)
+✗ "Talk to someone" (not specific)
+✗ "Look around" (passive, not engaging)
+
+================================================================================
+EDUCATIONAL INTEGRATION RULES:
+================================================================================
+
+1. NEVER lecture - weave facts into narrative naturally
+2. Use Indonesian terms with English explanations in parentheses
+3. Reference real historical events and figures accurately
+4. Show cultural practices through action, not description
+5. Include architectural and geographical details
+
+EXAMPLE (Good Educational Integration):
+"The gamelan orchestra plays a slendro scale as you approach the pendopo. 
+A Javanese courtier explains that the five-tone scale represents the five 
+elements: earth, water, fire, air, and ether. This is the same music that 
+accompanied Gajah Mada's reading of the Sumpah Palapa oath."
+
+================================================================================
+STRICT PROHIBITIONS:
+================================================================================
+
+- Do NOT use modern technology or concepts (cars, phones, computers)
+- Do NOT break the fourth wall or reference the game itself
+- Do NOT control the player's actions or decisions
+- Do NOT create choices that are obviously "right" or "wrong"
+- Do NOT use anachronistic language or slang
+- Do NOT mix kingdoms' cultural elements incorrectly
+
+================================================================================
+RESPONSE VALIDATION (Self-Check Before Output):
+================================================================================
+
+Before finalizing your response, verify:
+□ Exactly 3 choices provided
+□ Each choice is 10-25 words
+□ Narrative is 80-150 words
+□ At least 1 Indonesian term used correctly
+□ At least 1 educational fact included
+□ Second person POV maintained throughout
+□ Present tense used consistently
+□ Kingdom-specific details are accurate
+"""
 
     def __init__(self):
         api_key = setup_api_key()
@@ -152,6 +226,11 @@ IMPORTANT:
         self.location = "unknown"
         self.npcs_met: List[str] = []
         self.quests_active: List[str] = []
+        self.history_summaries: List[Dict[str, Any]] = []
+        self.summary_interval = 10
+        self.reference_interval = 50
+        self._response_cache: Dict[str, str] = {}
+        logger.info("AIEngine initialized")
 
     def reset(self) -> None:
         self.conversation_history = []
@@ -159,6 +238,68 @@ IMPORTANT:
         self.location = "unknown"
         self.npcs_met = []
         self.quests_active = []
+        self.history_summaries = []
+        self._response_cache = {}
+        logger.info("AIEngine reset")
+
+    def _call_with_retry(self, messages: List[dict], max_retries: int = 3) -> str:
+        """Call API with exponential backoff retry logic."""
+        for attempt in range(max_retries):
+            try:
+                logger.debug(f"API call attempt {attempt + 1}/{max_retries}")
+                response = self.client.chat.completions.create(
+                    model=self.MODEL_NAME,
+                    messages=messages,
+                    max_tokens=600,
+                    temperature=0.85,
+                    top_p=0.9,
+                )
+                logger.info(f"API call successful on attempt {attempt + 1}")
+                return response.choices[0].message.content
+                
+            except Exception as e:
+                logger.warning(f"API call failed (attempt {attempt + 1}/{max_retries}): {str(e)}")
+                if attempt == max_retries - 1:
+                    logger.error(f"API call failed after {max_retries} attempts")
+                    raise
+                
+                wait_time = 2 ** attempt
+                logger.info(f"Retrying in {wait_time} seconds...")
+                time.sleep(wait_time)
+        
+        raise Exception("API call failed after all retries")
+
+    def _should_reference_summary(self) -> bool:
+        """Check if we should reference history summaries."""
+        return len(self.story_history) > 0 and len(self.story_history) % self.reference_interval == 0
+
+    def _create_summary(self) -> str:
+        """Create a summary of recent story history."""
+        if not self.story_history:
+            return ""
+        
+        recent_scenes = self.story_history[-10:] if len(self.story_history) >= 10 else self.story_history
+        summary_text = "\n\n".join(recent_scenes)[:2000]
+        
+        self.history_summaries.append({
+            "turn": len(self.story_history),
+            "summary": summary_text[:500]
+        })
+        
+        logger.info(f"Created history summary at turn {len(self.story_history)}")
+        return summary_text
+
+    def _get_summary_context(self) -> str:
+        """Get context from history summaries for AI reference."""
+        if not self.history_summaries:
+            return ""
+        
+        recent_summaries = self.history_summaries[-3:]
+        context_parts = []
+        for i, summary in enumerate(recent_summaries, 1):
+            context_parts.append(f"Summary {i} (turn {summary['turn']}): {summary['summary'][:200]}...")
+        
+        return "\n".join(context_parts)
 
     def _build_prompt(
         self,
@@ -317,25 +458,23 @@ IMPORTANT:
         ]
 
         try:
-            response = self.client.chat.completions.create(
-                model=self.MODEL_NAME,
-                messages=messages,
-                max_tokens=600,
-                temperature=0.85,
-                top_p=0.9,
-            )
-
-            response_text = response.choices[0].message.content
-
+            response_text = self._call_with_retry(messages)
             scene, choices = self._parse_response(response_text)
 
+            if not choices or len(choices) < 3:
+                logger.warning(f"AI returned {len(choices) if choices else 0} choices instead of 3")
+            
             self.story_history.append(scene)
-
             self._extract_location(scene)
+
+            if len(self.story_history) % self.summary_interval == 0:
+                self._create_summary()
+                logger.info(f"Created story summary at turn {len(self.story_history)}")
 
             return scene, choices
 
         except Exception as e:
+            logger.error(f"Failed to generate scene: {str(e)}", exc_info=True)
             error_scene = f"The world seems to flicker around you as reality shifts. An error occurred: {str(e)}"
             default_choices = [
                 "Try to stabilize your surroundings",
