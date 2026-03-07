@@ -140,9 +140,10 @@ MANDATORY OUTPUT FORMAT (MUST FOLLOW EXACTLY):
    3. [Alternative path or social interaction]
 
 CHOICE RULES:
-- Each choice must be 15-40 words MAXIMUM
+- Each choice must be ONE sentence ONLY (10-25 words)
 - NO markdown formatting (no **, *, _, etc.)
 - NO extra descriptions after the choice
+- NO periods after the choice number, just the text
 - Keep choices concise and actionable
 - Example GOOD: "Follow the stream through the forest to find a clearing"
 - Example BAD: "**Follow the stream**, which winds its way through the forest, leading you to a tranquil clearing surrounded by towering trees. You hear the gentle lapping of water against the shore, and the air is filled with the sweet scent of lotus flowers."

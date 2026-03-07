@@ -600,7 +600,7 @@ For educational inquiries or historical accuracy feedback:
 
 ---
 
-**Version:** 2.0.5 Educational Edition
+**Version:** 2.0.6 Educational Edition
 **Last Updated:** March 2025
 **Language:** English with Indonesian cultural terms
 **Educational Level:** Suitable for ages 13+ (Middle School to Adult)

@@ -108,6 +108,7 @@ class Game:
                 self.save_system = SaveSystem(slot=1)
                 print(f"\n{Colors.INFO}  No existing saves found. Starting new game...{Colors.RESET}\n")
                 self.ui.wait_for_enter()
+                self.start_new_game()
                 return True
 
             return True
@@ -776,8 +777,10 @@ class Game:
         if not self.initialize():
             return
 
-        if hasattr(self, 'game_ended') and not self.game_ended and self.story_manager.starting_point:
+        if not self.game_ended and self.story_manager.starting_point:
             self._show_starting_point()
+            if self.game_over:
+                return
 
         if self.in_combat:
             self.ui.print_message("  You are still in combat!", Colors.ENEMY)
@@ -828,7 +831,26 @@ class Game:
 
         self.story_manager.record_location(sp.name)
 
-        self.ui.wait_for_enter()
+        print(f"{Colors.INFO}  Choose your path (1-3):{Colors.RESET}\n")
+        
+        while True:
+            try:
+                choice = self.ui.get_input("Your choice: ")
+                choice_num = int(choice)
+                if 1 <= choice_num <= len(sp.choices):
+                    selected_choice = sp.choices[choice_num - 1]
+                    self.story_manager.record_choice(
+                        choice=selected_choice,
+                        context=sp.initial_scene[:100] + "..."
+                    )
+                    self.analyze_choice_for_villainy(selected_choice, sp.initial_scene)
+                    self.story_manager.increment_turn()
+                    self.turn_count = self.story_manager.turn_count
+                    break
+                else:
+                    self.ui.print_error(f"Please enter a number between 1 and {len(sp.choices)}")
+            except ValueError:
+                self.ui.print_error("Please enter a valid number")
 
 
 def check_update_on_startup() -> None:
