@@ -300,6 +300,12 @@ Before finalizing your response, verify:
         self.summary_interval = 10
         self.reference_interval = 50
         self._response_cache: Dict[str, str] = {}
+        
+        # Story consistency tracking
+        self.last_scene_context = ""  # What happened last turn
+        self.next_scene_hints: List[str] = []  # Hidden hints for AI's next scene
+        self.foreshadowing_turn = 0  # When to trigger foreshadowing
+        
         logger.info("AIEngine initialized")
 
     def reset(self) -> None:
@@ -310,6 +316,9 @@ Before finalizing your response, verify:
         self.quests_active = []
         self.history_summaries = []
         self._response_cache = {}
+        self.last_scene_context = ""
+        self.next_scene_hints = []
+        self.foreshadowing_turn = 0
         logger.info("AIEngine reset")
 
     def _call_with_retry(self, messages: List[dict], max_retries: int = 3) -> str:
@@ -398,6 +407,19 @@ Before finalizing your response, verify:
             prompt_parts.append("=" * 60)
             prompt_parts.append("")
 
+        # HIDDEN CONTEXT FOR AI (not shown to player)
+        if self.last_scene_context:
+            prompt_parts.append("")
+            prompt_parts.append("=" * 60)
+            prompt_parts.append("STORY CONTEXT (For AI planning - DO NOT mention directly):")
+            prompt_parts.append("=" * 60)
+            prompt_parts.append(f"Last scene context: {self.last_scene_context}")
+            if self.next_scene_hints:
+                prompt_parts.append(f"Next scene hints: {', '.join(self.next_scene_hints)}")
+                prompt_parts.append("Weave these elements naturally into the narrative.")
+            prompt_parts.append("=" * 60)
+            prompt_parts.append("")
+
         prompt_parts.append("CURRENT STATE:")
         prompt_parts.append(f"  {player_context}")
         prompt_parts.append("")
@@ -457,6 +479,7 @@ Before finalizing your response, verify:
             prompt_parts.append("Continue the story from where it left off. Describe what happens next as a DIRECT RESULT of this action.")
             prompt_parts.append("Include consequences, sensory details, and new developments.")
             prompt_parts.append("DO NOT restart the story - continue from the current scene.")
+            prompt_parts.append("MAINTAIN LOCATION CONSISTENCY - if player was indoors, they should still be indoors unless they explicitly moved.")
         else:
             # This should ONLY happen on first turn
             if self.story_history:
@@ -584,6 +607,9 @@ Before finalizing your response, verify:
 
             self.story_history.append(scene)
             self._extract_location(scene)
+            
+            # Generate next scene hints for consistency (hidden from player)
+            self._generate_next_scene_hints(scene, choices, player_choice)
 
             if len(self.story_history) % self.summary_interval == 0:
                 self._create_summary()
@@ -600,6 +626,34 @@ Before finalizing your response, verify:
                 "Call out for help"
             ]
             return error_scene, default_choices
+
+    def _generate_next_scene_hints(self, scene: str, choices: List[str], player_choice: Optional[str] = None) -> None:
+        """Generate hidden hints for the AI's next scene to maintain consistency."""
+        self.next_scene_hints = []
+        scene_lower = scene.lower()
+        
+        # Track location context
+        if "storage" in scene_lower or "room" in scene_lower or "palace" in scene_lower or "indoor" in scene_lower:
+            self.next_scene_hints.append("Player is currently indoors")
+            self.next_scene_hints.append("Any movement should be gradual (exit room → corridor → outside)")
+        elif "forest" in scene_lower or "path" in scene_lower or "clearing" in scene_lower:
+            self.next_scene_hints.append("Player is in forest/traveling")
+            self.next_scene_hints.append("Maintain the same environment unless player explicitly changes direction")
+        elif "market" in scene_lower or "shop" in scene_lower:
+            self.next_scene_hints.append("Player is in marketplace")
+            self.next_scene_hints.append("Merchants and NPCs from this scene may reappear")
+        
+        # Track plot elements
+        if "clue" in scene_lower or "investigat" in scene_lower or "mystery" in scene_lower:
+            self.next_scene_hints.append("Continue the investigation thread")
+        if "amulet" in scene_lower or "artifact" in scene_lower or "item" in scene_lower:
+            self.next_scene_hints.append("Player has interacted with an important item")
+        
+        # Foreshadowing for encounters (30% chance, 1 turn before)
+        import random
+        if random.random() < 0.3:
+            self.next_scene_hints.append("Subtle foreshadowing: strange sounds, shadows, or tension in the air")
+            self.next_scene_hints.append("Build atmosphere without direct combat yet - prepare for possible encounter next turn")
 
     def _extract_location(self, scene: str) -> None:
         location_keywords = {

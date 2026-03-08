@@ -71,7 +71,7 @@ You are a royal spy who has just returned from a mission. The King trusts you to
             "Disguise yourself as a merchant to gather information in the black market"
         ],
         starting_gold=40,
-        starting_items=["keris", "letter of trust", "gold coins"]
+        starting_items=["keris kecil", "jimat perlindungan", "emas batangan"]
     ),
 
     StartingPoint(
@@ -89,7 +89,7 @@ You are the child of a fisherman who disappeared in this incident. You swear to 
             "Gather the fishermen to sail together"
         ],
         starting_gold=10,
-        starting_items=["fishing net", "parang", "protective mantra"]
+        starting_items=["parang", "jamu", "gelang emas"]
     ),
 
     StartingPoint(
@@ -107,7 +107,7 @@ You stand at the crossroads of history. Your choices will determine the fate of 
             "Prepare your troops for the inevitable battle"
         ],
         starting_gold=30,
-        starting_items=["long spear", "wooden shield", "Pajajaran banner"]
+        starting_items=["tombak panjang", "perisai kayu", "ikat kepala"]
     ),
 
     StartingPoint(
@@ -125,7 +125,7 @@ As a young admiral, you have been ordered to strengthen the naval defenses.""",
             "Send spies to Chola territory for intelligence"
         ],
         starting_gold=50,
-        starting_items=["curved sword", "sea map", "order letter"]
+        starting_items=["pedang lengkung", "jamu", "mutiara"]
     ),
 
     StartingPoint(
@@ -143,7 +143,7 @@ You are a court architect ordered to help with this construction. But you know s
             "Help Roro Jonggrang find a way to sabotage the construction"
         ],
         starting_gold=20,
-        starting_items=["chisel", "design scroll", "torch"]
+        starting_items=["jamu", "buah-buahan", "batu akik"]
     ),
 
     StartingPoint(
@@ -161,7 +161,7 @@ You are a santri (Islamic student) who is also skilled in martial arts. You have
             "Ask the wali for help with a special ritual"
         ],
         starting_gold=25,
-        starting_items=["kris", "holy book", "santri robe"]
+        starting_items=["kris", "jubah santri", "kemenyan"]
     ),
 
     StartingPoint(
@@ -179,7 +179,7 @@ You are a royal investigator sent to uncover the truth.""",
             "Perform a spirit-summoning ritual to ask the dead"
         ],
         starting_gold=35,
-        starting_items=["lantern", "mantra book", "iron spear"]
+        starting_items=["tombak", "jamu", "minyak kelapa"]
     ),
 
     StartingPoint(
@@ -197,7 +197,7 @@ Sultan Amangkurat I trusts you to stop this dark ritual.""",
             "Gather loyal soldiers for a surprise attack"
         ],
         starting_gold=45,
-        starting_items=["dragon keris", "protective amulet", "sultan's letter"]
+        starting_items=["keris naga", "jimat perlindungan", "jamu kuat"]
     )
 ]
 

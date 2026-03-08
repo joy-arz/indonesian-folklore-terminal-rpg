@@ -885,12 +885,38 @@ class Game:
 
         self.story_manager.record_location(sp.name)
 
+        print(f"{Colors.INFO}  [I]nventory [E]quipment [S]tats [H]elp [Q]uit{Colors.RESET}\n")
         print(f"{Colors.INFO}  Choose your path (1-3):{Colors.RESET}\n")
-        
+
         while True:
+            user_input = self.ui.get_input("Your choice: ")
+            
+            # Handle commands during starting point selection
+            if user_input.lower() in ["i", "inv", "inventory"]:
+                self.ui.print_inventory_detailed(self.player)
+                self.ui.wait_for_enter()
+                continue
+            elif user_input.lower() in ["e", "equip", "equipment"]:
+                self.ui.print_equipment(self.player)
+                self.ui.wait_for_enter()
+                continue
+            elif user_input.lower() in ["s", "stats"]:
+                self.ui.print_full_stats(self.player)
+                self.ui.wait_for_enter()
+                continue
+            elif user_input.lower() in ["h", "help"]:
+                self.ui.print_help()
+                self.ui.wait_for_enter()
+                continue
+            elif user_input.lower() in ["q", "quit"]:
+                if self.ui.confirm("Save and quit?"):
+                    self.save_game()
+                    self.game_over = True
+                    return
+                continue
+            
             try:
-                choice = self.ui.get_input("Your choice: ")
-                choice_num = int(choice)
+                choice_num = int(user_input)
                 if 1 <= choice_num <= len(sp.choices):
                     selected_choice = sp.choices[choice_num - 1]
                     self.story_manager.record_choice(
