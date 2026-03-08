@@ -70,17 +70,18 @@ This game is designed to teach players about:
 - **Trade:** Spices, gold, ivory, pearls, and exotic woods
 - **Education:** Nalanda University connection, Buddhist manuscripts
 - **Government:** Mandala system with tributary states
+- **Navigation:** Advanced celestial navigation using star constellations (recorded in ancient Malay history)
 
 #### Key Historical Facts
 - Kedukan Bukit Inscription (683 CE) - oldest Old Malay inscription
-- Talang Tuwo Inscription - describes Buddhist garden dedication
+- Talang Tuwo Inscription (684 CE) - describes Buddhist garden (Taman Sriksetra) for happiness of all creatures
 - Kota Kapur Inscription (686 CE) - mentions military expeditions
 - Chinese monk Yijing studied Sanskrit in Sriwijaya for 6 years (671-695 CE)
 - Chola Empire raid (1025 CE) - Rajendra Chola I attacked Sriwijaya
 - Gradual decline after 11th century, fell to Majapahit (14th century)
 
 #### In-Game Experience
-You'll explore Palembang's bustling port around 1000 CE (before the Chola raids), witness Buddhist ceremonies, and protect trade routes from rival kingdoms.
+You'll explore Palembang's bustling port around 1000 CE (before the Chola raids), witness Buddhist ceremonies, learn celestial navigation using ancient star constellations, and protect trade routes from rival kingdoms.
 
 ---
 
@@ -105,20 +106,20 @@ You'll explore Palembang's bustling port around 1000 CE (before the Chola raids)
 
 #### The Sumpah Palapa Oath
 
-Gajah Mada's famous oath to unite Nusantara (Indonesian archipelago), recorded in the Pararaton manuscript:
+Gajah Mada's famous oath to unite Nusantara (Indonesian archipelago), recorded in the Pararaton manuscript in Old Javanese:
 
-> "Sira Gajah Mada pepatih amungkubumi, tan ayun amuktia palapa..."
-> 
-> "Lamun huwus kalah nusantara ingsun amukti palapa, lamun kalah ring Gurun, ring Seram, Tanjung Pura, ring Haru, ring Pahang, Dompo, ring Bali, Sunda, Palembang, Tumasik, samana ingsun amukti palapa."
+> "Lamun huwus kalah Nusantara isun amukti palapa, lamun kalah ring Gurun, ring Seran, Tanjung Pura, ring Haru, ring Pahang, Dompo, ring Bali, Sunda, Palembang, Tumasik, samana isun amukti palapa."
 
 **Translation:**
-> "I am Gajah Mada, Prime Minister. I will not enjoy worldly pleasures (palapa) until I have conquered all the islands of the archipelago. If I fail to conquer Gurun, Seram, Tanjung Pura, Haru, Pahang, Dompo, Bali, Sunda, Palembang, and Tumasik (Singapore), only then will I enjoy worldly pleasures."
+> "If I have conquered the Nusantara archipelago, only then will I break my fast (rest). If I conquer Gurun, Seram, Tanjung Pura, Haru, Pahang, Dompo, Bali, Sunda, Palembang, Tumasik, only then will I break my fast."
 
 **Historical Context:**
 - Taken around 1334 CE, after suppressing the Kuti rebellion
-- "Palapa" refers to worldly pleasures, not just spices
+- "Palapa" refers to fasting/rest, not just spices
 - Listed specific kingdoms to be conquered
 - Recorded in the Pararaton (Book of Kings) manuscript
+- Purpose: Integrate various kingdoms into one union for Majapahit's glory
+- Influence: Majapahit's influence reached Tumasik (Singapore), Malay Peninsula, and possibly Sulu and Maguindanao (Southern Philippines), though claiming the entire modern Philippines is debated among historians
 - Drove Majapahit's expansion across the archipelago
 
 #### Cultural Features
@@ -137,32 +138,41 @@ Start in Trowulan's alun-alun (royal square), witness Gajah Mada's oath, and par
 
 **Location:** Pakuan (modern Bogor), West Java
 **People:** Sundanese
-**Religion:** Hindu (Sunda Wiwitan)
+**Religion:** Sunda Wiwitan (ancestral beliefs) with Hindu-Buddhist syncretism
 
 #### Historical Significance
-- Last Hindu kingdom in West Java
+- Last Sundanese kingdom in West Java with Hindu-Buddhist influences
 - Known for agricultural prosperity and rice cultivation
-- Famous for the legendary King Prabu Siliwangi
+- Famous for the legendary King Prabu Siliwangi (Sri Baduga Maharaja)
 - Fell to Banten Sultanate in 1579 (not Demak)
 
 #### Key Historical Figures
-- **Prabu Siliwangi** (Sri Baduga Maharaja, 1482-1521) - Greatest king of Pajajaran
-- Known for justice, wisdom, and prosperity during his reign
-- Symbol of Sundanese cultural identity
-- Signed peace treaty with Demak (1512)
+- **Sri Baduga Maharaja / Prabu Siliwangi** (1482-1521) - Greatest king of Pajajaran
+  - Real name: Jaya Dewata
+  - Also known as: Prabu Dewataprana
+  - "Siliwangi" means "successor to the fragrant king"
+  - Known for justice, wisdom, and prosperity during his reign
+  - Symbol of Sundanese cultural identity
+  - Signed peace treaty with Demak (1512)
+  - Mythology: Considered semi-mythical, symbolizing peak glory and supernatural powers
+  - Legend: Disappeared mysteriously (moksa) at Mount Salak, transformed into tiger (maung) in Sancang forest
 
 #### Cultural Features
+- **Religion:** Sunda Wiwitan (ancestor/nature worship) syncretized with Hindu-Buddhism
 - **Agriculture:** Sacred rice cultivation traditions
 - **Pusaka:** Sacred heirlooms with spiritual power (Keris Ciung Wanara)
 - **Architecture:** Wooden palaces, fortified compounds
 - **Martial Arts:** Pencak Silat traditions
 - **Textiles:** Batik with unique Sundanese patterns
+- **Dance:** Traditional dances (note: Jaipongan is modern 1960s, historically accurate would be Tari Kursus or Ronggeng)
 
-#### The Mystery of Prabu Siliwangi
-Legend says Prabu Siliwangi didn't die but transformed into a tiger (harimau) and disappeared into the forest with his loyal followers when the kingdom fell.
+#### The Fall of Pajajaran (1579)
+- Conquered by Banten Sultanate led by Maulana Yusuf
+- Marked by removal of Palangka Sriman Sriwacana (throne stone) to Banten
+- Main factors: Weakening after Sri Baduga Maharaja, internal conflicts, pressure from Islamic Banten and Cirebon
 
 #### In-Game Experience
-Defend the kingdom's sacred pusaka, experience Sundanese rice farming traditions, and face the Islamic expansion from the north coast.
+Defend the kingdom's sacred pusaka, experience Sundanese rice farming traditions, and face the Islamic expansion from Banten and Cirebon.
 
 ---
 
@@ -181,7 +191,7 @@ Defend the kingdom's sacred pusaka, experience Sundanese rice farming traditions
 #### Key Historical Figures
 - **Raden Patah** (1475-1518) - First Sultan, established Demak
 - **Sunan Kalijaga** (1450-1513) - Famous wali, used wayang for dakwah
-- **Sunan Kudus** (Ja'far Shadiq) - Tolerant scholar, forbade cow sacrifice
+- **Sunan Kudus** (Ja'far Shadiq) - Tolerant scholar, forbade cow sacrifice to respect Hindus (used buffalo meat in Soto Kudus instead)
 - **Sultan Trenggana** (1518-1546) - Expanded Demak's power
 - **Pati Unus** (1518-1521) - Led naval attack against Portuguese Malacca (1513)
 
@@ -190,6 +200,7 @@ Defend the kingdom's sacred pusaka, experience Sundanese rice farming traditions
 - **Arts:** Wayang kulit adapted for Islamic stories
 - **Education:** Pesantren (Islamic boarding schools)
 - **Philosophy:** Javanese-Islamic mystical synthesis (Kejawen)
+- **Cuisine:** Soto Kudus with buffalo meat (not beef, as a sign of respect for Hindus)
 
 #### The Wali Songo (Nine Saints)
 Nine Islamic scholars who spread Islam through cultural adaptation:
@@ -230,9 +241,11 @@ Learn Islamic-Javanese synthesis, participate in dakwah through arts, and naviga
 #### Cultural Features
 - **Architecture:** Kotagede palace, Plered ruins
 - **Calendar:** Javanese calendar (Saka) reformed by Sultan Agung
-- **Arts:** Court gamelan, bedhaya dance, wayang wong
+- **Arts:** Court gamelan, gamelan sekaten, bedhaya dance, wayang wong
 - **Literature:** Babad (chronicles), serat (moral teachings)
-- **Religion:** Kejawen (Javanese mysticism)
+- **Religion:** Islam with Kejawen (Javanese mysticism)
+- **Textiles:** Batik with royal restrictions - Batik Parang motif was "Larangan" (forbidden for commoners, only royal family could wear)
+- **Social Structure:** Complex court hierarchy with strict protocols
 
 #### Sultan Agung's Legacy
 - United most of Java except Banten and Batavia (Dutch)
@@ -241,7 +254,7 @@ Learn Islamic-Javanese synthesis, participate in dakwah through arts, and naviga
 - Led two attacks on Dutch Batavia (1628, 1629)
 
 #### In-Game Experience
-Navigate court intrigue, face the Dutch VOC threat, and experience the height of Javanese-Islamic civilization.
+Navigate court intrigue with social stealth mechanics - wear the correct batik motif (Parang for royalty, common motifs for others) to avoid suspicion. Participate in Javanese-Islamic court ceremonies and face the Dutch VOC threat.
 
 ---
 
@@ -249,25 +262,26 @@ Navigate court intrigue, face the Dutch VOC threat, and experience the height of
 
 **Location:** West Kalimantan (Borneo) coast
 **Culture:** Malay-Dayak synthesis
-**Trade:** Diamonds, gold, forest products
+**Trade:** Diamonds (Martapura), gold, forest products
 
 #### Historical Significance
-- Mysterious kingdom that disappeared overnight
+- One of the oldest kingdoms in Kalimantan
+- Close relationship with Majapahit (recorded in Negarakertagama as Bakulapura)
 - Represents the Malay-Dayak cultural fusion
-- Important diamond and gold trading post
+- Important diamond (Martapura) and gold trading post
 - Subject of local legends and mysteries
 
 #### The Mystery
-Historical records and local legends tell of an entire kingdom that vanished in a single night. Archaeological evidence suggests a prosperous trading port that was suddenly abandoned around 1700 CE.
+Historical records and local legends tell of an entire kingdom that vanished overnight. Archaeological evidence suggests a prosperous trading port that was suddenly abandoned around 1700 CE.
 
 #### Cultural Features
-- **Trade:** Diamonds from Meratus Mountains, gold, exotic woods
+- **Trade:** Martapura diamonds (famous throughout the archipelago), gold, exotic woods
 - **Culture:** Blend of Malay Islamic and Dayak animist traditions
 - **Architecture:** Stilt houses, river-based settlements
 - **Crafts:** Diamond cutting, gold smithing, beadwork
 
 #### In-Game Experience
-Investigate the mysterious disappearance, explore diamond mines, and uncover the truth behind one of Indonesia's greatest historical mysteries.
+Investigate the mysterious disappearance, explore diamond mines, trade Martapura diamonds, and uncover the truth behind one of Indonesia's greatest historical mysteries.
 
 ---
 
@@ -617,7 +631,7 @@ For educational inquiries or historical accuracy feedback:
 
 ---
 
-**Version:** 2.0.8 Educational Edition
+**Version:** 2.1.0 Educational Edition
 **Last Updated:** March 2025
 **Language:** English with Indonesian cultural terms
 **Educational Level:** Suitable for ages 13+ (Middle School to Adult)

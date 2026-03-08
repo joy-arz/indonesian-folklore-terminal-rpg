@@ -278,6 +278,7 @@ class Game:
                 self.game_over = True
                 return
             if cmd_result is True:
+                # Command was handled (inventory, equipment, etc.), redisplay same scene
                 self.display_game_state()
                 self.ui.print_scene(scene)
                 self.ui.print_choices(choices)

@@ -11,17 +11,23 @@ load_dotenv()
 
 log_file = os.path.join(os.path.expanduser("~"), ".trpg.log")
 try:
+    file_handler = logging.FileHandler(log_file)
+    file_handler.setLevel(logging.INFO)
+    
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(logging.ERROR)
+    
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    file_handler.setFormatter(formatter)
+    console_handler.setFormatter(formatter)
+    
     logging.basicConfig(
         level=logging.INFO,
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-        handlers=[
-            logging.FileHandler(log_file),
-            logging.StreamHandler()
-        ]
+        handlers=[file_handler, console_handler]
     )
 except PermissionError:
     logging.basicConfig(
-        level=logging.INFO,
+        level=logging.ERROR,
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
         handlers=[logging.StreamHandler()]
     )
@@ -374,14 +380,22 @@ Before finalizing your response, verify:
         is_ending_phase: bool = False,
         turns_remaining: int = 0
     ) -> str:
-        recent_history = self.story_history[-5:] if self.story_history else []
+        # Use last 50 scenes for excellent long-term memory
+        recent_history = self.story_history[-50:] if self.story_history else []
 
         prompt_parts = []
 
+        # ALWAYS include story history for continuity
         if recent_history:
-            prompt_parts.append("STORY SO FAR:")
+            prompt_parts.append("=" * 60)
+            prompt_parts.append("PREVIOUS STORY (IMPORTANT - Continue from here):")
+            prompt_parts.append("=" * 60)
             for i, scene in enumerate(recent_history, 1):
-                prompt_parts.append(f"  {i}. {scene}")
+                prompt_parts.append(f"\n[Scene {i}]: {scene}")
+            prompt_parts.append("")
+            prompt_parts.append("=" * 60)
+            prompt_parts.append(f"CONTINUE THE STORY from Scene {len(recent_history)} where it left off above.")
+            prompt_parts.append("=" * 60)
             prompt_parts.append("")
 
         prompt_parts.append("CURRENT STATE:")
@@ -438,15 +452,24 @@ Before finalizing your response, verify:
             prompt_parts.append("")
 
         if player_choice:
-            prompt_parts.append(f"YOU CHOOSE: {player_choice}")
+            prompt_parts.append(f"PLAYER'S LAST ACTION: {player_choice}")
             prompt_parts.append("")
-            prompt_parts.append("Continue the story based on this choice. Describe what happens next.")
+            prompt_parts.append("Continue the story from where it left off. Describe what happens next as a DIRECT RESULT of this action.")
             prompt_parts.append("Include consequences, sensory details, and new developments.")
+            prompt_parts.append("DO NOT restart the story - continue from the current scene.")
         else:
-            prompt_parts.append("BEGIN ADVENTURE:")
-            prompt_parts.append("Start the fantasy adventure. Introduce the player to the world.")
-            prompt_parts.append("Describe their surroundings vividly and present 3 initial choices.")
-            prompt_parts.append("Make the opening engaging and atmospheric.")
+            # This should ONLY happen on first turn
+            if self.story_history:
+                # We have history but no choice - player probably used a command
+                prompt_parts.append("CONTINUE FROM LAST SCENE:")
+                prompt_parts.append("The player is continuing their adventure. Continue the story from the exact point where it left off.")
+                prompt_parts.append("Present 3 new choices for what to do next.")
+            else:
+                # Truly first turn
+                prompt_parts.append("BEGIN ADVENTURE:")
+                prompt_parts.append("Start the fantasy adventure. Introduce the player to the world.")
+                prompt_parts.append("Describe their surroundings vividly and present 3 initial choices.")
+                prompt_parts.append("Make the opening engaging and atmospheric.")
 
         return "\n".join(prompt_parts)
 
@@ -657,7 +680,7 @@ Make it visceral and cinematic. Use second person."""
         player_context: str,
         location: str = "unknown"
     ) -> Tuple[str, str]:
-        prompt = f"""Generate an enemy encounter.
+        prompt = f"""Generate an enemy encounter with an Indonesian mythological creature.
 
 Location: {location}
 {player_context}
@@ -668,7 +691,9 @@ Describe:
 3. The enemy's aggressive intent
 
 Keep it under 80 words. End with the enemy ready to fight.
-Also tell me the enemy type (goblin, bandit, wolf, etc.) at the end."""
+At the very end, on a separate line, write: ENEMY_TYPE: [creature name]
+
+Use Indonesian creatures like: genderuwo, kuntilanak, tuyul, pocong, leak, harimau jadi-jadian, ahool, orang bati, kuyang, nyi blorong, naga, garuda, or similar mythological beings."""
 
         try:
             messages = [
@@ -685,19 +710,27 @@ Also tell me the enemy type (goblin, bandit, wolf, etc.) at the end."""
 
             text = response.choices[0].message.content.strip()
 
+            # First try to extract from ENEMY_TYPE: line
             enemy_hint = "enemy"
-            enemy_types = ["genderuwo", "kuntilanak", "tuyul", "pocong", "ahool", "orang bati",
-                          "naga", "suku mante", "kuda sembrani", "kuyang", "nyi blorong",
-                          "leak", "harimau", "raksasa", "dukun", "ular", "prajurit", 
-                          "bajak laut", "arwah", "iblis", "garuda", "goblin", "bandit", 
-                          "wolf", "skeleton", "orc", "mage", "spider", "troll", "rat", 
-                          "ogre", "wraith", "dragon"]
+            enemy_type_match = re.search(r'ENEMY_TYPE:\s*(.+?)(?:\n|$)', text, re.IGNORECASE)
+            if enemy_type_match:
+                enemy_hint = enemy_type_match.group(1).strip()
+                # Remove the ENEMY_TYPE line from the text
+                text = re.sub(r'\n?\s*ENEMY_TYPE:\s*.+?(\n|$)', '', text, flags=re.IGNORECASE).strip()
+            else:
+                # Fallback to keyword search
+                enemy_types = ["genderuwo", "kuntilanak", "tuyul", "pocong", "ahool", "orang bati",
+                              "naga", "suku mante", "kuda sembrani", "kuyang", "nyi blorong",
+                              "leak", "harimau", "raksasa", "dukun", "ular", "prajurit",
+                              "bajak laut", "arwah", "iblis", "garuda", "goblin", "bandit",
+                              "wolf", "skeleton", "orc", "mage", "spider", "troll", "rat",
+                              "ogre", "wraith", "dragon"]
 
-            text_lower = text.lower()
-            for enemy_type in enemy_types:
-                if enemy_type in text_lower:
-                    enemy_hint = enemy_type
-                    break
+                text_lower = text.lower()
+                for enemy_type in enemy_types:
+                    if enemy_type in text_lower:
+                        enemy_hint = enemy_type
+                        break
 
             return text, enemy_hint
 
