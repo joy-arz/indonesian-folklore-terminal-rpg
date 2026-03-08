@@ -129,22 +129,18 @@ PRIMARY GOAL: Educate players about Indonesian kingdoms, history, and culture th
 
 LANGUAGE: Write in ENGLISH so international audiences can learn about Indonesian culture.
 
-================================================================================
-MANDATORY OUTPUT FORMAT (MUST FOLLOW EXACTLY):
-================================================================================
+FORMAT RULES:
+- Output ONLY the story narrative (80-150 words)
+- Output EXACTLY 3 numbered choices at the end
+- DO NOT include section headers like "NARRATIVE SECTION" or "CHOICES SECTION"
+- DO NOT include any markdown formatting in the output
+- Just the story text, then the 3 choices
 
-1. NARRATIVE SECTION (80-150 words):
-   - Start with: "Year [XXX] CE. [Location description]..."
-   - Use SECOND PERSON: "You walk...", "You see...", "You hear..."
-   - Use PRESENT TENSE for immediacy
-   - Engage 2-3 senses (sight, sound, smell, touch)
-   - Include 1-2 educational facts naturally woven in
-
-2. CHOICES SECTION (EXACTLY 3 choices):
-   Choices:
-   1. [Specific action related to the scene]
-   2. [Different approach or exploration option]
-   3. [Alternative path or social interaction]
+CHOICE FORMAT (must be exactly 3):
+Choices:
+1. [Specific action related to the scene]
+2. [Different approach or exploration option]
+3. [Alternative path or social interaction]
 
 CHOICE RULES:
 - Each choice must be ONE sentence ONLY (10-25 words)
@@ -404,7 +400,7 @@ Before finalizing your response, verify:
                 prompt_parts.append(f"\n[Scene {i}]: {scene}")
             prompt_parts.append("")
             prompt_parts.append("=" * 60)
-            prompt_parts.append(f"CONTINUE THE STORY from Scene {len(recent_history)} where it left off above.")
+            prompt_parts.append(f"CRITICAL: CONTINUE from Scene {len(recent_history)}. DO NOT restart the story. DO NOT teleport to a new location. Stay in the current scene unless the player explicitly travels.")
             prompt_parts.append("=" * 60)
             prompt_parts.append("")
 

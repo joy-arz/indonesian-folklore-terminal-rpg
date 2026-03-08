@@ -41,6 +41,7 @@ htmlcov/
 
 # Documentation (future redesign plans)
 complex-redesign.md
+AI.md
 
 # Logs
 *.log
