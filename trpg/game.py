@@ -5,6 +5,7 @@ import time
 import random
 import logging
 from typing import Optional
+from enum import Enum
 
 from .player import Player, Item, ItemCategory, StatusEffect
 from .ai_engine import AIEngine
@@ -14,6 +15,14 @@ from .shop import Shop, find_shop
 from .ui import UI, Colors
 from .story import StoryManager
 from . import updater
+
+
+class GameState(Enum):
+    EXPLORATION = "exploration"
+    COMBAT = "combat"
+    SHOP = "shop"
+    EQUIPMENT = "equipment"
+    GAME_OVER = "game_over"
 
 log_file = os.path.join(os.path.expanduser("~"), ".trpg.log")
 try:
@@ -50,6 +59,7 @@ class Game:
         self.autosave_interval = 5
         self._current_scene = None
         self._current_choices = None
+        self.state = GameState.EXPLORATION
         logger.info("Game initialized")
 
     def initialize(self) -> bool:
@@ -477,6 +487,7 @@ class Game:
     def start_combat(self) -> None:
         self.in_combat = True
         self.in_shop = False
+        self.state = GameState.COMBAT
 
         enemy = Enemy.create_random(self.player.level)
         self.combat = Combat(self.player, enemy)
@@ -484,9 +495,10 @@ class Game:
         self.ui.clear_screen()
         self.ui.print_header()
 
-        encounter_text, enemy_hint = self.ai_engine.generate_encounter(
+        encounter_text, _ = self.ai_engine.generate_encounter(
             self.player.get_context_for_ai(),
-            self.ai_engine.location
+            self.ai_engine.location,
+            enemy.name
         )
 
         self.ui.print_message(f"\n{encounter_text}\n", Colors.ENEMY)
@@ -577,6 +589,7 @@ class Game:
 
                 self.in_combat = False
                 self.combat = None
+                self.state = GameState.EXPLORATION
                 self.ui.wait_for_enter()
                 return
 
@@ -590,6 +603,7 @@ class Game:
                 self.ui.print_warning("You escaped from combat!")
                 self.in_combat = False
                 self.combat = None
+                self.state = GameState.EXPLORATION
                 self.ui.wait_for_enter()
                 return
 
@@ -612,6 +626,7 @@ class Game:
     def start_shop(self) -> None:
         self.in_shop = True
         self.in_combat = False
+        self.state = GameState.SHOP
 
         self.shop = find_shop(self.player.level)
 
@@ -635,6 +650,7 @@ class Game:
             elif action in ["l", "leave", "exit", "q"]:
                 self.in_shop = False
                 self.shop = None
+                self.state = GameState.EXPLORATION
                 return
             elif action in ["i", "inv", "inventory"]:
                 self.ui.print_inventory_detailed(self.player)
@@ -836,14 +852,14 @@ class Game:
             if self.game_over:
                 return
 
-        if self.in_combat:
+        if self.state == GameState.COMBAT:
             self.ui.print_message("  You are still in combat!", Colors.ENEMY)
             self.ui.wait_for_enter()
 
         while not self.game_over and self.player.is_alive():
-            if self.in_combat:
+            if self.state == GameState.COMBAT:
                 self.handle_combat()
-            elif self.in_shop:
+            elif self.state == GameState.SHOP:
                 self.handle_shop()
             else:
                 self.handle_exploration()

@@ -291,6 +291,7 @@ Before finalizing your response, verify:
         self.conversation_history: List[dict] = []
         self.story_history: List[str] = []
         self.location = "unknown"
+        self.location_type = "unknown"
         self.npcs_met: List[str] = []
         self.quests_active: List[str] = []
         self.history_summaries: List[Dict[str, Any]] = []
@@ -309,6 +310,7 @@ Before finalizing your response, verify:
         self.conversation_history = []
         self.story_history = []
         self.location = "unknown"
+        self.location_type = "unknown"
         self.npcs_met = []
         self.quests_active = []
         self.history_summaries = []
@@ -494,6 +496,20 @@ Before finalizing your response, verify:
         return "\n".join(prompt_parts)
 
     def _parse_response(self, response_text: str) -> Tuple[str, List[str]]:
+        # Clean AI output - remove section headers and markdown
+        response_text = response_text.strip()
+        
+        # Remove common section headers
+        response_text = re.sub(r'^NARRATIVE SECTION[:\s]*', '', response_text, flags=re.IGNORECASE | re.MULTILINE)
+        response_text = re.sub(r'^CHOICES SECTION[:\s]*', '', response_text, flags=re.IGNORECASE | re.MULTILINE)
+        response_text = re.sub(r'^STORY[:\s]*', '', response_text, flags=re.IGNORECASE | re.MULTILINE)
+        
+        # Remove markdown formatting
+        response_text = re.sub(r'\*\*(.+?)\*\*', r'\1', response_text)
+        response_text = re.sub(r'\*(.+?)\*', r'\1', response_text)
+        response_text = re.sub(r'__(.+?)__', r'\1', response_text)
+        
+        # Try to extract choices with pattern
         choices_pattern = r"(?:Choices:|CHOICES:|choices:|What do you do:|Options:)\s*\n\s*(\d+[\.:]\s*.+?)\s*\n\s*(\d+[\.:]\s*.+?)\s*\n\s*(\d+[\.:]\s*.+?)(?:\n|$)"
         match = re.search(choices_pattern, response_text, re.IGNORECASE | re.DOTALL)
 
@@ -506,6 +522,8 @@ Before finalizing your response, verify:
                 choice_text = re.sub(r'^\d+[\.:]\s*', '', choice_text).strip()
                 choices.append(choice_text)
 
+            # Validate and clean choices
+            choices = self._validate_choices(choices)
             return scene, choices
 
         simple_pattern = r'(\d+[\.:])\s*(.+?)(?=\n\d+[\.:]|$)'
@@ -525,10 +543,11 @@ Before finalizing your response, verify:
             else:
                 scene = response_text.split('\n')[0]
 
+            # Validate and clean choices
+            choices = self._validate_choices(choices)
             return scene, choices
 
         scene = response_text.strip()
-
         scene_lower = scene.lower()
 
         if any(word in scene_lower for word in ["enemy", "monster", "attack", "fight", "danger", "hostile"]):
@@ -569,6 +588,39 @@ Before finalizing your response, verify:
             ]
 
         return scene, default_choices
+
+    def _validate_choices(self, choices: List[str]) -> List[str]:
+        """Validate and clean AI-generated choices."""
+        validated = []
+        
+        for choice in choices:
+            # Remove leading/trailing whitespace
+            choice = choice.strip()
+            
+            # Check word count (target: 3-8 words)
+            word_count = len(choice.split())
+            if word_count > 10:
+                # Truncate long choices
+                words = choice.split()[:8]
+                choice = ' '.join(words)
+                if not choice.endswith('.') and not choice.endswith('?'):
+                    choice += '...'
+            
+            # Detect multi-action choices (contains " and " or " then ")
+            if ' and ' in choice.lower() or ' then ' in choice.lower():
+                # Split and take first action
+                if ' and ' in choice.lower():
+                    choice = choice.split(' and ')[0].strip()
+                elif ' then ' in choice.lower():
+                    choice = choice.split(' then ')[0].strip()
+            
+            validated.append(choice)
+        
+        # Ensure we have exactly 3 choices
+        while len(validated) < 3:
+            validated.append("Continue forward")
+        
+        return validated[:3]
 
     def generate_scene(
         self,
@@ -625,21 +677,20 @@ Before finalizing your response, verify:
             return error_scene, default_choices
 
     def _generate_next_scene_hints(self, scene: str, choices: List[str], player_choice: Optional[str] = None) -> None:
-        """Generate hidden hints for the AI's next scene to maintain consistency."""
         self.next_scene_hints = []
         scene_lower = scene.lower()
-        
-        # Track location context
-        if "storage" in scene_lower or "room" in scene_lower or "palace" in scene_lower or "indoor" in scene_lower:
-            self.next_scene_hints.append("Player is currently indoors")
-            self.next_scene_hints.append("Any movement should be gradual (exit room → corridor → outside)")
-        elif "forest" in scene_lower or "path" in scene_lower or "clearing" in scene_lower:
-            self.next_scene_hints.append("Player is in forest/traveling")
-            self.next_scene_hints.append("Maintain the same environment unless player explicitly changes direction")
+
+        # Track location context with type
+        if self.location_type == "indoor":
+            self.next_scene_hints.append(f"Player is indoors ({self.location})")
+            self.next_scene_hints.append("Movement should be gradual (exit room → corridor → outside)")
+        elif self.location_type == "outdoor":
+            self.next_scene_hints.append(f"Player is outdoors ({self.location})")
+            self.next_scene_hints.append("Maintain the same environment unless player explicitly travels")
         elif "market" in scene_lower or "shop" in scene_lower:
             self.next_scene_hints.append("Player is in marketplace")
             self.next_scene_hints.append("Merchants and NPCs from this scene may reappear")
-        
+
         # Track plot elements
         if "clue" in scene_lower or "investigat" in scene_lower or "mystery" in scene_lower:
             self.next_scene_hints.append("Continue the investigation thread")
@@ -653,21 +704,23 @@ Before finalizing your response, verify:
 
     def _extract_location(self, scene: str) -> None:
         location_keywords = {
-            "forest": ["forest", "woods", "trees", "grove", "clearing"],
-            "village": ["village", "town", "city", "settlement", "hamlet"],
-            "dungeon": ["dungeon", "cave", "cavern", "tunnel", "underground"],
-            "castle": ["castle", "palace", "fortress", "keep", "tower"],
-            "inn": ["inn", "tavern", "pub", "alehouse"],
-            "shop": ["shop", "store", "market", "bazaar"],
-            "ruins": ["ruins", "ancient", "crumbling", "old temple"],
-            "mountain": ["mountain", "peak", "cliff", "hillside"],
-            "river": ["river", "stream", "lake", "water", "shore"],
+            "forest": (["forest", "woods", "trees", "grove", "clearing"], "outdoor"),
+            "village": (["village", "town", "city", "settlement", "hamlet"], "outdoor"),
+            "dungeon": (["dungeon", "cave", "cavern", "tunnel", "underground"], "indoor"),
+            "castle": (["castle", "palace", "fortress", "keep", "tower"], "indoor"),
+            "inn": (["inn", "tavern", "pub", "alehouse"], "indoor"),
+            "shop": (["shop", "store", "market", "bazaar"], "indoor"),
+            "ruins": (["ruins", "ancient", "crumbling", "old temple"], "outdoor"),
+            "mountain": (["mountain", "peak", "cliff", "hillside"], "outdoor"),
+            "river": (["river", "stream", "lake", "water", "shore"], "outdoor"),
         }
 
         scene_lower = scene.lower()
-        for location, keywords in location_keywords.items():
+        for location, (keywords, loc_type) in location_keywords.items():
             if any(kw in scene_lower for kw in keywords):
                 self.location = location
+                self.location_type = loc_type
+                logger.debug(f"Location detected: {location} ({loc_type})")
                 return
 
     def generate_combat_narration(
@@ -728,9 +781,25 @@ Make it visceral and cinematic. Use second person."""
     def generate_encounter(
         self,
         player_context: str,
-        location: str = "unknown"
+        location: str = "unknown",
+        enemy_name: Optional[str] = None
     ) -> Tuple[str, str]:
-        prompt = f"""Generate an enemy encounter with an Indonesian mythological creature.
+        if enemy_name:
+            prompt = f"""Generate an enemy encounter description for this specific creature.
+
+Enemy: {enemy_name}
+Location: {location}
+{player_context}
+
+Describe:
+1. How the {enemy_name} appears (suddenly, from shadows, charging, etc.)
+2. What the {enemy_name} looks like (detailed appearance)
+3. The {enemy_name}'s aggressive intent
+
+Keep it under 80 words. End with the {enemy_name} ready to fight.
+DO NOT mention any other creature names. Only describe {enemy_name}."""
+        else:
+            prompt = f"""Generate an enemy encounter with an Indonesian mythological creature.
 
 Location: {location}
 {player_context}
@@ -760,21 +829,19 @@ Use Indonesian creatures like: genderuwo, kuntilanak, tuyul, pocong, leak, harim
 
             text = response.choices[0].message.content.strip()
 
-            # First try to extract from ENEMY_TYPE: line
+            if enemy_name:
+                return text, enemy_name
+
             enemy_hint = "enemy"
             enemy_type_match = re.search(r'ENEMY_TYPE:\s*(.+?)(?:\n|$)', text, re.IGNORECASE)
             if enemy_type_match:
                 enemy_hint = enemy_type_match.group(1).strip()
-                # Remove the ENEMY_TYPE line from the text
                 text = re.sub(r'\n?\s*ENEMY_TYPE:\s*.+?(\n|$)', '', text, flags=re.IGNORECASE).strip()
             else:
-                # Fallback to keyword search
                 enemy_types = ["genderuwo", "kuntilanak", "tuyul", "pocong", "ahool", "orang bati",
                               "naga", "suku mante", "kuda sembrani", "kuyang", "nyi blorong",
                               "leak", "harimau", "raksasa", "dukun", "ular", "prajurit",
-                              "bajak laut", "arwah", "iblis", "garuda", "goblin", "bandit",
-                              "wolf", "skeleton", "orc", "mage", "spider", "troll", "rat",
-                              "ogre", "wraith", "dragon"]
+                              "bajak laut", "arwah", "iblis", "garuda"]
 
                 text_lower = text.lower()
                 for enemy_type in enemy_types:
@@ -785,6 +852,8 @@ Use Indonesian creatures like: genderuwo, kuntilanak, tuyul, pocong, leak, harim
             return text, enemy_hint
 
         except Exception as e:
+            if enemy_name:
+                return f"A hostile creature appears before you! (Error: {e})", enemy_name
             return f"A hostile creature appears before you! (Error: {e})", "enemy"
 
     def get_story_summary(self) -> str:

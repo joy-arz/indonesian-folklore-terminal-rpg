@@ -1,6 +1,9 @@
 import random
+import logging
 from typing import Dict, List, Optional, Any
 from enum import Enum
+
+logger = logging.getLogger('Player')
 
 
 class ItemCategory(Enum):
@@ -243,6 +246,8 @@ class Player:
 
     def equip_item(self, item_name: str) -> tuple[bool, str]:
         item_name = item_name.lower()
+        logger.debug(f"Attempting to equip: {item_name}")
+        
         item = None
         item_index = -1
 
@@ -253,12 +258,17 @@ class Player:
                 break
 
         if not item:
+            logger.warning(f"Item not found in inventory: {item_name}")
             return False, f"You don't have a {item_name}."
 
+        logger.debug(f"Found item: {item.name}, category: {item.category}")
+
         if item.category == ItemCategory.CONSUMABLE:
+            logger.warning(f"Cannot equip consumable: {item_name}")
             return False, "You can't equip consumables."
 
         if item.category == ItemCategory.MATERIAL:
+            logger.warning(f"Cannot equip material: {item_name}")
             return False, "You can't equip materials."
 
         slot = None
@@ -270,12 +280,15 @@ class Player:
             slot = "accessory"
 
         if not slot:
+            logger.warning(f"Unknown category for item: {item_name}, category: {item.category}")
             return False, "This item cannot be equipped."
 
         if self.equipment[slot]:
+            logger.debug(f"Unequipping {self.equipment[slot].name} from {slot}")
             self.inventory.append(self.equipment[slot])
             self.equipment[slot] = None
 
+        logger.info(f"Equipping {item.name} to {slot}")
         self.equipment[slot] = item
         self.inventory.pop(item_index)
 

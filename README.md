@@ -278,7 +278,7 @@ MIT License - Free for educational use. Feel free to modify and distribute.
 
 ---
 
-**Version:** 2.1.3 Educational Edition  
+**Version:** 2.3.0 Educational Edition  
 **Last Updated:** March 2025  
 **Language:** English with Indonesian cultural terms  
 **Recommended Age:** 13+ (Middle School to Adult)
