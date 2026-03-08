@@ -23,16 +23,16 @@ STARTING_POINTS = [
     StartingPoint(
         id=1,
         name="Kerajaan Majapahit",
-        description="The glorious Majapahit Empire at its height under Gajah Mada",
-        initial_scene="""Year 1350 CE. You stand in the alun-alun (royal square) of Majapahit Palace, the capital of the greatest kingdom in Nusantara. Around you, merchants from China, India, and Arabia trade spices, textiles, and gold.
+        description="The glorious Majapahit Empire at its height",
+        initial_scene="""Year 1350 CE. You stand in the alun-alun (royal square) of Majapahit Palace. Merchants from China, India, and Arabia trade spices and gold around you.
 
-Patih Gajah Mada has successfully united most of the archipelago under Majapahit's banner, fulfilling his famous oath. Now, with Prabu Hayam Wuruk at the peak of power, Majapahit enters its golden age.
+A royal messenger approaches with urgent news. Three trade caravans have vanished on the northern route. Soldiers whisper about shadows moving near the border.
 
-As a young prajurit (soldier) who has shown exceptional bravery, you have been summoned to the palace. Whispers speak of an important mission awaiting you—a mission that will determine the fate of thousands of souls.""",
+Patih Gajah Mada summons you. His expression is grave.""",
         choices=[
-            "Enter the palace and meet Patih Gajah Mada",
-            "Explore the market and gather information about this mission",
-            "Visit the temple to seek blessings before your duty"
+            "Report to Patih Gajah Mada immediately",
+            "Question merchants at the market",
+            "Visit the northern gate guards"
         ],
         starting_gold=25,
         starting_items=["keris kecil", "nasi bungkus"]
@@ -42,15 +42,15 @@ As a young prajurit (soldier) who has shown exceptional bravery, you have been s
         id=2,
         name="Misteri Gunung Merapi",
         description="Strange omens from the sacred volcano",
-        initial_scene="""Year 1400 CE. The village of Kademangan on the slopes of Mount Merapi is in uproar. Last night, the usually calm volcano emitted mysterious green light from its peak.
+        initial_scene="""Year 1400 CE. The village of Kademangan sits on Mount Merapi's slopes. Usually calm, the volcano now glows green at night.
 
-The village elders say this is a sign that Nyai Roro Kidul, Queen of the Southern Sea, is angered. Several villagers have disappeared without a trace, leaving only trails of green light leading into the forest.
+Three villagers vanished this week. Only green trails remain, leading into the forest.
 
-You are a young pawang (spiritual healer) who has just completed your training. The community looks to you to uncover this mystery.""",
+The village elders gather around you. You completed your pawang training yesterday.""",
         choices=[
-            "Climb to the peak of Merapi to investigate the green light",
-            "Enter the forest following the trail of light",
-            "Meet the village dukun (shaman) for spiritual advice"
+            "Examine the green trails",
+            "Speak with the village elders",
+            "Climb toward the glowing peak"
         ],
         starting_gold=15,
         starting_items=["tombak", "jamu", "kemenyan"]
@@ -59,16 +59,16 @@ You are a young pawang (spiritual healer) who has just completed your training. 
     StartingPoint(
         id=3,
         name="Hilangnya Pusaka Kerajaan",
-        description="The sacred heirlooms of Pajajaran Kingdom have been stolen",
-        initial_scene="""Year 1550 CE. The Pajajaran Kingdom is in emergency. Last night, mysterious thieves penetrated the palace and stole two sacred pusaka (heirlooms): the Keris Ciung Wanara and the Sacred Shield.
+        description="The sacred heirlooms have been stolen",
+        initial_scene="""Year 1550 CE. The Pajajaran palace is in chaos. Prabu Siliwangi lies ill, growing weaker each day.
 
-Without these heirlooms, the kingdom has lost its spiritual protection. The wise Prabu Siliwangi has fallen ill, and ministers accuse each other of treason.
+Last night, someone entered the sacred treasury. The guards found only an empty pedestal and a strange symbol carved in stone.
 
-You are a royal spy who has just returned from a mission. The King trusts you to uncover this betrayal.""",
+The royal advisor beckons you. The King requests your presence.""",
         choices=[
-            "Inspect the heirloom storage for clues",
-            "Interview the guards who were on duty that night",
-            "Disguise yourself as a merchant to gather information in the black market"
+            "Enter the King's chamber",
+            "Inspect the treasury",
+            "Question the night guards"
         ],
         starting_gold=40,
         starting_items=["keris kecil", "jimat perlindungan", "emas batangan"]
@@ -77,16 +77,16 @@ You are a royal spy who has just returned from a mission. The King trusts you to
     StartingPoint(
         id=4,
         name="Kutukan Ratu Pantai Selatan",
-        description="Fishermen report terrifying sea creatures",
-        initial_scene="""Year 1480 CE. Fishermen on the southern coast of Java report terrifying sights. Fish have disappeared, and several sailors who returned speak of giant creatures with green scales and glowing eyes.
+        description="Fishermen report terrifying sightings",
+        initial_scene="""Year 1480 CE. The southern coast fishing village is empty during daylight. Boats sit unused at the harbor.
 
-An old fisherman says this is a sign that Queen Nyai Roro Kidul is gathering her army. She demands human sacrifices to strengthen her kingdom beneath the sea.
+Seven fishermen disappeared last week. One survivor babbles about green scales and a queen beneath the waves.
 
-You are the child of a fisherman who disappeared in this incident. You swear to find your father, alive or dead.""",
+The village elder approaches you. Your father was among the missing.""",
         choices=[
-            "Sail to the open sea to search for the creatures",
-            "Meet the coastal dukun for a ritual to summon the Queen",
-            "Gather the fishermen to sail together"
+            "Examine the abandoned boats",
+            "Find the survivor",
+            "Walk along the shoreline"
         ],
         starting_gold=10,
         starting_items=["parang", "jamu", "gelang emas"]
@@ -96,15 +96,15 @@ You are the child of a fisherman who disappeared in this incident. You swear to 
         id=5,
         name="Perang Bubat",
         description="The tragic battle between Majapahit and Pajajaran",
-        initial_scene="""Year 1357 CE. You are a Pajajaran soldier escorting Princess Dyah Pitaloka to Bubat for her wedding to Prabu Hayam Wuruk.
+        initial_scene="""Year 1357 CE. You escort Princess Dyah Pitaloka's procession to Bubat. Marriage to Prabu Hayam Wuruk should unite two kingdoms.
 
-But something is wrong. Patih Gajah Mada demands that Pajajaran submit to Majapahit, not form an equal marriage alliance. Tension fills the air, and both armies prepare for battle.
+But the atmosphere is wrong. Majapahit soldiers surround the camp. Their numbers grow each hour.
 
-You stand at the crossroads of history. Your choices will determine the fate of thousands of lives and the future of Nusantara.""",
+Your captain calls you aside. His face is pale.""",
         choices=[
-            "Protect Princess Dyah Pitaloka with your life",
-            "Attempt to negotiate with Majapahit's envoys",
-            "Prepare your troops for the inevitable battle"
+            "Speak with your captain",
+            "Observe the Majapahit positions",
+            "Check on the Princess"
         ],
         starting_gold=30,
         starting_items=["tombak panjang", "perisai kayu", "ikat kepala"]
@@ -114,15 +114,15 @@ You stand at the crossroads of history. Your choices will determine the fate of 
         id=6,
         name="Kerajaan Sriwijaya",
         description="The ancient Buddhist kingdom faces a new threat",
-        initial_scene="""Year 1000 CE. Sriwijaya, the greatest maritime kingdom in Southeast Asia, is at its peak. Trading ships from around the world dock at Palembang.
+        initial_scene="""Year 1000 CE. Palembang harbor bustles with ships from China, India, and Arabia. Sriwijaya controls the spice trade.
 
-But bad news comes from the north. The Chola Kingdom of India is building a massive war fleet. They covet the spice trade routes that are the source of Sriwijaya's wealth.
+But three merchant vessels failed to arrive this month. Sailors speak of warships near the northern strait.
 
-As a young admiral, you have been ordered to strengthen the naval defenses.""",
+The harbor master hands you a sealed order from the admiral.""",
         choices=[
-            "Visit the shipyard to inspect the fleet's strength",
-            "Meet the Buddhist monks to seek spiritual blessings",
-            "Send spies to Chola territory for intelligence"
+            "Read the admiral's order",
+            "Question arriving sailors",
+            "Inspect the naval shipyard"
         ],
         starting_gold=50,
         starting_items=["pedang lengkung", "jamu", "mutiara"]
@@ -132,15 +132,15 @@ As a young admiral, you have been ordered to strengthen the naval defenses.""",
         id=7,
         name="Asal Usul Roro Jonggrang",
         description="The legend of the thousand temples",
-        initial_scene="""10th Century CE. Prince Bandung Bondowoso has just defeated Prabu Baka, king of Prambanan. But there is a price to pay.
+        initial_scene="""10th Century CE. Prince Bandung Bondowoso defeated Prabu Baka of Prambanan. Now he demands the princess's hand in marriage.
 
-He loves Princess Roro Jonggrang, daughter of Prabu Baka. The princess refuses him with a condition: Bandung Bondowoso must build a thousand temples in one night.
+She agrees on one condition: build a thousand temples in one night.
 
-You are a court architect ordered to help with this construction. But you know something is strange—Bandung Bondowoso possesses supernatural powers.""",
+You are the court architect. The Prince accepts. Construction begins at sunset.""",
         choices=[
-            "Begin gathering building materials for the temples",
-            "Watch Bandung Bondowoso to uncover his secret",
-            "Help Roro Jonggrang find a way to sabotage the construction"
+            "Survey the construction site",
+            "Gather building materials",
+            "Watch the Prince closely"
         ],
         starting_gold=20,
         starting_items=["jamu", "buah-buahan", "batu akik"]
@@ -150,15 +150,15 @@ You are a court architect ordered to help with this construction. But you know s
         id=8,
         name="Kerajaan Demak",
         description="The rise of Islam in Java brings new challenges",
-        initial_scene="""Year 1500 CE. The Demak Sultanate, the first Islamic kingdom in Java, is flourishing. Sunan Kalijaga and the other wali (saints) spread the religion wisely.
+        initial_scene="""Year 1500 CE. Demak Sultanate flourishes. The Great Mosque echoes with prayers. Sunan Kalijaga teaches in the courtyard.
 
-But the Hindu kingdoms in the interior feel threatened. They form a secret alliance to attack Demak before it becomes too powerful.
+But traders bring troubling rumors. Inland courts hold secret meetings. Caravans vanish on the mountain roads.
 
-You are a santri (Islamic student) who is also skilled in martial arts. You have been given a special mission from Sunan Kudus to uncover this conspiracy.""",
+Sunan Kudus gestures for you to approach.""",
         choices=[
-            "Disguise yourself as a merchant and infiltrate the alliance",
-            "Visit each kingdom to sense the atmosphere",
-            "Ask the wali for help with a special ritual"
+            "Approach Sunan Kudus",
+            "Visit the harbor market",
+            "Speak with traveling merchants"
         ],
         starting_gold=25,
         starting_items=["kris", "jubah santri", "kemenyan"]
@@ -168,15 +168,15 @@ You are a santri (Islamic student) who is also skilled in martial arts. You have
         id=9,
         name="Tragedi Tanjung Pura",
         description="A kingdom falls to supernatural forces",
-        initial_scene="""Year 1600 CE. The Tanjung Pura Kingdom in Kalimantan was destroyed overnight. There was no enemy attack, no rebellion. The entire population vanished, leaving a city empty with food still warm on the tables.
+        initial_scene="""Year 1600 CE. You approach Tanjung Pura at dusk. The city should be bustling. Instead, silence.
 
-Passing merchants report seeing black shadows and hearing cries in the night. Some say this is a curse from a sea kingdom.
+No guards at the gates. No smoke from chimneys. Food sits on tables, still warm.
 
-You are a royal investigator sent to uncover the truth.""",
+Your royal orders are clear: investigate and report. You enter alone.""",
         choices=[
-            "Enter the empty city and search for clues",
-            "Interview the merchants who survived",
-            "Perform a spirit-summoning ritual to ask the dead"
+            "Search the nearest building",
+            "Call out for survivors",
+            "Examine the central square"
         ],
         starting_gold=35,
         starting_items=["tombak", "jamu", "minyak kelapa"]
@@ -186,15 +186,15 @@ You are a royal investigator sent to uncover the truth.""",
         id=10,
         name="Pemberontakan Trunajaya",
         description="The great rebellion against Mataram Sultanate",
-        initial_scene="""Year 1675 CE. Raden Trunajaya from Madura leads a major rebellion against the Mataram Sultanate. His powerful troops, aided by Makasar pirates, have captured many territories.
+        initial_scene="""Year 1675 CE. Trunajaya's rebellion spreads across Mataram. Villages burn. Refugees flood the roads.
 
-You are a Mataram soldier who discovers a secret document: Trunajaya has a supernatural ally—a powerful dukun who can resurrect the spirits of fallen warriors.
+You intercept a captured messenger. His documents mention a "dark ally" who can raise the dead.
 
-Sultan Amangkurat I trusts you to stop this dark ritual.""",
+The Sultan's seal marks the papers as urgent.""",
         choices=[
-            "Infiltrate Trunajaya's camp to find the dukun",
-            "Visit ancestral tombs to seek protection",
-            "Gather loyal soldiers for a surprise attack"
+            "Read the captured documents",
+            "Question the messenger",
+            "Report to headquarters"
         ],
         starting_gold=45,
         starting_items=["keris naga", "jimat perlindungan", "jamu kuat"]

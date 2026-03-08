@@ -4,6 +4,7 @@ import re
 import sys
 import time
 import logging
+import random
 from typing import Optional, Tuple, List, Dict, Any
 from dotenv import load_dotenv
 
@@ -648,9 +649,8 @@ Before finalizing your response, verify:
             self.next_scene_hints.append("Continue the investigation thread")
         if "amulet" in scene_lower or "artifact" in scene_lower or "item" in scene_lower:
             self.next_scene_hints.append("Player has interacted with an important item")
-        
+
         # Foreshadowing for encounters (30% chance, 1 turn before)
-        import random
         if random.random() < 0.3:
             self.next_scene_hints.append("Subtle foreshadowing: strange sounds, shadows, or tension in the air")
             self.next_scene_hints.append("Build atmosphere without direct combat yet - prepare for possible encounter next turn")
