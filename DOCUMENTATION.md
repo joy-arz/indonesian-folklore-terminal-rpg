@@ -555,20 +555,16 @@ All items use authentic Indonesian names with cultural context:
 
 ### Version History
 
-#### v2.3.0 (Current) - Phase 2 Story Quality Improvements
+#### v2.2.0 (Current) - Major Architecture & Story Quality Improvements
+- **State Machine:** Implemented GameState enum (EXPLORATION, COMBAT, SHOP, EQUIPMENT, GAME_OVER)
+- **Enemy Consistency:** AI now receives enemy name BEFORE generating description
 - **Equipment Debug Logging:** Added comprehensive logging to identify equip failures
 - **Location Tracking System:** Tracks location type (indoor/outdoor) for consistency
 - **AI Output Processing:** Regex cleanup removes section headers and markdown
 - **Choice Validation:** Auto-truncates long choices, splits multi-action choices
-- **State Machine:** GameState enum prevents invalid states
-
-#### v2.2.0 - Major Architecture Improvements
-- **State Machine:** Implemented GameState enum (EXPLORATION, COMBAT, SHOP, EQUIPMENT, GAME_OVER)
-- **Enemy Consistency:** AI now receives enemy name BEFORE generating description
-- **Story Continuity:** Enhanced "DO NOT teleport" instructions in AI prompt
-- **Equipment System:** Verified item database names match starting items
-- **Post-Combat Continuity:** Story history preserved across combat encounters
-- **Invalid State Prevention:** Boolean flags replaced with proper state enum
+- **UI Improvements:** Added print_equipment_screen() with better layout
+- **Combat Refactoring:** Split handle_combat() into 5 helper methods
+- **Code Quality:** All developer comments removed, production-ready code
 
 #### v2.1.3 - Critical Bug Fixes
 - **AI Output Format:** Removed "NARRATIVE SECTION:" and "CHOICES SECTION:" text from display
@@ -813,7 +809,7 @@ For educational inquiries or historical accuracy feedback:
 
 ---
 
-**Version:** 2.3.0 Educational Edition
+**Version:** 2.2.0 Educational Edition
 **Last Updated:** March 2025
 **Language:** English with Indonesian cultural terms
 **Educational Level:** Suitable for ages 13+ (Middle School to Adult)

@@ -147,6 +147,27 @@ class UI:
         print(f"{Colors.INFO}╚{'═' * 66}╝{Colors.RESET}")
         print()
 
+    def print_equipment_screen(self, player) -> None:
+        print(f"{Colors.EQUIPMENT}╔{'═' * 66}╗{Colors.RESET}")
+        print(f"{Colors.EQUIPMENT}║{Colors.BOLD} EQUIPMENT MANAGEMENT {Colors.RESET}".ljust(68) + f"{Colors.EQUIPMENT}║{Colors.RESET}")
+        print(f"{Colors.EQUIPMENT}╠{'═' * 66}╣{Colors.RESET}")
+        print(f"{Colors.EQUIPMENT}║{Colors.RESET}  Current Equipment:".ljust(68) + f"{Colors.EQUIPMENT}║{Colors.RESET}")
+        print(f"{Colors.EQUIPMENT}╠{'═' * 66}╣{Colors.RESET}")
+
+        for slot in ["weapon", "armor", "accessory"]:
+            item = player.get_equipped(slot)
+            if item:
+                stats = f"+{item.attack} ATK, +{item.defense} DEF"
+                line = f"  {slot.capitalize():10}: {item.name:<30} [{stats}]"
+            else:
+                line = f"  {slot.capitalize():10}: (empty)"
+            print(f"{Colors.EQUIPMENT}║{Colors.RESET}  {line}".ljust(68) + f"{Colors.EQUIPMENT}║{Colors.RESET}")
+
+        print(f"{Colors.EQUIPMENT}╠{'═' * 66}╣{Colors.RESET}")
+        print(f"{Colors.EQUIPMENT}║{Colors.RESET}  [E]quip [U]nequip [L]eave".ljust(68) + f"{Colors.EQUIPMENT}║{Colors.RESET}")
+        print(f"{Colors.EQUIPMENT}╚{'═' * 66}╝{Colors.RESET}")
+        print()
+
     def print_combat_actions(self) -> None:
         print(f"{Colors.COMBAT}  ┌─ Combat Actions ──────────────────────────────────────────────┐{Colors.RESET}")
         print(f"{Colors.COMBAT}  │  [A] Attack    - Attack the enemy                            │{Colors.RESET}")

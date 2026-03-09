@@ -299,10 +299,9 @@ Before finalizing your response, verify:
         self.reference_interval = 50
         self._response_cache: Dict[str, str] = {}
         
-        # Story consistency tracking
-        self.last_scene_context = ""  # What happened last turn
-        self.next_scene_hints: List[str] = []  # Hidden hints for AI's next scene
-        self.foreshadowing_turn = 0  # When to trigger foreshadowing
+        self.last_scene_context = ""
+        self.next_scene_hints: List[str] = []
+        self.foreshadowing_turn = 0
         
         logger.info("AIEngine initialized")
 
@@ -594,21 +593,16 @@ Before finalizing your response, verify:
         validated = []
         
         for choice in choices:
-            # Remove leading/trailing whitespace
             choice = choice.strip()
             
-            # Check word count (target: 3-8 words)
             word_count = len(choice.split())
             if word_count > 10:
-                # Truncate long choices
                 words = choice.split()[:8]
                 choice = ' '.join(words)
                 if not choice.endswith('.') and not choice.endswith('?'):
                     choice += '...'
             
-            # Detect multi-action choices (contains " and " or " then ")
             if ' and ' in choice.lower() or ' then ' in choice.lower():
-                # Split and take first action
                 if ' and ' in choice.lower():
                     choice = choice.split(' and ')[0].strip()
                 elif ' then ' in choice.lower():
@@ -616,7 +610,6 @@ Before finalizing your response, verify:
             
             validated.append(choice)
         
-        # Ensure we have exactly 3 choices
         while len(validated) < 3:
             validated.append("Continue forward")
         
@@ -657,7 +650,6 @@ Before finalizing your response, verify:
             self.story_history.append(scene)
             self._extract_location(scene)
             
-            # Generate next scene hints for consistency (hidden from player)
             self._generate_next_scene_hints(scene, choices, player_choice)
 
             if len(self.story_history) % self.summary_interval == 0:
@@ -680,7 +672,6 @@ Before finalizing your response, verify:
         self.next_scene_hints = []
         scene_lower = scene.lower()
 
-        # Track location context with type
         if self.location_type == "indoor":
             self.next_scene_hints.append(f"Player is indoors ({self.location})")
             self.next_scene_hints.append("Movement should be gradual (exit room → corridor → outside)")
@@ -691,13 +682,11 @@ Before finalizing your response, verify:
             self.next_scene_hints.append("Player is in marketplace")
             self.next_scene_hints.append("Merchants and NPCs from this scene may reappear")
 
-        # Track plot elements
         if "clue" in scene_lower or "investigat" in scene_lower or "mystery" in scene_lower:
             self.next_scene_hints.append("Continue the investigation thread")
         if "amulet" in scene_lower or "artifact" in scene_lower or "item" in scene_lower:
             self.next_scene_hints.append("Player has interacted with an important item")
 
-        # Foreshadowing for encounters (30% chance, 1 turn before)
         if random.random() < 0.3:
             self.next_scene_hints.append("Subtle foreshadowing: strange sounds, shadows, or tension in the air")
             self.next_scene_hints.append("Build atmosphere without direct combat yet - prepare for possible encounter next turn")

@@ -215,7 +215,6 @@ class Game:
             self.ui.print_status_effects(self.player.status_effects)
 
     def handle_exploration(self) -> None:
-        # Use stored scene/choices from starting point if available
         if self._current_scene and self._current_choices:
             scene = self._current_scene
             choices = self._current_choices
@@ -235,7 +234,6 @@ class Game:
                 logger.error(f"AI returned invalid choices: {len(choices) if choices else 0}")
                 choices = ["Continue forward", "Look around", "Check inventory"]
 
-            # Show ending phase notification
             if is_ending:
                 if turns_left == 50:
                     self.ui.print_message("\n" + "=" * 60, Colors.NARRATION)
@@ -288,7 +286,6 @@ class Game:
                 self.game_over = True
                 return
             if cmd_result is True:
-                # Command was handled (inventory, equipment, etc.), redisplay same scene
                 self.display_game_state()
                 self.ui.print_scene(scene)
                 self.ui.print_choices(choices)
@@ -524,87 +521,15 @@ class Game:
 
             action = self.ui.get_input("Combat action: ").lower().strip()
 
-            if action in ["inventory", "inv", "i"]:
-                self.ui.print_inventory_detailed(self.player)
-                self.ui.wait_for_enter()
+            if self._handle_combat_command(action):
                 continue
 
-            if action in ["equipment", "equip", "e"]:
-                self.ui.print_equipment(self.player)
-                self.ui.wait_for_enter()
-                continue
-
-            if action in ["stats", "s"]:
-                self.ui.print_full_stats(self.player)
-                self.ui.wait_for_enter()
-                continue
-
-            if action in ["help", "h", "?"]:
-                self.ui.print_help()
-                self.ui.wait_for_enter()
-                continue
-
-            if action in ["quit", "exit", "q"]:
-                if self.ui.confirm("Save and quit?"):
-                    self.save_game()
-                    self.game_over = True
-                return
-
-            if action == "a":
-                action = "attack"
-            elif action == "d":
-                action = "defend"
-            elif action == "r":
-                action = "run"
-            elif action.startswith("u "):
-                action = action
-
-            item_name = None
-            if action.startswith("use "):
-                parts = action.split(None, 1)
-                if len(parts) > 1:
-                    item_name = parts[1]
-
+            action, item_name = self._normalize_combat_action(action)
             results = self.combat.execute_turn(action, item_name)
 
-            self.display_game_state()
+            self._process_combat_results(results)
 
-            if results["player_description"]:
-                self.ui.print_message(f"  {results['player_description']}", Colors.COMBAT)
-
-            if results["enemy_description"]:
-                self.ui.print_message(f"  {results['enemy_description']}", Colors.ENEMY)
-
-            if results["victory"]:
-                self.ui.print_success(f"Victory! Defeated {self.combat.enemy.name}!")
-                self.ui.print_success(f"  +{results['gold_earned']} Gold | +{results['xp_earned']} XP")
-
-                if results["item_dropped"]:
-                    self.ui.print_success(f"  Found: {results['item_dropped']}!")
-
-                self.story_manager.record_enemy_defeated()
-
-                if self.player.xp >= self.player.xp_to_level:
-                    self.ui.print_level_up(self.player)
-
-                self.in_combat = False
-                self.combat = None
-                self.state = GameState.EXPLORATION
-                self.ui.wait_for_enter()
-                return
-
-            if results["defeat"]:
-                self.ui.print_error("You have been defeated...")
-                self.ui.wait_for_enter()
-                self.game_over = True
-                return
-
-            if results["escaped"]:
-                self.ui.print_warning("You escaped from combat!")
-                self.in_combat = False
-                self.combat = None
-                self.state = GameState.EXPLORATION
-                self.ui.wait_for_enter()
+            if results["combat_ended"]:
                 return
 
             if self.player.status_effects or self.combat.enemy.status_effects:
@@ -622,6 +547,100 @@ class Game:
 
         self.in_combat = False
         self.combat = None
+        self.state = GameState.EXPLORATION
+
+    def _handle_combat_command(self, action: str) -> bool:
+        if action in ["inventory", "inv", "i"]:
+            self.ui.print_inventory_detailed(self.player)
+            self.ui.wait_for_enter()
+            return True
+
+        if action in ["equipment", "equip", "e"]:
+            self.ui.print_equipment(self.player)
+            self.ui.wait_for_enter()
+            return True
+
+        if action in ["stats", "s"]:
+            self.ui.print_full_stats(self.player)
+            self.ui.wait_for_enter()
+            return True
+
+        if action in ["help", "h", "?"]:
+            self.ui.print_help()
+            self.ui.wait_for_enter()
+            return True
+
+        if action in ["quit", "exit", "q"]:
+            if self.ui.confirm("Save and quit?"):
+                self.save_game()
+                self.game_over = True
+            return True
+
+        return False
+
+    def _normalize_combat_action(self, action: str) -> tuple[str, Optional[str]]:
+        item_name = None
+        
+        if action == "a":
+            action = "attack"
+        elif action == "d":
+            action = "defend"
+        elif action == "r":
+            action = "run"
+        elif action.startswith("u "):
+            action = "use"
+        
+        if action.startswith("use "):
+            parts = action.split(None, 1)
+            if len(parts) > 1:
+                item_name = parts[1]
+
+        return action, item_name
+
+    def _process_combat_results(self, results: dict) -> None:
+        self.display_game_state()
+
+        if results["player_description"]:
+            self.ui.print_message(f"  {results['player_description']}", Colors.COMBAT)
+
+        if results["enemy_description"]:
+            self.ui.print_message(f"  {results['enemy_description']}", Colors.ENEMY)
+
+        if results["victory"]:
+            self._handle_combat_victory(results)
+        elif results["defeat"]:
+            self._handle_combat_defeat()
+        elif results["escaped"]:
+            self._handle_combat_escape()
+
+    def _handle_combat_victory(self, results: dict) -> None:
+        self.ui.print_success(f"Victory! Defeated {self.combat.enemy.name}!")
+        self.ui.print_success(f"  +{results['gold_earned']} Gold | +{results['xp_earned']} XP")
+
+        if results["item_dropped"]:
+            self.ui.print_success(f"  Found: {results['item_dropped']}!")
+
+        self.story_manager.record_enemy_defeated()
+
+        if self.player.xp >= self.player.xp_to_level:
+            self.ui.print_level_up(self.player)
+
+        self.in_combat = False
+        self.combat = None
+        self.state = GameState.EXPLORATION
+        self.ui.wait_for_enter()
+
+    def _handle_combat_defeat(self) -> None:
+        self.ui.print_error("You have been defeated...")
+        self.ui.wait_for_enter()
+        self.game_over = True
+
+    def _handle_combat_escape(self) -> None:
+        self.ui.print_warning("You escaped from combat!")
+        self.in_combat = False
+        self.combat = None
+        self.state = GameState.EXPLORATION
+        self.ui.wait_for_enter()
 
     def start_shop(self) -> None:
         self.in_shop = True
@@ -771,10 +790,8 @@ class Game:
         while True:
             self.ui.clear_screen()
             self.ui.print_header("EQUIPMENT")
-            self.ui.print_equipment(self.player)
+            self.ui.print_equipment_screen(self.player)
             self.ui.print_inventory_detailed(self.player)
-
-            print(f"{Colors.EQUIPMENT}  [E]quip [U]nequip [L]eave{Colors.RESET}\n")
 
             action = self.ui.get_input("Equipment action: ").lower().strip()
 
@@ -784,8 +801,10 @@ class Game:
                     success, message = self.player.equip_item(item_name)
                     if success:
                         self.ui.print_success(message)
+                        logger.info(f"Player equipped: {item_name}")
                     else:
                         self.ui.print_error(message)
+                        logger.warning(f"Failed to equip {item_name}: {message}")
                     self.ui.wait_for_enter()
 
             elif action in ["u", "unequip"]:
@@ -794,6 +813,7 @@ class Game:
                     success, message = self.player.unequip_item(slot)
                     if success:
                         self.ui.print_success(message)
+                        logger.info(f"Player unequipped: {slot}")
                     else:
                         self.ui.print_error(message)
                     self.ui.wait_for_enter()
@@ -907,7 +927,6 @@ class Game:
         while True:
             user_input = self.ui.get_input("Your choice: ")
             
-            # Handle commands during starting point selection
             if user_input.lower() in ["i", "inv", "inventory"]:
                 self.ui.print_inventory_detailed(self.player)
                 self.ui.wait_for_enter()
@@ -943,7 +962,6 @@ class Game:
                     self.story_manager.increment_turn()
                     self.turn_count = self.story_manager.turn_count
                     
-                    # Generate next scene based on starting choice
                     player_context = self.player.get_context_for_ai()
                     scene, choices = self.ai_engine.generate_scene(
                         player_context,
@@ -954,7 +972,6 @@ class Game:
                         logger.warning("AI returned invalid choices, using defaults")
                         choices = ["Continue forward", "Look around", "Check inventory"]
                     
-                    # Check for immediate encounters
                     encounter_triggered, reason = self.story_manager.should_trigger_encounter(
                         scene,
                         self.ai_engine.location
@@ -964,7 +981,6 @@ class Game:
                         self.start_combat()
                         return
                     
-                    # Display the generated scene
                     self._current_scene = scene
                     self._current_choices = choices
                     self.display_game_state()

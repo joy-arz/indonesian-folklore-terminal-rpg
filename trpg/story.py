@@ -266,20 +266,16 @@ class StoryManager:
 
         turns_remaining = self.end_turn - self.turn_count
 
-        # Phase 1: Foreshadowing (40-50 turns left) - Subtle hints
         if turns_remaining == 50 and not self.in_ending_phase:
             self.in_ending_phase = True
             logger.info(f"ENDING PHASE STARTED: {self.ENDING_PHASE_TURNS} turns remaining")
 
-        # Phase 2: Building tension (20-30 turns left) - More obvious signs
         if turns_remaining == 30:
             logger.info("ENDING PHASE: Building tension at 30 turns remaining")
 
-        # Phase 3: Climax approaching (10 turns left) - Clear destiny calls
         if turns_remaining == 10:
             logger.info("ENDING PHASE: Climax approaching at 10 turns remaining")
 
-        # Phase 4: Final moments (3 turns left) - Prepare for conclusion
         if turns_remaining == 3:
             logger.info("ENDING PHASE: Final 3 turns - prepare conclusion")
 
@@ -454,7 +450,6 @@ class StoryManager:
             "villain": "the villain of the story, feared and remembered for dark deeds"
         }
 
-        # Build journey narrative
         journey_context = f"""
 YOUR JOURNEY BEGAN: {self.starting_point.name if self.starting_point else 'Unknown'}
 - {self.starting_point.description if self.starting_point else ''}
